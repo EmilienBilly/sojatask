@@ -10,7 +10,7 @@ export default class extends BaseSchema {
       table.string('title').notNullable()
       table.text('description')
       table.timestamp('created_at').notNullable()
-      table.timestamp('modified_at').notNullable()
+      table.timestamp('updated_at').notNullable()
       table.integer('status_id').notNullable().defaultTo(1)
       table.integer('created_by').notNullable()
       table.integer('assigned_to')
