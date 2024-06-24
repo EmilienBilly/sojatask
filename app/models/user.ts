@@ -1,4 +1,3 @@
-import { DateTime } from 'luxon'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
@@ -10,6 +9,7 @@ const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
 })
 
 export default class User extends compose(BaseModel, AuthFinder) {
+  static table = 'cda_users'
   @column({ isPrimary: true })
   declare id: number
 
@@ -18,10 +18,4 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @column()
   declare password: string
-
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
-
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime | null
 }
