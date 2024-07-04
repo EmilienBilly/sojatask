@@ -6,11 +6,13 @@ export default class LoginController {
     return inertia.render('login')
   }
 
-  async login({ request }: HttpContext) {
+  async login({ request, auth, response }: HttpContext) {
     const { username, password } = request.only(['username', 'password'])
 
     const user = await User.verifyCredentials(username, password)
 
-    //TODO : look up how to use the session guard to login the user (guard.login)
+    await auth.use('web').login(user)
+
+    response.redirect('/inertia')
   }
 }

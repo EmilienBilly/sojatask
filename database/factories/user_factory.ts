@@ -3,9 +3,11 @@ import User from '#models/user'
 
 export const UserFactory = factory
   .define(User, async ({ faker }) => {
+    const password = 'password123'
+
     return {
       username: faker.internet.userName(),
-      password: faker.internet.password(),
+      password: password,
     }
   })
   .build()

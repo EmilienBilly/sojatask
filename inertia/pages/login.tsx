@@ -1,6 +1,17 @@
 import { Head } from '@inertiajs/react'
+import { useForm } from '@inertiajs/react'
 
 export default function Login() {
+  const { data, setData, post, processing, errors } = useForm({
+    username: '',
+    password: '',
+  })
+
+  function submit(event: { preventDefault: () => void }) {
+    event.preventDefault()
+    post('/login')
+  }
+
   return (
     <>
       <Head title="Connexion" />
@@ -8,16 +19,22 @@ export default function Login() {
       <div className="container">
         <div className="title">Bienvenue sur Projet_CDA</div>
 
-        <form method="POST" action="/login">
-          <div>
-            <label htmlFor="email">Email</label>
-            <input type="email" name="email" id="email" required />
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input type="password" name="password" id="password" required />
-          </div>
-          <button type="submit">Connexion</button>
+        <form onSubmit={submit}>
+          <input
+            type="text"
+            value={data.username}
+            onChange={(e) => setData('username', e.target.value)}
+          />
+          {errors.username && <div>{errors.username}</div>}
+          <input
+            type="password"
+            value={data.password}
+            onChange={(e) => setData('password', e.target.value)}
+          />
+          {errors.password && <div>{errors.password}</div>}
+          <button type="submit" disabled={processing}>
+            Login
+          </button>
         </form>
       </div>
     </>
