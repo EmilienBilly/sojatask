@@ -1,19 +1,20 @@
 import { Link, usePage } from '@inertiajs/react'
-import { ErrorBag, Errors, PageProps as InertiaPageProps } from '@inertiajs/core'
 
 interface User {
-  id: number
   username: string
+  // Ajoutez d'autres propriétés de l'utilisateur si nécessaire
 }
 
-interface PageProps extends InertiaPageProps {
+interface PageProps {
   user: User | null
-  errors: Errors & ErrorBag
+
+  [key: string]: any
 }
 
 export default function Navbar() {
   const { user } = usePage<PageProps>().props
-  console.log(user)
+  const page = usePage<PageProps>()
+  console.log(page.props)
   return (
     <nav>
       <div>
