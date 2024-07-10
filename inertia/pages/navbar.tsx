@@ -13,8 +13,6 @@ interface PageProps {
 
 export default function Navbar() {
   const { user } = usePage<PageProps>().props
-  const page = usePage<PageProps>()
-  console.log(page.props)
   return (
     <nav>
       <div>
@@ -26,7 +24,7 @@ export default function Navbar() {
               {user ? (
                 <>
                   <div style={{ color: '#4a5568' }}>Connecté en tant que : {user.username}</div>
-                  <Link href="/logout" style={{ color: '#4a5568' }}>
+                  <Link href="/logout" method="post" style={{ color: '#4a5568' }}>
                     Déconnexion
                   </Link>
                 </>
