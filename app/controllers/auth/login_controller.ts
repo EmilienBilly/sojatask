@@ -7,13 +7,13 @@ export default class LoginController {
     return inertia.render('login')
   }
 
-  async login({ request, auth, response }: HttpContext) {
+  async login({ request, response, auth, session }: HttpContext) {
     const { username, password } = await request.validateUsing(loginValidator)
 
     const user = await User.verifyCredentials(username, password)
 
     await auth.use('web').login(user)
-
+    session.flash('success', 'Utilisateur connecté')
     return response.redirect().toPath('/')
   }
 }
