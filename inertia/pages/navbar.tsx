@@ -2,7 +2,6 @@ import { Link, usePage } from '@inertiajs/react'
 
 interface User {
   username: string
-  // Ajoutez d'autres propriétés de l'utilisateur si nécessaire
 }
 
 interface PageProps {
