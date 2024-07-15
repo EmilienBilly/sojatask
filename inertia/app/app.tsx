@@ -1,3 +1,5 @@
+/// <reference path="../../config/inertia.ts" />
+/// <reference path="../../adonisrc.ts" />
 import '../css/app.css'
 import { createRoot } from 'react-dom/client'
 import { createInertiaApp } from '@inertiajs/react'
