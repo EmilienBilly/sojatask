@@ -3,10 +3,10 @@ import { middleware } from '#start/kernel'
 
 const LogoutController = () => import('#controllers/auth/logout_controller')
 
-const LandingController = () => import('#controllers/landing_controller')
+const HomeController = () => import('#controllers/home_controller')
 const LoginController = () => import('#controllers/auth/login_controller')
 
-router.get('/', [LandingController, 'render']).use(middleware.auth())
+router.get('/', [HomeController, 'render']).use(middleware.auth()).as('home.render')
 
 router.get('login', [LoginController, 'render'])
 router.post('login', [LoginController, 'login'])
