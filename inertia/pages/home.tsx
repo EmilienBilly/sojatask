@@ -1,19 +1,8 @@
 import { Head, usePage } from '@inertiajs/react'
+import { SharedProps } from '@adonisjs/inertia/types'
 
-interface PageProps {
-  flash: {
-    success: string
-    error: string
-    info: string
-    warning: string
-  }
-
-  [key: string]: any
-}
-
-export default function Home(props: { version: number }) {
-  const { flash } = usePage<PageProps>().props
-  console.log(flash)
+export default function Landing(props: { version: number }) {
+  const flash = usePage<SharedProps>().props.flash
   return (
     <>
       <Head title="Homepage" />
