@@ -1,6 +1,7 @@
 import { Link, usePage } from '@inertiajs/react'
 import { SharedProps } from '@adonisjs/inertia/types'
 import styled from 'styled-components'
+import { Flex } from '~/components/utils/flex'
 
 export default function Navbar() {
   const user = usePage<SharedProps>().props.user
@@ -8,32 +9,27 @@ export default function Navbar() {
 
   const Nav = styled.nav`
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     gap: 20px;
     background-color: #192958;
     color: #f7f8fa;
     padding: 15px;
   `
 
-  const StyledLink = styled(Link)`
-    text-decoration: none;
-    color: #f7f8fa;
-  `
-
   return (
     <Nav>
-      {user ? (
+      {user && (
         <>
-          <StyledLink href="/">Accueil</StyledLink>
-          <div>Connecté en tant que : {user.username}</div>
-          <StyledLink href="/logout" method="post">
-            Déconnexion
-          </StyledLink>
+          <Flex>
+            <Link href="/">Accueil</Link>
+          </Flex>
+          <Flex gap="10px">
+            <div>Connecté en tant que : {user.username}</div>
+            <Link href="/logout" method="post">
+              Déconnexion
+            </Link>
+          </Flex>
         </>
-      ) : (
-        <StyledLink href="/login" style={{ color: '#4a5568' }}>
-          Connexion
-        </StyledLink>
       )}
     </Nav>
   )
