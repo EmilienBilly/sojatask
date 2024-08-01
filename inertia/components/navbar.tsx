@@ -10,10 +10,11 @@ export default function Navbar() {
   const Nav = styled.nav`
     display: flex;
     justify-content: space-between;
-    gap: 20px;
     background-color: #192958;
     color: #f7f8fa;
     padding: 15px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
   `
 
   return (
