@@ -31,6 +31,6 @@ body,
 }
 
 a {
-  text-decoration: underline;
-  color: #5a45ff;
+  text-decoration: none;
+  color: #F7F8FA;
 }
