@@ -2,24 +2,28 @@ import { ReactNode } from 'react'
 import Navbar from '~/components/navbar'
 import Sidebar from '~/components/sidebar'
 import styled from 'styled-components'
+import { usePage } from '@inertiajs/react'
+import { SharedProps } from '@adonisjs/inertia/types'
 
 interface LayoutProps {
   children: ReactNode
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const Test = styled.div`
+  const user = usePage<SharedProps>().props.user
+
+  const Flexbox = styled.div`
     display: flex;
     height: 100%;
     width: 100%;
   `
   return (
     <>
-      <Navbar />
-      <Test>
-        <Sidebar />
+      {user && <Navbar />}
+      <Flexbox>
+        {user && <Sidebar />}
         <div className="container">{children}</div>
-      </Test>
+      </Flexbox>
     </>
   )
 }

@@ -19,19 +19,17 @@ export default function Navbar() {
 
   return (
     <Nav>
-      {user && (
-        <>
-          <Flex>
-            <Link href="/">Accueil</Link>
-          </Flex>
-          <Flex gap="10px">
-            <div>Connecté en tant que : {user.username}</div>
-            <Link href="/logout" method="post">
-              Déconnexion
-            </Link>
-          </Flex>
-        </>
-      )}
+      <>
+        <Flex>
+          <Link href="/">Accueil</Link>
+        </Flex>
+        <Flex gap="10px">
+          <div>Connecté en tant que : {user.username}</div>
+          <Link href="/logout" method="post">
+            Déconnexion
+          </Link>
+        </Flex>
+      </>
     </Nav>
   )
 }
