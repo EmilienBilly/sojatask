@@ -58,7 +58,7 @@ export default function DropdownButton() {
       <Button onClick={toggleDropdown}>Créer</Button>
       <DropdownMenu $isOpen={isOpen}>
         <DropdownItem href="/create-project">Nouveau projet</DropdownItem>
-        <DropdownItem href="/create-project">Nouveau tableau</DropdownItem>
+        <DropdownItem href="#">Nouveau tableau</DropdownItem>
       </DropdownMenu>
     </DropdownContainer>
   )

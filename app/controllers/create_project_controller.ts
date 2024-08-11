@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 
-export default class ProjectsController {
+export default class CreateProjectController {
   render({ inertia }: HttpContext) {
-    return inertia.render('login')
+    return inertia.render('create_project')
   }
 }
