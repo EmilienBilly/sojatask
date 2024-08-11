@@ -8,11 +8,12 @@ const DropdownContainer = styled.div`
 `
 
 const Button = styled.button`
-  background-color: #3498db;
+  background-color: #5a45ff;
   color: white;
-  padding: 4px;
+  padding: 8px 16px;
   font-size: 16px;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
 
   &:hover {
@@ -20,13 +21,16 @@ const Button = styled.button`
   }
 `
 
-const DropdownMenu = styled.div<{ $isOpen: boolean }>`
+const DropdownMenu = styled.button<{ $isOpen: boolean }>`
   display: ${(props) => (props.$isOpen ? 'block' : 'none')};
   position: absolute;
   top: 40px;
   background-color: white;
   min-width: 160px;
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  border: 1px solid #dedede;
+  border-radius: 6px;
+  font-size: 14px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   z-index: 1;
 `
 
@@ -34,6 +38,7 @@ const DropdownItem = styled(Link)`
   color: black;
   padding: 12px 16px;
   text-decoration: none;
+  text-align: left;
   display: block;
 
   &:hover {
@@ -50,11 +55,10 @@ export default function DropdownButton() {
 
   return (
     <DropdownContainer>
-      <Button onClick={toggleDropdown}>Dropdown</Button>
+      <Button onClick={toggleDropdown}>Créer</Button>
       <DropdownMenu $isOpen={isOpen}>
-        <DropdownItem href="#">Item 1</DropdownItem>
-        <DropdownItem href="#">Item 2</DropdownItem>
-        <DropdownItem href="#">Item 3</DropdownItem>
+        <DropdownItem href="/create-project">Nouveau projet</DropdownItem>
+        <DropdownItem href="/create-project">Nouveau tableau</DropdownItem>
       </DropdownMenu>
     </DropdownContainer>
   )

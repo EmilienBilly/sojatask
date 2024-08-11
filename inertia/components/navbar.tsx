@@ -21,11 +21,11 @@ export default function Navbar() {
   return (
     <Nav>
       <>
-        <Flex gap="10px">
+        <Flex gap="10px" center>
           <Link href="/">Accueil</Link>
-          <DropdownButton></DropdownButton>
+          <DropdownButton />
         </Flex>
-        <Flex gap="10px">
+        <Flex gap="10px" center>
           <div>Connecté en tant que : {user.username}</div>
           <Link href="/logout" method="post">
             Déconnexion
