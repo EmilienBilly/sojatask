@@ -80,7 +80,37 @@
     ]
   },
   "eslintConfig": {
-    "extends": "@adonisjs/eslint-config/app"
+    "extends": "@adonisjs/eslint-config/app",
+    "overrides": [
+      {
+        "files": [
+          "./inertia/**/*.ts",
+          "./inertia/**/*.tsx"
+        ],
+        "rules": {
+          "unicorn/filename-case": [
+            "error",
+            {
+              "case": "camelCase"
+            }
+          ]
+        }
+      },
+      {
+        "files": [
+          "./inertia/components/**/*.ts",
+          "./inertia/components/**/*.tsx"
+        ],
+        "rules": {
+          "unicorn/filename-case": [
+            "error",
+            {
+              "case": "pascalCase"
+            }
+          ]
+        }
+      }
+    ]
   },
   "prettier": "@adonisjs/prettier-config"
 }
