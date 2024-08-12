@@ -50,29 +50,27 @@ export default function Create_project_form() {
   }
 
   return (
-    <>
-      <Form onSubmit={submit}>
-        <Flex column>
-          <label htmlFor="title">Titre du projet</label>
-          <input
-            id="title"
-            type="text"
-            value={data.title}
-            onChange={(e) => setData('title', e.target.value)}
-          />
-        </Flex>
-        <Flex column>
-          <label htmlFor="description">Description</label>
-          <textarea
-            id="description"
-            value={data.description}
-            onChange={(e) => setData('description', e.target.value)}
-          />
-        </Flex>
-        <Button type="submit" disabled={processing}>
-          Créer
-        </Button>
-      </Form>
-    </>
+    <Form onSubmit={submit}>
+      <Flex $flxCol>
+        <label htmlFor="title">Titre du projet</label>
+        <input
+          id="title"
+          type="text"
+          value={data.title}
+          onChange={(e) => setData('title', e.target.value)}
+        />
+      </Flex>
+      <Flex $flxCol>
+        <label htmlFor="description">Description</label>
+        <textarea
+          id="description"
+          value={data.description}
+          onChange={(e) => setData('description', e.target.value)}
+        />
+      </Flex>
+      <Button type="submit" disabled={processing}>
+        Créer
+      </Button>
+    </Form>
   )
 }
