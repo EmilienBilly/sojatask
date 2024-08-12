@@ -5,7 +5,7 @@ interface FlexProps {
   center?: boolean
   spaceBetween?: boolean
   flxEnd?: boolean
-  column?: boolean
+  $flxCol?: boolean
   gap?: string
   children: ReactNode
   // Add any other necessary props
@@ -31,8 +31,8 @@ export const Flex = styled.div<FlexProps>`
       justify-content: flex-end;
       align-items: center;
     `}
-  ${({ column }) =>
-    column &&
+  ${({ $flxCol }) =>
+    $flxCol &&
     css`
       flex-direction: column;
     `}
