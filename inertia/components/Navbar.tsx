@@ -2,7 +2,7 @@ import { Link, usePage } from '@inertiajs/react'
 import { SharedProps } from '@adonisjs/inertia/types'
 import styled from 'styled-components'
 import { Flex } from '~/components/utils/flex'
-import DropdownButton from '~/components/dropdown_button'
+import DropdownButton from '~/components/DropdownButton'
 
 export default function Navbar() {
   const user = usePage<SharedProps>().props.user

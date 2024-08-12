@@ -38,7 +38,7 @@ const Button = styled.button`
   }
 `
 
-export default function Create_project_form() {
+export default function CreateProjectForm() {
   const { data, setData, post, processing } = useForm({
     title: '',
     description: '',

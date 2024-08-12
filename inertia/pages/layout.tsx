@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
-import Navbar from '~/components/navbar'
-import Sidebar from '~/components/sidebar'
+import Navbar from '~/components/Navbar'
+import Sidebar from '~/components/Sidebar'
 import styled from 'styled-components'
 import { usePage } from '@inertiajs/react'
 import { SharedProps } from '@adonisjs/inertia/types'
