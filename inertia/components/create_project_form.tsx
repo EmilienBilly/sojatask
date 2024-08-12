@@ -1,12 +1,44 @@
 import { useForm } from '@inertiajs/react'
 import styled from 'styled-components'
+import { Flex } from '~/components/utils/flex'
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  width: 80%;
+  gap: 16px;
+
+  @media (min-width: 1024px) {
+    width: 50%;
+  }
+
+  input {
+    padding: 6px;
+    font-family: inherit;
+  }
+
+  textarea {
+    padding: 6px;
+    font-family: inherit;
+  }
 `
 
-export default function CreateProjectForm() {
+const Button = styled.button`
+  background-color: #5a45ff;
+  color: white;
+  padding: 8px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 16px;
+
+  &:hover {
+    background-color: #2980b9;
+  }
+`
+
+export default function Create_project_form() {
   const { data, setData, post, processing } = useForm({
     title: '',
     description: '',
@@ -20,23 +52,26 @@ export default function CreateProjectForm() {
   return (
     <>
       <Form onSubmit={submit}>
-        <label htmlFor="title">Titre</label>
-        <input
-          id="title"
-          type="text"
-          value={data.title}
-          onChange={(e) => setData('title', e.target.value)}
-        />
-        <label htmlFor="description">Description</label>
-        <input
-          id="description"
-          type="text"
-          value={data.description}
-          onChange={(e) => setData('description', e.target.value)}
-        />
-        <button type="submit" disabled={processing}>
+        <Flex column>
+          <label htmlFor="title">Titre du projet</label>
+          <input
+            id="title"
+            type="text"
+            value={data.title}
+            onChange={(e) => setData('title', e.target.value)}
+          />
+        </Flex>
+        <Flex column>
+          <label htmlFor="description">Description</label>
+          <textarea
+            id="description"
+            value={data.description}
+            onChange={(e) => setData('description', e.target.value)}
+          />
+        </Flex>
+        <Button type="submit" disabled={processing}>
           Créer
-        </button>
+        </Button>
       </Form>
     </>
   )
