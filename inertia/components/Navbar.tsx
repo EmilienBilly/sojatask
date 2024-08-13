@@ -1,8 +1,8 @@
 import { Link, usePage } from '@inertiajs/react'
 import { SharedProps } from '@adonisjs/inertia/types'
 import styled from 'styled-components'
-import { Flex } from '~/components/utils/flex'
 import DropdownButton from '~/components/DropdownButton'
+import { Flex } from '~/components/utils/Flex'
 
 export default function Navbar() {
   const user = usePage<SharedProps>().props.user
@@ -21,11 +21,11 @@ export default function Navbar() {
   return (
     <Nav>
       <>
-        <Flex gap="10px" center>
+        <Flex gap="10px" $center>
           <Link href="/">Accueil</Link>
           <DropdownButton />
         </Flex>
-        <Flex gap="10px" center>
+        <Flex gap="10px" $center>
           <div>Connecté en tant que : {user.username}</div>
           <Link href="/logout" method="post">
             Déconnexion
