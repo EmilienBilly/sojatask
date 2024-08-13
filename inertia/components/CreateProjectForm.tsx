@@ -1,6 +1,6 @@
 import { useForm } from '@inertiajs/react'
 import styled from 'styled-components'
-import { Flex } from '~/components/utils/flex'
+import { Flex } from '~/components/utils/Flex'
 
 const Form = styled.form`
   display: flex;
