@@ -2,9 +2,9 @@ import styled, { css } from 'styled-components'
 import { ReactNode } from 'react'
 
 interface FlexProps {
-  center?: boolean
-  spaceBetween?: boolean
-  flxEnd?: boolean
+  $center?: boolean
+  $spaceBetween?: boolean
+  $flxEnd?: boolean
   $flxCol?: boolean
   gap?: string
   children: ReactNode
@@ -13,20 +13,20 @@ interface FlexProps {
 
 export const Flex = styled.div<FlexProps>`
   display: flex;
-  ${({ center }) =>
-    center &&
+  ${({ $center }) =>
+    $center &&
     css`
       justify-content: center;
       align-items: center;
     `}
-  ${({ spaceBetween }) =>
-    spaceBetween &&
+  ${({ $spaceBetween }) =>
+    $spaceBetween &&
     css`
       justify-content: space-between;
       align-items: center;
     `}
-  ${({ flxEnd }) =>
-    flxEnd &&
+  ${({ $flxEnd }) =>
+    $flxEnd &&
     css`
       justify-content: flex-end;
       align-items: center;
