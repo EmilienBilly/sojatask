@@ -6,7 +6,6 @@ import { Flex } from '~/components/utils/Flex'
 
 export default function Navbar() {
   const user = usePage<SharedProps>().props.user
-  console.log(user)
 
   const Nav = styled.nav`
     display: flex;
@@ -27,7 +26,7 @@ export default function Navbar() {
         </Flex>
         <Flex gap="10px" $center>
           <div>Connecté en tant que : {user.username}</div>
-          <Link href="/logout" method="post">
+          <Link href="/logout" method="post" as="button" type="button">
             Déconnexion
           </Link>
         </Flex>
