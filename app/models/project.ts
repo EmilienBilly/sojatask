@@ -5,7 +5,7 @@ export default class Project extends BaseModel {
   declare id: number
 
   @column()
-  declare name: string
+  declare title: string
 
   @column()
   declare description: string
