@@ -4,7 +4,7 @@ import { loginValidator } from '#validators/login'
 import { errors as authErrors } from '@adonisjs/auth'
 
 export default class LoginController {
-  render({ inertia }: HttpContext) {
+  view({ inertia }: HttpContext) {
     return inertia.render('login')
   }
 
