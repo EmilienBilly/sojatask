@@ -18,3 +18,8 @@ router
   .get('create-project', [CreateProjectController, 'view'])
   .use(middleware.auth())
   .as('create-project.render')
+
+router
+  .post('create-project', [CreateProjectController, 'create'])
+  .use(middleware.auth())
+  .as('create-project.create')
