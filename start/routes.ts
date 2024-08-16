@@ -14,6 +14,6 @@ router.post('login', [LoginController, 'login'])
 router.get('logout', [LogoutController, 'view'])
 router.post('logout', [LogoutController, 'logout']).use(middleware.auth())
 
+router.get('get-user-projects', [ProjectsController, 'getUserProjects']).use(middleware.auth())
 router.get('create-project', [ProjectsController, 'create']).use(middleware.auth())
-
 router.post('create-project', [ProjectsController, 'store']).use(middleware.auth())
