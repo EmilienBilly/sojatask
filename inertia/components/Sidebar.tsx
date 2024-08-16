@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import ProjectsCategory from '~/components/ProjectsCategory'
 
 export default function Sidebar() {
   const Sidenav = styled.div`
@@ -10,7 +11,7 @@ export default function Sidebar() {
   `
   return (
     <Sidenav>
-      <h2>Hello</h2>
+      <ProjectsCategory />
     </Sidenav>
   )
 }
