@@ -4,7 +4,7 @@ import { middleware } from '#start/kernel'
 const LogoutController = () => import('#controllers/auth/logout_controller')
 const DashboardController = () => import('#controllers/dashboard_controller')
 const LoginController = () => import('#controllers/auth/login_controller')
-const CreateProjectController = () => import('#controllers/create_project_controller')
+const CreateProjectController = () => import('#controllers/projects/create_project_controller')
 
 router.get('/', [DashboardController, 'view']).use(middleware.auth()).as('dashboard.render')
 
