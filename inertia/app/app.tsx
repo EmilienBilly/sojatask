@@ -5,30 +5,23 @@ import { createRoot } from 'react-dom/client'
 import { createInertiaApp } from '@inertiajs/react'
 import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 import Layout from '~/pages/layout'
-import { ComponentType } from 'react'
+import { ReactNode } from 'react'
 
 const appName = import.meta.env.VITE_APP_NAME || 'AdonisJS'
-
-interface PageModule {
-  default: ComponentType<any>
-}
 
 createInertiaApp({
   progress: { color: '#5468FF' },
 
   title: (title) => `${title} - ${appName}`,
 
-  resolve: async (name) => {
-    const page = (await resolvePageComponent(
+  async resolve(name) {
+    const page: any = await resolvePageComponent(
       `../pages/${name}.tsx`,
       import.meta.glob('../pages/**/*.tsx')
-    )) as PageModule
-
-    return (props: any) => (
-      <Layout>
-        <page.default {...props} />
-      </Layout>
     )
+
+    page.default.layout = page.default.layout || ((p: ReactNode) => <Layout children={p} />)
+    return page
   },
 
   setup({ el, App, props }) {
