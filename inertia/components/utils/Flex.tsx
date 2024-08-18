@@ -6,7 +6,7 @@ interface FlexProps {
   $spaceBetween?: boolean
   $flxEnd?: boolean
   $flxCol?: boolean
-  gap?: string
+  $gap?: string
   children: ReactNode
   // Add any other necessary props
 }
@@ -36,9 +36,9 @@ export const Flex = styled.div<FlexProps>`
     css`
       flex-direction: column;
     `}
-  ${({ gap }) =>
-    gap &&
+  ${({ $gap }) =>
+    $gap &&
     css`
-      gap: ${gap};
+      gap: ${$gap};
     `}
 `
