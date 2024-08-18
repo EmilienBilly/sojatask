@@ -3,6 +3,7 @@ import { SharedProps } from '@adonisjs/inertia/types'
 import styled from 'styled-components'
 import DropdownButton from '~/components/DropdownButton'
 import { Flex } from '~/components/utils/Flex'
+import UserProjectsDropdownButton from '~/components/UserProjectsDropdownButton'
 
 const Nav = styled.nav`
   display: flex;
@@ -22,6 +23,7 @@ export default function Navbar() {
         <Flex $gap="10px" $center>
           <Link href="/">Accueil</Link>
           <DropdownButton />
+          <UserProjectsDropdownButton />
         </Flex>
         <Flex $gap="10px" $center>
           <div>Connecté en tant que : {user.username}</div>
