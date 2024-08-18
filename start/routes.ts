@@ -6,7 +6,10 @@ const DashboardController = () => import('#controllers/dashboard_controller')
 const LoginController = () => import('#controllers/auth/login_controller')
 const ProjectsController = () => import('#controllers/projects/projects_controller')
 
-router.get('/', [DashboardController, 'view']).use(middleware.auth())
+router
+  .get('/', [DashboardController, 'view'])
+  .use(middleware.auth())
+  .use(middleware.shareUserProjects())
 
 router.get('login', [LoginController, 'view'])
 router.post('login', [LoginController, 'login'])
