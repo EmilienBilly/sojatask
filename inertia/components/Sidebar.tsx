@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import ProjectsCategory from '~/components/ProjectsCategory'
+import UserProjectsDropdownButton from '~/components/UserProjectsDropdownButton'
 
 const Sidenav = styled.div`
   padding: 15px;
@@ -12,7 +12,7 @@ const Sidenav = styled.div`
 export default function Sidebar() {
   return (
     <Sidenav>
-      <ProjectsCategory />
+      <UserProjectsDropdownButton />
     </Sidenav>
   )
 }
