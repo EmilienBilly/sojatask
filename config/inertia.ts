@@ -1,5 +1,5 @@
 import { defineConfig } from '@adonisjs/inertia'
-import { InferSharedProps } from '@adonisjs/inertia/types'
+import '@adonisjs/inertia/types'
 
 const inertiaConfig = defineConfig({
   /**
@@ -38,7 +38,5 @@ const inertiaConfig = defineConfig({
 export default inertiaConfig
 
 declare module '@adonisjs/inertia/types' {
-  export interface SharedProps extends InferSharedProps<typeof inertiaConfig> {
-    userProjects: Array<object>
-  }
+  export interface SharedProps extends Record<string, any> {}
 }
