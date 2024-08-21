@@ -59,9 +59,9 @@ export default function UserProjectsDropdownButton() {
     <DropdownContainer>
       <Button onClick={toggleDropdown}>Mes projets</Button>
       <DropdownMenu $isOpen={isOpen}>
-        {/*{userProjects.map((userProject) => (*/}
-        {/*  <DropdownItem href="#">{userProject.title}</DropdownItem>*/}
-        {/*))}*/}
+        {userProjects.map((userProject) => (
+          <DropdownItem href="#">{userProject.title}</DropdownItem>
+        ))}
       </DropdownMenu>
     </DropdownContainer>
   )
