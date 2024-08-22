@@ -6,13 +6,12 @@ import { inject } from '@adonisjs/core'
 export default class UserProjectsController {
   constructor(private repository: ProjectRepository) {}
 
-  async index({ auth }: HttpContext) {
-    const projects = await this.repository.findAllProjectsByUserId(auth.user!.id)
-    console.log(projects)
+  index({ auth }: HttpContext) {
+    return this.repository.findAllProjectsByUserId(auth.user!.id)
   }
 
-  async show({ params }: HttpContext) {
-    const project = await this.repository.findById(params.id)
-    console.log(project)
+  async show({ request, inertia }: HttpContext) {
+    const project = await this.repository.findById(request.param('id'))
+    return inertia.render('userProject', { project })
   }
 }

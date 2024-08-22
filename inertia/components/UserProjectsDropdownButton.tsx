@@ -49,7 +49,6 @@ const DropdownItem = styled(Link)`
 
 export default function UserProjectsDropdownButton() {
   const { userProjects } = usePage<SharedProps>().props
-  console.log(userProjects)
   const [isOpen, setIsOpen] = useState(false)
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
@@ -60,7 +59,7 @@ export default function UserProjectsDropdownButton() {
       <Button onClick={toggleDropdown}>Mes projets</Button>
       <DropdownMenu $isOpen={isOpen}>
         {userProjects.map((userProject) => (
-          <DropdownItem href="#">{userProject.title}</DropdownItem>
+          <DropdownItem href={`/user_projects/${userProject.id}`}>{userProject.title}</DropdownItem>
         ))}
       </DropdownMenu>
     </DropdownContainer>
