@@ -10,4 +10,8 @@ export class ProjectRepository {
   findAllProjectsByUserId(userId: number) {
     return db.from('projects').where('created_by', userId)
   }
+
+  findById(id: number) {
+    return db.from('projects').where('id', id)
+  }
 }

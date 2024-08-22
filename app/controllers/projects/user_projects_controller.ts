@@ -10,4 +10,9 @@ export default class UserProjectsController {
     const projects = await this.repository.findAllProjectsByUserId(auth.user!.id)
     console.log(projects)
   }
+
+  async show({ params }: HttpContext) {
+    const project = await this.repository.findById(params.id)
+    console.log(project)
+  }
 }
