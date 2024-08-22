@@ -4,11 +4,11 @@ import { loginValidator } from '#validators/login'
 import { errors as authErrors } from '@adonisjs/auth'
 
 export default class LoginController {
-  view({ inertia }: HttpContext) {
+  render({ inertia }: HttpContext) {
     return inertia.render('login')
   }
 
-  async login({ request, response, auth, session }: HttpContext) {
+  async handle({ request, response, auth, session }: HttpContext) {
     const { username, password } = await request.validateUsing(loginValidator)
 
     try {
