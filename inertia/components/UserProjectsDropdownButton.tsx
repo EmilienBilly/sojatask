@@ -2,6 +2,14 @@ import { useState } from 'react'
 import styled from 'styled-components'
 import { Link, usePage } from '@inertiajs/react'
 import type { SharedProps } from '@adonisjs/inertia/types'
+import { useProjectContext } from '~/hooks/useProject'
+
+interface UserProject {
+  id: number
+  title: string
+  description: string
+  created_by: number
+}
 
 const DropdownContainer = styled.div`
   position: relative;
@@ -54,12 +62,28 @@ export default function UserProjectsDropdownButton() {
     setIsOpen(!isOpen)
   }
 
+  const { setSelectedProject } = useProjectContext()
+
+  const handleSelectProject = (userProject: UserProject) => {
+    setSelectedProject({
+      id: userProject.id,
+      title: userProject.title,
+      description: userProject.description,
+      created_by: userProject.created_by,
+    })
+  }
+
   return (
     <DropdownContainer>
       <Button onClick={toggleDropdown}>Mes projets</Button>
       <DropdownMenu $isOpen={isOpen}>
         {userProjects.map((userProject) => (
-          <DropdownItem href={`/user_projects/${userProject.id}`}>{userProject.title}</DropdownItem>
+          <DropdownItem
+            onClick={() => handleSelectProject(userProject)}
+            href={`/user_projects/${userProject.id}`}
+          >
+            {userProject.title}
+          </DropdownItem>
         ))}
       </DropdownMenu>
     </DropdownContainer>
