@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import SelectedProject from '~/components/SelectedProject'
 
 const Sidenav = styled.div`
   padding: 15px;
@@ -9,5 +10,9 @@ const Sidenav = styled.div`
 `
 
 export default function Sidebar() {
-  return <Sidenav></Sidenav>
+  return (
+    <Sidenav>
+      <SelectedProject />
+    </Sidenav>
+  )
 }
