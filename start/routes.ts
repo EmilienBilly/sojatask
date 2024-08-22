@@ -18,7 +18,19 @@ router.post('login', [LoginController, 'handle'])
 router.get('logout', [LogoutController, 'render'])
 router.post('logout', [LogoutController, 'handle']).use(middleware.auth())
 
-router.get('get-user-projects', [UserProjectsController, 'index']).use(middleware.auth())
-router.get('user-projects/:id', [UserProjectsController, 'show']).use(middleware.auth())
-router.get('create-project', [ProjectsController, 'create']).use(middleware.auth())
-router.post('create-project', [ProjectsController, 'store']).use(middleware.auth())
+router
+  .get('user_projects', [UserProjectsController, 'index'])
+  .use(middleware.auth())
+  .use(middleware.shareUserProjects())
+router
+  .get('user_projects/:id', [UserProjectsController, 'show'])
+  .use(middleware.auth())
+  .use(middleware.shareUserProjects())
+router
+  .get('create-project', [ProjectsController, 'create'])
+  .use(middleware.auth())
+  .use(middleware.shareUserProjects())
+router
+  .post('create-project', [ProjectsController, 'store'])
+  .use(middleware.auth())
+  .use(middleware.shareUserProjects())

@@ -12,6 +12,6 @@ export class ProjectRepository {
   }
 
   findById(id: number) {
-    return db.from('projects').where('id', id)
+    return db.from('projects').where('id', id).first()
   }
 }
