@@ -30,7 +30,7 @@ const Form = styled.form`
 `
 export default function CreateBoardModal() {
   const { selectedProject } = useProjectContext()
-  const { data, setData, post, processing } = useForm({
+  const { data, setData, post, processing, reset } = useForm({
     title: '',
     description: '',
     projectId: selectedProject?.id,
@@ -38,7 +38,8 @@ export default function CreateBoardModal() {
 
   function submit(event: { preventDefault: () => void }) {
     event.preventDefault()
-    post('/create-board')
+    post('/create_board')
+    reset()
   }
 
   return (
