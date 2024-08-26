@@ -11,5 +11,5 @@ export default class Board extends BaseModel {
   declare description: string
 
   @column()
-  declare project_id: number
+  declare projectId: number
 }
