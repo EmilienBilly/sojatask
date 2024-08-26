@@ -2,15 +2,23 @@ import { Head } from '@inertiajs/react'
 import { InferPageProps } from '@adonisjs/inertia/types'
 import UserProjectsController from '#controllers/projects/user_projects_controller'
 import CreateBoardButton from '~/components/CreateBoardButton'
+import CreateBoardModal from '~/components/CreateBoardModal'
+import { useState } from 'react'
 
 export default function UserProject(props: InferPageProps<UserProjectsController, 'show'>) {
   const project = props.project
+  const [showModal, setShowModal] = useState(false)
   return (
     <>
       <Head title="Projet" />
-      <div className="title">{project.title}</div>
-      <p>{project.description}</p>
-      <CreateBoardButton />
+      <div>
+        <h1 className="title">{project.title}</h1>
+        <p>{project.description}</p>
+      </div>
+      <div>
+        <CreateBoardButton showModal={showModal} setShowModal={setShowModal} />
+        {showModal && <CreateBoardModal />}
+      </div>
     </>
   )
 }
