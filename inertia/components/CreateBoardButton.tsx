@@ -7,7 +7,7 @@ const Button = styled.button`
   padding: 8px 16px;
   font-size: 16px;
   border: none;
-  border-radius: 6px;
+  border-radius: 3px;
   cursor: pointer;
 `
 type CreateBoardButtonProps = {
