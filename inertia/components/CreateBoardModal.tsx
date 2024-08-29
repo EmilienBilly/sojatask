@@ -2,6 +2,7 @@ import { useForm } from '@inertiajs/react'
 import styled from 'styled-components'
 import { Flex } from '~/components/utils/Flex'
 import { useProjectContext } from '~/hooks/useProject'
+import { Dispatch, SetStateAction } from 'react'
 
 const Modal = styled.div`
   background-color: #f7f8fa;
@@ -28,7 +29,13 @@ const Form = styled.form`
     font-family: inherit;
   }
 `
-export default function CreateBoardModal() {
+
+type CreateBoardModalProps = {
+  showModal: boolean
+  setShowModal: Dispatch<SetStateAction<boolean>>
+}
+
+export default function CreateBoardModal({ setShowModal, showModal }: CreateBoardModalProps) {
   const { selectedProject } = useProjectContext()
   const { data, setData, post, processing, reset } = useForm({
     title: '',
@@ -40,15 +47,16 @@ export default function CreateBoardModal() {
     event.preventDefault()
     post('/create_board')
     reset()
+    setShowModal(!showModal)
   }
 
   return (
     <>
       <Modal>
-        <h2>Nouveau projet</h2>
+        <h2>Nouveau tableau</h2>
         <Form onSubmit={submit}>
           <Flex $flxCol>
-            <label htmlFor="title">Titre du projet</label>
+            <label htmlFor="title">Titre</label>
             <input
               id="title"
               type="text"

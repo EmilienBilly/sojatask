@@ -6,7 +6,9 @@ import CreateBoardModal from '~/components/CreateBoardModal'
 import { useState } from 'react'
 import styled from 'styled-components'
 
-const HorizontalRule = styled.hr``
+const HorizontalRule = styled.hr`
+  margin: 20px 0;
+`
 export default function UserProject(props: InferPageProps<UserProjectsController, 'show'>) {
   const project = props.project
   const [showModal, setShowModal] = useState(false)
@@ -20,7 +22,7 @@ export default function UserProject(props: InferPageProps<UserProjectsController
       <HorizontalRule />
       <div>
         <CreateBoardButton showModal={showModal} setShowModal={setShowModal} />
-        {showModal && <CreateBoardModal />}
+        {showModal && <CreateBoardModal showModal={showModal} setShowModal={setShowModal} />}
       </div>
     </>
   )
