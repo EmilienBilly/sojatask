@@ -1,7 +1,6 @@
 import { useForm } from '@inertiajs/react'
 import styled from 'styled-components'
 import { Flex } from '~/components/utils/Flex'
-import { useProjectContext } from '~/hooks/useProject'
 import { Dispatch, SetStateAction } from 'react'
 
 const Modal = styled.div`
@@ -33,14 +32,18 @@ const Form = styled.form`
 type CreateBoardModalProps = {
   showModal: boolean
   setShowModal: Dispatch<SetStateAction<boolean>>
+  projectId: number
 }
 
-export default function CreateBoardModal({ setShowModal, showModal }: CreateBoardModalProps) {
-  const { selectedProject } = useProjectContext()
+export default function CreateBoardModal({
+  setShowModal,
+  showModal,
+  projectId,
+}: CreateBoardModalProps) {
   const { data, setData, post, processing, reset } = useForm({
     title: '',
     description: '',
-    projectId: selectedProject?.id,
+    projectId: projectId,
   })
 
   function submit(event: { preventDefault: () => void }) {
