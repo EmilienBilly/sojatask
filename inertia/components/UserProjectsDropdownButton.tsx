@@ -80,6 +80,7 @@ export default function UserProjectsDropdownButton() {
       <DropdownMenu $isOpen={isOpen}>
         {userProjects.map((userProject) => (
           <DropdownItem
+            key={userProject.id}
             onClick={() => handleSelectProject(userProject)}
             href={`/user_projects/${userProject.id}`}
           >
