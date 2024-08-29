@@ -17,6 +17,7 @@
     "#controllers/*": "./app/controllers/*.js",
     "#exceptions/*": "./app/exceptions/*.js",
     "#models/*": "./app/models/*.js",
+    "#dtos/*": "./app/dtos/*.js",
     "#mails/*": "./app/mails/*.js",
     "#services/*": "./app/services/*.js",
     "#listeners/*": "./app/listeners/*.js",
@@ -54,6 +55,7 @@
     "vite": "^5.3.3"
   },
   "dependencies": {
+    "@adocasts.com/dto": "^0.0.6",
     "@adonisjs/auth": "^9.2.3",
     "@adonisjs/core": "^6.12.1",
     "@adonisjs/cors": "^2.2.1",
