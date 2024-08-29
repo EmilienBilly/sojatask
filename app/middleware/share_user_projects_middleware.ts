@@ -1,15 +1,13 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import type { NextFn } from '@adonisjs/core/types/http'
-import { ProjectRepository } from '../repositories/projects_repository.js'
-import { inject } from '@adonisjs/core'
+import Project from '#models/project'
+import { ProjectDto } from '#dtos/project'
 
-@inject()
 export default class ShareUserProjectsMiddleware {
-  constructor(private repository: ProjectRepository) {}
-
   async handle({ inertia, auth }: HttpContext, next: NextFn) {
-    const projects = await this.repository.findAllProjectsByUserId(auth.user!.id)
-    inertia.share({ userProjects: projects })
+    const projects = await Project.findManyBy('createdBy', auth.user!.id)
+    const userProjects = ProjectDto.fromArray(projects)
+    inertia.share({ userProjects })
     return await next()
   }
 }

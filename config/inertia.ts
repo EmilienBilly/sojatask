@@ -1,6 +1,6 @@
 import { defineConfig } from '@adonisjs/inertia'
 import '@adonisjs/inertia/types'
-import type { ProjectsCreatedByUserIdQueryResult } from '../app/repositories/projects_repository.js'
+import { ProjectDto } from '#dtos/project'
 
 const inertiaConfig = defineConfig({
   /**
@@ -40,6 +40,6 @@ export default inertiaConfig
 
 declare module '@adonisjs/inertia/types' {
   export interface SharedProps extends Record<string, any> {
-    userProjects: ProjectsCreatedByUserIdQueryResult
+    userProjects: ProjectDto[]
   }
 }

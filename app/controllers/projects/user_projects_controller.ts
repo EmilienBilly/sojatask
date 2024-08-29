@@ -1,17 +1,15 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { ProjectRepository } from '../../repositories/projects_repository.js'
-import { inject } from '@adonisjs/core'
+import Project from '#models/project'
+import { ProjectDto } from '#dtos/project'
 
-@inject()
 export default class UserProjectsController {
-  constructor(private repository: ProjectRepository) {}
-
-  index({ auth }: HttpContext) {
-    return this.repository.findAllProjectsByUserId(auth.user!.id)
+  async index({ auth }: HttpContext) {
+    const projects = await Project.findManyBy('createdBy', auth.user!.id)
+    return ProjectDto.fromArray(projects)
   }
 
   async show({ request, inertia }: HttpContext) {
-    const project = await this.repository.findById(request.param('id'))
-    return inertia.render('userProject', { project })
+    const project = await Project.findBy('id', request.param('id'))
+    return inertia.render('userProject', { project: new ProjectDto(project) })
   }
 }

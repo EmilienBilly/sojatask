@@ -8,7 +8,7 @@ interface UserProject {
   id: number
   title: string
   description: string
-  created_by: number
+  createdBy: number
 }
 
 const DropdownContainer = styled.div`
@@ -57,6 +57,7 @@ const DropdownItem = styled(Link)`
 
 export default function UserProjectsDropdownButton() {
   const { userProjects } = usePage<SharedProps>().props
+  console.log(userProjects)
   const [isOpen, setIsOpen] = useState(false)
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
@@ -69,7 +70,7 @@ export default function UserProjectsDropdownButton() {
       id: userProject.id,
       title: userProject.title,
       description: userProject.description,
-      created_by: userProject.created_by,
+      created_by: userProject.createdBy,
     })
   }
 
