@@ -10,6 +10,10 @@ export default class UserProjectsController {
 
   async show({ request, inertia }: HttpContext) {
     const project = await Project.findBy('id', request.param('id'))
-    return inertia.render('userProject', { project: new ProjectDto(project) })
+    await project?.load('boards')
+    return inertia.render('userProject', {
+      project: new ProjectDto(project),
+      boards: project?.boards,
+    })
   }
 }
