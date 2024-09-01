@@ -57,7 +57,6 @@ const DropdownItem = styled(Link)`
 
 export default function UserProjectsDropdownButton() {
   const { userProjects } = usePage<SharedProps>().props
-  console.log(userProjects)
   const [isOpen, setIsOpen] = useState(false)
   const toggleDropdown = () => {
     setIsOpen(!isOpen)

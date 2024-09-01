@@ -1,7 +1,7 @@
-import { useForm } from '@inertiajs/react'
+import { useForm, usePage } from '@inertiajs/react'
 import styled from 'styled-components'
 import { Flex } from '~/components/utils/Flex'
-import { Dispatch, SetStateAction } from 'react'
+import { SharedProps } from '@adonisjs/inertia/types'
 
 const Modal = styled.div`
   background-color: #f7f8fa;
@@ -30,17 +30,13 @@ const Form = styled.form`
 `
 
 type CreateBoardModalProps = {
-  showModal: boolean
-  setShowModal: Dispatch<SetStateAction<boolean>>
   projectId: number
 }
 
-export default function CreateBoardModal({
-  setShowModal,
-  showModal,
-  projectId,
-}: CreateBoardModalProps) {
-  const { data, setData, post, processing, reset } = useForm({
+export default function CreateBoardModal({ projectId }: CreateBoardModalProps) {
+  const titleError = usePage<SharedProps>().props.flash.error?.title
+
+  const { data, setData, post, processing } = useForm({
     title: '',
     description: '',
     projectId: projectId,
@@ -49,8 +45,8 @@ export default function CreateBoardModal({
   function submit(event: { preventDefault: () => void }) {
     event.preventDefault()
     post('/create_board')
-    reset()
-    setShowModal(!showModal)
+    // reset()
+    // setShowModal(!showModal)
   }
 
   return (
@@ -66,6 +62,7 @@ export default function CreateBoardModal({
               value={data.title}
               onChange={(e) => setData('title', e.target.value)}
             />
+            {titleError && <div>{titleError}</div>}
           </Flex>
           <Flex $flxCol>
             <label htmlFor="description">Description</label>
