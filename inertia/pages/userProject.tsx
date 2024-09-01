@@ -5,6 +5,7 @@ import CreateBoardButton from '~/components/CreateBoardButton'
 import CreateBoardModal from '~/components/CreateBoardModal'
 import { useState } from 'react'
 import styled from 'styled-components'
+import BoardCard from '~/components/BoardCard'
 
 type ProjectType = {
   id: number
@@ -22,6 +23,11 @@ type BoardType = {
 
 const HorizontalRule = styled.hr`
   margin: 20px 0;
+`
+
+const BoardsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
 `
 export default function UserProject(props: InferPageProps<UserProjectsController, 'show'>) {
   const project: ProjectType = props.project
@@ -41,7 +47,7 @@ export default function UserProject(props: InferPageProps<UserProjectsController
         {showModal && <CreateBoardModal projectId={project.id} />}
       </div>
       <HorizontalRule />
-      {boards?.map((board) => <p key={board.id}>{board.title}</p>)}
+      <BoardsContainer>{boards?.map((board) => <BoardCard title={board.title} />)}</BoardsContainer>
     </>
   )
 }
