@@ -1,7 +1,7 @@
-import { useForm, usePage } from '@inertiajs/react'
+import { useForm } from '@inertiajs/react'
 import styled from 'styled-components'
 import { Flex } from '~/components/utils/Flex'
-import { SharedProps } from '@adonisjs/inertia/types'
+import useError from '~/hooks/useError'
 
 const Modal = styled.div`
   background-color: #f7f8fa;
@@ -34,8 +34,8 @@ type CreateBoardModalProps = {
 }
 
 export default function CreateBoardModal({ projectId }: CreateBoardModalProps) {
-  const titleError = usePage<SharedProps>().props.flash.error?.title
-
+  const titleError = useError('title')
+  console.log(titleError)
   const { data, setData, post, processing } = useForm({
     title: '',
     description: '',
@@ -45,8 +45,6 @@ export default function CreateBoardModal({ projectId }: CreateBoardModalProps) {
   function submit(event: { preventDefault: () => void }) {
     event.preventDefault()
     post('/create_board')
-    // reset()
-    // setShowModal(!showModal)
   }
 
   return (

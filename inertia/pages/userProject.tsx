@@ -38,13 +38,7 @@ export default function UserProject(props: InferPageProps<UserProjectsController
       <HorizontalRule />
       <div>
         <CreateBoardButton showModal={showModal} setShowModal={setShowModal} />
-        {showModal && (
-          <CreateBoardModal
-            projectId={project.id}
-            showModal={showModal}
-            setShowModal={setShowModal}
-          />
-        )}
+        {showModal && <CreateBoardModal projectId={project.id} />}
       </div>
       <HorizontalRule />
       {boards?.map((board) => <p key={board.id}>{board.title}</p>)}
