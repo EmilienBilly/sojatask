@@ -2,6 +2,7 @@ import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
 
 const CreateBoardController = () => import('#controllers/boards/create_board_controller')
+const BoardsController = () => import('#controllers/boards/boards_controller')
 
 const UserProjectsController = () => import('#controllers/projects/user_projects_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
@@ -39,3 +40,7 @@ router
   .use(middleware.shareUserProjects())
 
 router.post('create_board', [CreateBoardController, 'handle']).use(middleware.auth())
+router
+  .get('user_projects/:projectId/boards/:boardId', [BoardsController, 'show'])
+  .use(middleware.auth())
+  .use(middleware.shareUserProjects())
