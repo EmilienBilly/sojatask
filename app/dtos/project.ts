@@ -3,7 +3,7 @@ import Project from '#models/project'
 
 export class ProjectDto extends BaseModelDto {
   declare id: number
-  declare title: string
+  declare name: string
   declare description: string
   declare createdBy: number
 
@@ -12,7 +12,7 @@ export class ProjectDto extends BaseModelDto {
 
     if (!project) return
     this.id = project.id
-    this.title = project.title
+    this.name = project.name
     this.description = project.description
     this.createdBy = project.createdBy
   }
