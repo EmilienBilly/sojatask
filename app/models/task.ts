@@ -6,7 +6,7 @@ export default class Task extends BaseModel {
   declare id: number
 
   @column()
-  declare title: string
+  declare name: string
 
   @column()
   declare description: string
@@ -18,14 +18,14 @@ export default class Task extends BaseModel {
   declare updatedAt: DateTime
 
   @column()
-  declare statusId: number
+  declare archived: number
+
+  @column()
+  declare deadline: number
 
   @column()
   declare createdBy: number
 
   @column()
-  declare assignedTo: number
-
-  @column()
-  declare columnId: number
+  declare listId: number
 }
