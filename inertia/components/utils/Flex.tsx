@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components'
 import { ReactNode } from 'react'
 
 interface FlexProps {
+  $full?: boolean
   $center?: boolean
   $spaceBetween?: boolean
   $flxEnd?: boolean
@@ -12,6 +13,12 @@ interface FlexProps {
 
 export const Flex = styled.div<FlexProps>`
   display: flex;
+  ${({ $full }) =>
+    $full &&
+    css`
+      height: 100%;
+      width: 100%;
+    `}
   ${({ $center }) =>
     $center &&
     css`
