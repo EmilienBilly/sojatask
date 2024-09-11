@@ -40,7 +40,7 @@ const Button = styled.button`
 
 export default function CreateProjectForm() {
   const { data, setData, post, processing } = useForm({
-    title: '',
+    name: '',
     description: '',
   })
 
@@ -56,8 +56,8 @@ export default function CreateProjectForm() {
         <input
           id="title"
           type="text"
-          value={data.title}
-          onChange={(e) => setData('title', e.target.value)}
+          value={data.name}
+          onChange={(e) => setData('name', e.target.value)}
         />
       </Flex>
       <Flex $flxCol>

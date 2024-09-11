@@ -10,7 +10,7 @@ import { BoardType } from '~/types/board'
 
 type ProjectType = {
   id: number
-  title: string
+  name: string
   description: string
   createdBy: number
 }
@@ -33,7 +33,7 @@ export default function UserProject(props: InferPageProps<UserProjectsController
     <>
       <Head title="Projet" />
       <div>
-        <h1 className="title">{project.title}</h1>
+        <h1 className="title">{project.name}</h1>
         <p>{project.description}</p>
       </div>
       <HorizontalRule />

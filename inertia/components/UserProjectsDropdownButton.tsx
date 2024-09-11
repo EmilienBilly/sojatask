@@ -6,7 +6,7 @@ import { useProjectContext } from '~/hooks/useProject'
 
 interface UserProject {
   id: number
-  title: string
+  name: string
   description: string
   createdBy: number
 }
@@ -67,7 +67,7 @@ export default function UserProjectsDropdownButton() {
   const handleSelectProject = (userProject: UserProject) => {
     setSelectedProject({
       id: userProject.id,
-      title: userProject.title,
+      title: userProject.name,
       description: userProject.description,
       created_by: userProject.createdBy,
     })
@@ -83,7 +83,7 @@ export default function UserProjectsDropdownButton() {
             onClick={() => handleSelectProject(userProject)}
             href={`/user_projects/${userProject.id}`}
           >
-            {userProject.title}
+            {userProject.name}
           </DropdownItem>
         ))}
       </DropdownMenu>
