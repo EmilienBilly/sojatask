@@ -25,6 +25,8 @@ ENV NODE_ENV=production
 WORKDIR /app
 COPY --from=production-deps /app/node_modules /app/node_modules
 COPY --from=build /app/build /app
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 EXPOSE 8080
 
-ENTRYPOINT ["/home/node/app/entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
