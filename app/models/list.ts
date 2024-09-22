@@ -6,4 +6,7 @@ export default class List extends BaseModel {
 
   @column()
   declare title: string
+
+  @column()
+  declare board_id: number
 }
