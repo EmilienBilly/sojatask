@@ -8,5 +8,5 @@ export default class List extends BaseModel {
   declare title: string
 
   @column()
-  declare board_id: number
+  declare boardId: number
 }
