@@ -1,4 +1,6 @@
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
+import List from '#models/list'
+import type { HasMany } from '@adonisjs/lucid/types/relations'
 
 export default class Board extends BaseModel {
   @column({ isPrimary: true })
@@ -12,4 +14,7 @@ export default class Board extends BaseModel {
 
   @column()
   declare projectId: number
+
+  @hasMany(() => List)
+  declare lists: HasMany<typeof List>
 }

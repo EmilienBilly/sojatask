@@ -17,11 +17,11 @@ const BoardCanva = styled.div`
 `
 
 export default function Board(props: InferPageProps<BoardsController, 'show'>) {
-  const containers = ['A', 'B', 'C']
+  const board: BoardType = props.board
+  const lists = props.lists
+
   const [parent, setParent] = useState(null)
   const draggableMarkup = <DraggableTask id="draggable">Drag me</DraggableTask>
-
-  const board: BoardType = props.board
 
   function handleDragEnd(event) {
     const { over } = event
@@ -34,9 +34,9 @@ export default function Board(props: InferPageProps<BoardsController, 'show'>) {
       <BoardCanva>
         <DndContext onDragEnd={handleDragEnd}>
           {parent === null ? draggableMarkup : null}
-          {containers.map((id) => (
-            <DroppableList key={id} id={id}>
-              {parent === id ? draggableMarkup : 'Drop here'}
+          {lists?.map((list) => (
+            <DroppableList key={list.id} id={list.id} title={list.title}>
+              {parent === list.id ? draggableMarkup : 'Drop here'}
             </DroppableList>
           ))}
           <CreateListButton board={board} />

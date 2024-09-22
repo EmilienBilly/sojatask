@@ -16,7 +16,10 @@ export default function DroppableList(props) {
   })
   return (
     <>
-      <List ref={setNodeRef}>{props.children}</List>
+      <List ref={setNodeRef}>
+        <h2>{props.title}</h2>
+        {props.children}
+      </List>
     </>
   )
 }
