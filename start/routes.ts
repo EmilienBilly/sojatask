@@ -47,6 +47,6 @@ router
   .use(middleware.auth())
   .use(middleware.shareUserProjects())
 router
-  .post('user_projects/:projectId/boards/:boardId/create_list', [CreateListController])
+  .post('create-list', [CreateListController])
   .use(middleware.auth())
   .use(middleware.shareUserProjects())

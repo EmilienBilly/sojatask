@@ -39,7 +39,7 @@ export default function Board(props: InferPageProps<BoardsController, 'show'>) {
               {parent === id ? draggableMarkup : 'Drop here'}
             </DroppableList>
           ))}
-          <CreateListButton />
+          <CreateListButton board={board} />
         </DndContext>
       </BoardCanva>
     </>

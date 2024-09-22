@@ -6,7 +6,7 @@ export default class CreateListController {
   async handle({ request, response }: HttpContext) {
     const payload = await request.validateUsing(createListValidator)
 
-    await List.create({ ...payload, boardId: request.param('boardId') })
+    await List.create({ ...payload })
     return response.redirect().back()
   }
 }
