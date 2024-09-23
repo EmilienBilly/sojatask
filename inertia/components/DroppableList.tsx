@@ -1,5 +1,6 @@
 import { useDroppable } from '@dnd-kit/core'
 import styled from 'styled-components'
+import CreateTaskButton from '~/components/CreateTaskButton'
 
 const List = styled.div`
   display: flex;
@@ -19,6 +20,7 @@ export default function DroppableList(props) {
       <List ref={setNodeRef}>
         <h2>{props.title}</h2>
         {props.children}
+        <CreateTaskButton />
       </List>
     </>
   )
