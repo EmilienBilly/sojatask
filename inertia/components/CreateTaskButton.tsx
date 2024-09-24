@@ -46,14 +46,17 @@ const SubmitButton = styled.button`
 export default function CreateTaskButton() {
   const [isFormVisible, setIsFormVisible] = useState(false)
 
-  const { data, setData, post, processing } = useForm({
+  const { data, setData, post, processing, reset } = useForm({
     title: '',
   })
 
   function submit(event: { preventDefault: () => void }) {
     event.preventDefault()
     post('/create-task', {
-      onSuccess: () => setIsFormVisible(false),
+      onSuccess: () => {
+        setIsFormVisible(false)
+        reset()
+      },
     })
   }
 
