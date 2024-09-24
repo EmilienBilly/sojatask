@@ -15,6 +15,7 @@ export default function DroppableList(props) {
   const { setNodeRef } = useDroppable({
     id: props.id,
   })
+  const tasks = props.tasks
   return (
     <>
       <List ref={setNodeRef}>
