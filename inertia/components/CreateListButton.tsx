@@ -40,7 +40,7 @@ const SubmitButton = styled.button`
 export default function CreateListButton({ board }: { board: BoardType }) {
   const [isFormVisible, setIsFormVisible] = useState(false)
 
-  const { data, setData, post, processing } = useForm({
+  const { data, setData, post, processing, reset } = useForm({
     title: '',
     boardId: board.id,
   })
@@ -48,7 +48,10 @@ export default function CreateListButton({ board }: { board: BoardType }) {
   function submit(event: { preventDefault: () => void }) {
     event.preventDefault()
     post('/create-list', {
-      onSuccess: () => setIsFormVisible(false),
+      onSuccess: () => {
+        setIsFormVisible(false)
+        reset()
+      },
     })
   }
 
