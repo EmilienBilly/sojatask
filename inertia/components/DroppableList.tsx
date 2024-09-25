@@ -1,7 +1,14 @@
 import { useDroppable } from '@dnd-kit/core'
 import styled from 'styled-components'
 import CreateTaskButton from '~/components/CreateTaskButton'
+import React from 'react'
 
+type DroppableListProps = {
+  id: number
+  title: string
+  tasks: object
+  children?: React.ReactNode
+}
 const List = styled.div`
   display: flex;
   flex-direction: column;
@@ -11,11 +18,10 @@ const List = styled.div`
   width: 300px;
   border: 3px;
 `
-export default function DroppableList(props) {
+export default function DroppableList(props: DroppableListProps) {
   const { setNodeRef } = useDroppable({
     id: props.id,
   })
-  const tasks = props.tasks
   return (
     <>
       <List ref={setNodeRef}>
