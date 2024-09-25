@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import { Link } from '@inertiajs/react'
+import { IconArrowDropDown } from '~/components/icons/IconArrowDropDown'
 
 const DropdownContainer = styled.div`
   position: relative;
@@ -8,10 +9,14 @@ const DropdownContainer = styled.div`
 `
 
 const Button = styled.button`
-  background-color: #5a45ff;
-  color: white;
-  padding: 8px 16px;
-  font-size: 16px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #ffffff;
+  color: #8b64fd;
+  padding: 6px 12px;
+  font-size: 14px;
   border: none;
   border-radius: 3px;
   cursor: pointer;
@@ -55,7 +60,9 @@ export default function DropdownButton() {
 
   return (
     <DropdownContainer>
-      <Button onClick={toggleDropdown}>Créer</Button>
+      <Button onClick={toggleDropdown}>
+        Créer <IconArrowDropDown />
+      </Button>
       <DropdownMenu $isOpen={isOpen}>
         <DropdownItem href="/create-project">Nouveau projet</DropdownItem>
         <DropdownItem href="#">Nouveau tableau</DropdownItem>
