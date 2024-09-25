@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Link, usePage } from '@inertiajs/react'
 import type { SharedProps } from '@adonisjs/inertia/types'
 import { useProjectContext } from '~/hooks/useProject'
+import { IconArrowDropDown } from '~/components/icons/IconArrowDropDown'
 
 interface UserProject {
   id: number
@@ -17,10 +18,14 @@ const DropdownContainer = styled.div`
 `
 
 const Button = styled.button`
-  background-color: #5a45ff;
-  color: white;
-  padding: 8px 16px;
-  font-size: 16px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #ffffff;
+  color: #8b64fd;
+  padding: 6px 12px;
+  font-size: 14px;
   border: none;
   border-radius: 3px;
   cursor: pointer;
@@ -75,7 +80,9 @@ export default function UserProjectsDropdownButton() {
 
   return (
     <DropdownContainer>
-      <Button onClick={toggleDropdown}>Mes projets</Button>
+      <Button onClick={toggleDropdown}>
+        Mes projets <IconArrowDropDown />
+      </Button>
       <DropdownMenu $isOpen={isOpen}>
         {userProjects.map((userProject) => (
           <DropdownItem
