@@ -32,7 +32,6 @@ export default class BoardsController {
   async show({ request, inertia }: HttpContext) {
     const board = await Board.findByOrFail('id', request.param('boardId'))
     const lists = await board.related('lists').query().preload('tasks')
-    console.log(lists)
     return inertia.render('board', {
       board: new BoardDto(board).toJson(),
       lists: lists.map((list) => new ListDto(list).toJson()),
