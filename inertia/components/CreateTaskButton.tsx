@@ -5,14 +5,19 @@ import { useForm } from '@inertiajs/react'
 const Button = styled.button`
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  background-color: #ffffff;
+  gap: 4px;
   color: #8b64fd;
-  border: solid 1px;
-  padding: 4px;
+  border: none;
+  padding: 4px 0;
   font-size: 14px;
-  border-radius: 3px;
+  font-weight: bold;
+  border-radius: 8px;
   cursor: pointer;
+
+  &:hover {
+    background-color: rgb(139, 100, 253, 0.7);
+    color: #ffffff;
+  }
 `
 
 const ButtonContainer = styled.div`
