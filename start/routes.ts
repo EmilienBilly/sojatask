@@ -1,6 +1,8 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
 
+const TasksController = () => import('#controllers/tasks/tasks_controller')
+
 const CreateTaskController = () => import('#controllers/tasks/create_task_controller')
 
 const CreateListController = () => import('#controllers/lists/create_list_controller')
@@ -56,3 +58,5 @@ router
   .post('create-task', [CreateTaskController])
   .use(middleware.auth())
   .use(middleware.shareUserProjects())
+
+router.patch('tasks/:id/update', [TasksController, 'update']).use(middleware.auth())

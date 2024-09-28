@@ -7,18 +7,22 @@ import CreateListButton from '~/components/CreateListButton'
 import List from '~/components/List'
 import { useCallback, useEffect, useState } from 'react'
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
+import { router } from '@inertiajs/react'
 
 const BoardCanva = styled.div`
   display: flex;
   gap: 20px;
   flex-grow: 1;
   margin-top: 12px;
-  position: relative;
 `
 
 export default function Board(props: InferPageProps<BoardsController, 'show'>) {
   const board: BoardType = props.board
   const [lists, setLists] = useState<ListType[]>(props.board.lists)
+
+  useEffect(() => {
+    setLists(props.board.lists)
+  }, [props.board.lists])
 
   const handleDrop = useCallback(
     ({ source, location }) => {
@@ -39,6 +43,7 @@ export default function Board(props: InferPageProps<BoardsController, 'show'>) {
       // Vérifier si la destination est différente de la source
       if (destinationListId && destinationListId !== sourceListId) {
         moveCard(draggedTaskId, sourceListId, destinationListId)
+        updateTaskListInDB(draggedTaskId, destinationListId)
       } else {
         console.log('La tâche a été relâchée dans la même liste, aucune action.')
       }
@@ -74,6 +79,12 @@ export default function Board(props: InferPageProps<BoardsController, 'show'>) {
     },
     [lists]
   )
+
+  const updateTaskListInDB = (taskId: string, newListId: string) => {
+    router.patch(`/tasks/${taskId}/update`, {
+      newListId: newListId,
+    })
+  }
 
   useEffect(() => {
     return monitorForElements({
