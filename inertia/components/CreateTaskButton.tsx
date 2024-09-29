@@ -48,11 +48,12 @@ const SubmitButton = styled.button`
   cursor: pointer;
 `
 
-export default function CreateTaskButton() {
+export default function CreateTaskButton({ listId }) {
   const [isFormVisible, setIsFormVisible] = useState(false)
 
   const { data, setData, post, processing, reset } = useForm({
-    title: '',
+    name: '',
+    listId: listId,
   })
 
   function submit(event: { preventDefault: () => void }) {
@@ -72,8 +73,8 @@ export default function CreateTaskButton() {
           <Input
             type="text"
             placeholder="Enter list title"
-            value={data.title}
-            onChange={(e) => setData('title', e.target.value)}
+            value={data.name}
+            onChange={(e) => setData('name', e.target.value)}
             required
           />
           <ButtonContainer>

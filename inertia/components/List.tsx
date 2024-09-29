@@ -47,7 +47,7 @@ export default function List({ listId, tasks, list }: ListProps) {
       <ListContainer $isDraggedOver={isDraggedOver} ref={listRef}>
         <h2>{list.title}</h2>
         {tasks?.map((task) => <Task key={task.id} task={task} />)}
-        <CreateTaskButton />
+        <CreateTaskButton listId={list.id} />
       </ListContainer>
     </>
   )

@@ -4,9 +4,10 @@ import { createTaskValidator } from '#validators/task_validator'
 
 export default class CreateTaskController {
   async handle({ request, response, auth }: HttpContext) {
+    console.log(request.all())
     const payload = await request.validateUsing(createTaskValidator)
 
-    await Task.create({ ...payload, createdBy: auth.user!.id })
+    await Task.create({ ...payload, createdBy: auth.user!.id, deadline: 0 })
     return response.redirect().back()
   }
 }
