@@ -3,10 +3,11 @@ import { InferPageProps } from '@adonisjs/inertia/types'
 import UserProjectsController from '#controllers/projects/user_projects_controller'
 import CreateBoardButton from '~/components/CreateBoardButton'
 import CreateBoardModal from '~/components/CreateBoardModal'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import styled from 'styled-components'
 import BoardCard from '~/components/BoardCard'
 import { BoardType } from '~/types/board'
+import useClickOutside from '~/hooks/useClickOutside'
 
 type ProjectType = {
   id: number
@@ -28,6 +29,11 @@ export default function UserProject(props: InferPageProps<UserProjectsController
   const project: ProjectType = props.project
   const boards: BoardType[] | undefined = props.boards
   const [showModal, setShowModal] = useState(false)
+  const modalRef = useRef<HTMLDivElement>(null)
+
+  useClickOutside(modalRef, () => {
+    if (showModal) setShowModal(false)
+  })
 
   return (
     <>
@@ -37,7 +43,7 @@ export default function UserProject(props: InferPageProps<UserProjectsController
         <p>{project.description}</p>
       </div>
       <HorizontalRule />
-      <div>
+      <div ref={modalRef}>
         <CreateBoardButton showModal={showModal} setShowModal={setShowModal} />
         {showModal && <CreateBoardModal projectId={project.id} />}
       </div>

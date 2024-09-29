@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { Link, usePage } from '@inertiajs/react'
 import type { SharedProps } from '@adonisjs/inertia/types'
 import { useProjectContext } from '~/hooks/useProject'
 import { IconArrowDropDown } from '~/components/icons/IconArrowDropDown'
+import useClickOutside from '~/hooks/useClickOutside'
 
 interface UserProject {
   id: number
@@ -35,7 +36,7 @@ const Button = styled.button`
   }
 `
 
-const DropdownMenu = styled.button<{ $isOpen: boolean }>`
+const DropdownMenu = styled.div<{ $isOpen: boolean }>`
   display: ${(props) => (props.$isOpen ? 'block' : 'none')};
   position: absolute;
   top: 40px;
@@ -63,9 +64,15 @@ const DropdownItem = styled(Link)`
 export default function UserProjectsDropdownButton() {
   const { userProjects } = usePage<SharedProps>().props
   const [isOpen, setIsOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
   const toggleDropdown = () => {
-    setIsOpen(!isOpen)
+    setIsOpen((previous) => !previous)
   }
+
+  useClickOutside(dropdownRef, () => {
+    setIsOpen(false)
+  })
 
   const { setSelectedProject } = useProjectContext()
 
@@ -76,10 +83,11 @@ export default function UserProjectsDropdownButton() {
       description: userProject.description,
       created_by: userProject.createdBy,
     })
+    setIsOpen(false)
   }
 
   return (
-    <DropdownContainer>
+    <DropdownContainer ref={dropdownRef}>
       <Button onClick={toggleDropdown}>
         Mes projets <IconArrowDropDown />
       </Button>
