@@ -52,7 +52,7 @@ export default function Board(props: InferPageProps<BoardsController, 'show'>) {
   )
 
   const moveCard = useCallback(
-    (draggedTaskId, sourceListId, destinationListId) => {
+    (draggedTaskId: number, sourceListId: number, destinationListId: number) => {
       setLists((prevLists) => {
         return prevLists.map((list) => {
           if (list.id === sourceListId) {

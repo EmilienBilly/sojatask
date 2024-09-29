@@ -1,8 +1,7 @@
 import styled from 'styled-components'
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
-import { ReactNode, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import invariant from 'tiny-invariant'
-import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine'
 import { TaskType } from '~/types/task'
 
 const Container = styled.div<{ $dragging: boolean }>`
@@ -20,7 +19,6 @@ const TaskName = styled.p`
   margin-bottom: 8px;
 `
 type TaskCardProps = {
-  children: ReactNode
   task: TaskType
 }
 export default function Task({ task }: TaskCardProps) {
