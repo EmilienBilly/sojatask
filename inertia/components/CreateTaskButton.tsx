@@ -48,7 +48,10 @@ const SubmitButton = styled.button`
   cursor: pointer;
 `
 
-export default function CreateTaskButton({ listId }) {
+type CreateTaskButtonProps = {
+  listId: number
+}
+export default function CreateTaskButton({ listId }: CreateTaskButtonProps) {
   const [isFormVisible, setIsFormVisible] = useState(false)
 
   const { data, setData, post, processing, reset } = useForm({
