@@ -24,12 +24,16 @@ const LoginForm = styled.form`
     cursor: pointer;
   }
 `
+
+const Error = styled.span`
+  color: red;
+`
 export default function Login() {
   const { data, setData, post, processing } = useForm({
     username: '',
     password: '',
   })
-  const error = usePage<SharedProps>().props.flash.error
+  const error = usePage<SharedProps>().props.flash.all.error
 
   function submit(event: { preventDefault: () => void }) {
     event.preventDefault()
@@ -40,9 +44,9 @@ export default function Login() {
     <>
       <Head title="Connexion" />
 
-      <Flex $center={true} $flxCol={true} $full={true}>
+      <Flex $center={true} $flxCol={true} $full={true} $gap="25px">
         <div className="title">SojaTask</div>
-        {error && <div className="alert alert-error">{error}</div>}
+        {error && <Error>{error}</Error>}
         <LoginForm onSubmit={submit}>
           <label htmlFor="username">Nom d'utilisateur</label>
           <input

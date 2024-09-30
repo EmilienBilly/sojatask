@@ -6,15 +6,9 @@ import CreateBoardModal from '~/components/CreateBoardModal'
 import { useRef, useState } from 'react'
 import styled from 'styled-components'
 import BoardCard from '~/components/BoardCard'
-import { BoardType } from '~/types/board'
 import useClickOutside from '~/hooks/useClickOutside'
-
-type ProjectType = {
-  id: number
-  name: string
-  description: string
-  createdBy: number
-}
+import { BoardType } from '~/types/board'
+import { ProjectType } from '~/types/project'
 
 const HorizontalRule = styled.hr`
   margin: 20px 0;
@@ -25,6 +19,7 @@ const BoardsContainer = styled.div`
   flex-wrap: wrap;
   gap: 15px;
 `
+
 export default function UserProject(props: InferPageProps<UserProjectsController, 'show'>) {
   const project: ProjectType = props.project
   const boards: BoardType[] | undefined = props.boards

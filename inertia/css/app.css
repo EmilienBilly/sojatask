@@ -12,19 +12,21 @@ body,
   font-family: 'Poppins', sans-serif;
   color: #46444c;
   height: 100%;
-  width: 100%;
 }
 
 .title {
-  font-size: 56px;
+  font-size: 36px;
   font-weight: 500;
   color: #5a45ff;
+  margin-bottom: 30px;
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
   height: 100%;
-  width: 100%;
-  padding: 30px;
+  position: relative;
+  padding: 16px;
 }
 
 a {

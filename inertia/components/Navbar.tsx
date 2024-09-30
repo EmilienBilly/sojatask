@@ -31,7 +31,7 @@ export default function Navbar() {
           <UserProjectsDropdownButton />
         </Flex>
         <Flex $gap="10px" $center>
-          <div>Connecté en tant que : {user.username}</div>
+          <div>{user.username}</div>
           <Link href="/logout" method="post" as="button" type="button">
             Déconnexion
           </Link>

@@ -54,26 +54,26 @@ export default function Board(props: InferPageProps<BoardsController, 'show'>) {
   const moveCard = useCallback(
     (draggedTaskId: number, sourceListId: number, destinationListId: number) => {
       setLists((prevLists) => {
-        return prevLists.map((list) => {
-          if (list.id === sourceListId) {
+        return prevLists.map((prevList) => {
+          if (prevList.id === sourceListId) {
             // Retirer la tâche de la liste source
             return {
-              ...list,
-              tasks: list.tasks.filter((task) => task.id !== draggedTaskId),
+              ...prevList,
+              tasks: prevList.tasks.filter((task) => task.id !== draggedTaskId),
             }
           }
-          if (list.id === destinationListId) {
+          if (prevList.id === destinationListId) {
             // Ajouter la tâche à la liste destination
             const draggedTask = lists
               .find((list) => list.id === sourceListId)
               ?.tasks.find((task) => task.id === draggedTaskId)
 
             return {
-              ...list,
-              tasks: [...list.tasks, { ...draggedTask, listId: destinationListId }],
+              ...prevList,
+              tasks: [...prevList.tasks, { ...draggedTask, listId: destinationListId }],
             }
           }
-          return list
+          return prevList
         })
       })
     },
