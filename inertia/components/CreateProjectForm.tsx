@@ -24,7 +24,7 @@ const Form = styled.form`
 `
 
 const Button = styled.button`
-  background-color: #5a45ff;
+  background-color: #8b64fd;
   color: white;
   padding: 8px 16px;
   font-size: 16px;
@@ -34,7 +34,7 @@ const Button = styled.button`
   margin-top: 16px;
 
   &:hover {
-    background-color: #2980b9;
+    background-color: #6c4ec4;
   }
 `
 
@@ -51,7 +51,7 @@ export default function CreateProjectForm() {
 
   return (
     <Form onSubmit={submit}>
-      <Flex $flxCol>
+      <Flex $flxCol $gap="10px">
         <label htmlFor="title">Titre du projet</label>
         <input
           id="title"
@@ -60,7 +60,7 @@ export default function CreateProjectForm() {
           onChange={(e) => setData('name', e.target.value)}
         />
       </Flex>
-      <Flex $flxCol>
+      <Flex $flxCol $gap="10px">
         <label htmlFor="description">Description</label>
         <textarea
           id="description"

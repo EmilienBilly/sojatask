@@ -2,6 +2,7 @@ import { Head, usePage } from '@inertiajs/react'
 import CreateProjectForm from '~/components/CreateProjectForm'
 import { SharedProps } from '@adonisjs/inertia/types'
 import styled from 'styled-components'
+import { Flex } from '~/components/utils/Flex'
 
 export default function CreateProject() {
   const flash = usePage<SharedProps>().props.flash
@@ -16,9 +17,11 @@ export default function CreateProject() {
     <>
       <Head title="Create project" />
       <div className="container">
-        <div className="title">Nouveau projet</div>
-        {flash.success && <Flash>{flash.success}</Flash>}
-        <CreateProjectForm />
+        <Flex $flxCol={true} $center={true}>
+          <div className="title">Nouveau projet</div>
+          {flash.success && <Flash>{flash.success}</Flash>}
+          <CreateProjectForm />
+        </Flex>
       </div>
     </>
   )
