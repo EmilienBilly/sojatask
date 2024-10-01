@@ -23,7 +23,7 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   gap: 4px;
-  background-color: #ffffff;
+  background-color: #f7f8fa;
   color: #8b64fd;
   padding: 6px 12px;
   font-size: 14px;
@@ -32,7 +32,7 @@ const Button = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: #2980b9;
+    background-color: #dedede;
   }
 `
 

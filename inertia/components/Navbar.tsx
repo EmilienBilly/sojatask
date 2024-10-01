@@ -1,5 +1,4 @@
-import { Link, usePage } from '@inertiajs/react'
-import { SharedProps } from '@adonisjs/inertia/types'
+import { Link } from '@inertiajs/react'
 import styled from 'styled-components'
 import DropdownButton from '~/components/DropdownButton'
 import { Flex } from '~/components/utils/Flex'
@@ -10,6 +9,7 @@ const HomeLink = styled(Link)`
   color: #8b64fd;
   margin-right: 8px;
 `
+
 const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
@@ -19,9 +19,25 @@ const Nav = styled.nav`
   border-bottom-style: solid;
   border-color: hsla(211, 18%, 68%, 0.16);
 `
-export default function Navbar() {
-  const user = usePage<SharedProps>().props.user
 
+const LogoutButton = styled(Link)`
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #f7f8fa;
+  color: #8b64fd;
+  padding: 6px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #dedede;
+  }
+`
+export default function Navbar() {
   return (
     <Nav>
       <>
@@ -31,7 +47,6 @@ export default function Navbar() {
           <UserProjectsDropdownButton />
         </Flex>
         <Flex $gap="10px" $center>
-          <div>{user.username}</div>
           <Link href="/logout" method="post" as="button" type="button">
             Déconnexion
           </Link>

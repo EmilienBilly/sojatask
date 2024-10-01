@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { Link } from '@inertiajs/react'
 import { IconArrowDropDown } from '~/components/icons/IconArrowDropDown'
+import useClickOutside from '~/hooks/useClickOutside'
 
 const DropdownContainer = styled.div`
   position: relative;
@@ -13,7 +14,7 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   gap: 4px;
-  background-color: #ffffff;
+  background-color: #f7f8fa;
   color: #8b64fd;
   padding: 6px 12px;
   font-size: 14px;
@@ -22,7 +23,7 @@ const Button = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: #2980b9;
+    background-color: #dedede;
   }
 `
 
@@ -54,18 +55,26 @@ const DropdownItem = styled(Link)`
 export default function DropdownButton() {
   const [isOpen, setIsOpen] = useState(false)
 
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  useClickOutside(dropdownRef, () => {
+    setIsOpen(false)
+  })
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
   }
 
   return (
-    <DropdownContainer>
+    <DropdownContainer ref={dropdownRef}>
       <Button onClick={toggleDropdown}>
         Créer <IconArrowDropDown />
       </Button>
       <DropdownMenu $isOpen={isOpen}>
-        <DropdownItem href="/create-project">Nouveau projet</DropdownItem>
-        <DropdownItem href="#">Nouveau tableau</DropdownItem>
+        <DropdownItem onClick={() => setIsOpen(!isOpen)} href="/create-project">
+          Nouveau projet
+        </DropdownItem>
+        <DropdownItem onClick={() => setIsOpen(!isOpen)} href="#">
+          Nouveau tableau
+        </DropdownItem>
       </DropdownMenu>
     </DropdownContainer>
   )
