@@ -1,6 +1,8 @@
 import { useForm } from '@inertiajs/react'
 import styled from 'styled-components'
 import { Flex } from '~/components/utils/Flex'
+import { Simulate } from 'react-dom/test-utils'
+import reset = Simulate.reset
 
 const Form = styled.form`
   display: flex;
@@ -46,7 +48,9 @@ export default function CreateProjectForm() {
 
   function submit(event: { preventDefault: () => void }) {
     event.preventDefault()
-    post('/create-project')
+    post('/create-project', {
+      onSuccess: () => reset(),
+    })
   }
 
   return (
