@@ -2,6 +2,7 @@ import { useForm } from '@inertiajs/react'
 import styled from 'styled-components'
 import { Flex } from '~/components/utils/Flex'
 import useError from '~/hooks/useError'
+import { Dispatch, SetStateAction } from 'react'
 
 const Modal = styled.div`
   background-color: #f7f8fa;
@@ -31,12 +32,13 @@ const Form = styled.form`
 
 type CreateBoardModalProps = {
   projectId: number
+  setShowModal: Dispatch<SetStateAction<boolean>>
 }
 
-export default function CreateBoardModal({ projectId }: CreateBoardModalProps) {
+export default function CreateBoardModal({ projectId, setShowModal }: CreateBoardModalProps) {
   const titleError = useError('title')
   console.log(titleError)
-  const { data, setData, post, processing } = useForm({
+  const { data, setData, post, processing, reset } = useForm({
     title: '',
     description: '',
     projectId: projectId,

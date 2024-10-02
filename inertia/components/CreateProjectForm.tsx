@@ -1,8 +1,6 @@
 import { useForm } from '@inertiajs/react'
 import styled from 'styled-components'
 import { Flex } from '~/components/utils/Flex'
-import { Simulate } from 'react-dom/test-utils'
-import reset = Simulate.reset
 
 const Form = styled.form`
   display: flex;
@@ -41,7 +39,7 @@ const Button = styled.button`
 `
 
 export default function CreateProjectForm() {
-  const { data, setData, post, processing } = useForm({
+  const { data, setData, post, processing, reset } = useForm({
     name: '',
     description: '',
   })
