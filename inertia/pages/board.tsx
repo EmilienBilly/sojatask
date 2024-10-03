@@ -12,7 +12,6 @@ import { router } from '@inertiajs/react'
 const BoardCanva = styled.div`
   display: flex;
   gap: 20px;
-  flex-grow: 1;
   margin-top: 12px;
 `
 
@@ -92,7 +91,7 @@ export default function Board(props: InferPageProps<BoardsController, 'show'>) {
     })
   }, [handleDrop])
   return (
-    <>
+    <div className="container">
       <h1>{board.title}</h1>
       <div>{board.description}</div>
       <BoardCanva>
@@ -101,6 +100,6 @@ export default function Board(props: InferPageProps<BoardsController, 'show'>) {
         ))}
         <CreateListButton board={board} />
       </BoardCanva>
-    </>
+    </div>
   )
 }

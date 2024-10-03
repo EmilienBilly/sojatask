@@ -7,7 +7,7 @@ import { TaskType } from '~/types/task'
 const Container = styled.div<{ $dragging: boolean }>`
   opacity: ${(props) => (props.$dragging ? '20%' : '100%')};
   background-color: #ffffff;
-  border-radius: 8px 12px 4px;
+  border-radius: 8px;
   padding: 8px;
   overflow: hidden;
 `

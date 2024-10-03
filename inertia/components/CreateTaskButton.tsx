@@ -7,6 +7,7 @@ const Button = styled.button`
   align-items: center;
   gap: 4px;
   color: #8b64fd;
+  background-color: transparent;
   border: none;
   padding: 4px 0;
   font-size: 14px;
@@ -39,7 +40,7 @@ const Input = styled.input`
 `
 
 const SubmitButton = styled.button`
-  background-color: #5a5afc;
+  background-color: #8b64fd;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -75,14 +76,14 @@ export default function CreateTaskButton({ listId }: CreateTaskButtonProps) {
         <Form onSubmit={submit}>
           <Input
             type="text"
-            placeholder="Enter list title"
+            placeholder="Saisissez un nom pour cette tâche"
             value={data.name}
             onChange={(e) => setData('name', e.target.value)}
             required
           />
           <ButtonContainer>
             <SubmitButton type="submit" disabled={processing}>
-              Create List
+              Nouvelle tâche
             </SubmitButton>
             <button onClick={() => setIsFormVisible(false)}>
               <svg
