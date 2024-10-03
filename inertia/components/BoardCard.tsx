@@ -8,6 +8,9 @@ const Card = styled.a`
   background-color: #8b64fd;
   border-radius: 3px;
   width: 200px;
+  @media (max-width: 425px) {
+    width: 40%; /* Augmente la taille du texte pour les écrans moyens */
+  }
   padding: 15px;
   color: #f7f8fa;
 `
@@ -15,7 +18,7 @@ const Card = styled.a`
 const Div = styled.div`
   display: flex;
   flex-direction: column;
-  height: 80px;
+  height: 60px;
   justify-content: space-between;
   position: relative;
 `
@@ -31,16 +34,12 @@ const BoardTitle = styled.div`
   word-wrap: break-word;
 `
 
-const BoardDescription = styled.div`
-  color: aqua;
-`
 export default function BoardCard({ board }: BoardCardProps) {
   console.log(board)
   return (
     <Card href={`/user_projects/${board.projectId}/boards/${board.id}`}>
       <Div>
         <BoardTitle>{board.title}</BoardTitle>
-        {board.description && <BoardDescription>{board.description}</BoardDescription>}
       </Div>
     </Card>
   )

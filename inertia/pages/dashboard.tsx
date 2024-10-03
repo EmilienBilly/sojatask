@@ -20,9 +20,12 @@ const Month = styled.p`
 
 const CurrentDate = styled.div`
   border: solid 1px #1f1f20;
-  border-radius: 8px;
+  border-radius: 3px;
   padding: 8px;
   margin-bottom: 16px;
+  @media (min-width: 769px) {
+    width: 40%;
+  }
 `
 
 export default function Dashboard({ tasks }: InferPageProps<DashboardController, 'view'>) {
@@ -47,7 +50,7 @@ export default function Dashboard({ tasks }: InferPageProps<DashboardController,
   }
 
   return (
-    <>
+    <div className="container">
       <Head title="Dashboard" />
       <Flex $flxCol={true} $gap="18px">
         {flash.error && <Flash className="alert alert-error">{flash.error}</Flash>}
@@ -65,6 +68,6 @@ export default function Dashboard({ tasks }: InferPageProps<DashboardController,
           <p>Vous avez {tasks.length} tâches en cours</p>
         </div>
       </Flex>
-    </>
+    </div>
   )
 }

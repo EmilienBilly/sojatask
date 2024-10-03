@@ -31,7 +31,7 @@ export default function UserProject(props: InferPageProps<UserProjectsController
   })
 
   return (
-    <>
+    <div className="container">
       <Head title="Projet" />
       <div>
         <h1 className="title">{project.name}</h1>
@@ -44,6 +44,6 @@ export default function UserProject(props: InferPageProps<UserProjectsController
       </div>
       <HorizontalRule />
       <BoardsContainer>{boards?.map((board) => <BoardCard board={board} />)}</BoardsContainer>
-    </>
+    </div>
   )
 }

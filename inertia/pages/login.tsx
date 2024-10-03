@@ -1,5 +1,4 @@
-import { Head, usePage } from '@inertiajs/react'
-import { useForm } from '@inertiajs/react'
+import { Head, useForm, usePage } from '@inertiajs/react'
 import { SharedProps } from '@adonisjs/inertia/types'
 import { Flex } from '~/components/utils/Flex'
 import styled from 'styled-components'
@@ -7,11 +6,25 @@ import styled from 'styled-components'
 const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
-  width: 60%;
-  max-width: 450px;
+  width: 90%;
+  @media (min-width: 450px) {
+    width: 60%;
+  }
+  @media (min-width: 769px) {
+    width: 40%;
+  }
 
   input {
     margin-bottom: 15px;
+    padding: 5px;
+    border: solid 1px #46444c;
+    border-radius: 3px;
+
+    :focus {
+      border-color: #8b64fd;
+      background-color: #8b64fd;
+      outline: none;
+    }
   }
 
   button {
@@ -41,7 +54,7 @@ export default function Login() {
   }
 
   return (
-    <>
+    <div className="container">
       <Head title="Connexion" />
 
       <Flex $center={true} $flxCol={true} $full={true} $gap="25px">
@@ -67,6 +80,6 @@ export default function Login() {
           </button>
         </LoginForm>
       </Flex>
-    </>
+    </div>
   )
 }

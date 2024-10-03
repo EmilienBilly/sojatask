@@ -1,16 +1,26 @@
 import { Head, Link } from '@inertiajs/react'
+import { Flex } from '~/components/utils/Flex'
+import styled from 'styled-components'
 
+const Button = styled(Link)`
+  background-color: #8b64fd;
+  color: white;
+  padding: 8px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+`
 export default function Logout() {
   return (
     <>
       <Head title="Déconnexion" />
-
-      <div className="container">
+      <Flex $center={true} $flxCol={true} $full={true} $gap="25px">
         <div className="title">Vous avez été déconnecté avec succès</div>
-        <Link href="/login" as="button" type="button">
+        <Button href="/login" type="button">
           Connexion
-        </Link>
-      </div>
+        </Button>
+      </Flex>
     </>
   )
 }

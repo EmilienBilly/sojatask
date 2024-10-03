@@ -15,10 +15,24 @@ body,
 }
 
 .title {
-  font-size: 36px;
+  font-size: 24px;
+
   font-weight: 500;
   color: #8b64fd;
   margin-bottom: 30px;
+  text-align: center;
+}
+
+@media (min-width: 425px) {
+  .title {
+    font-size: 32px;
+  }
+}
+
+@media (min-width: 769px) {
+  .title {
+    text-align: start;
+  }
 }
 
 .container {
@@ -26,6 +40,7 @@ body,
   flex-direction: column;
   position: relative;
   padding: 16px;
+  height: 100%
 }
 
 a {

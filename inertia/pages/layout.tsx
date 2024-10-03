@@ -10,7 +10,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <ProjectContextProvider>
       {user && <Navbar />}
-      <div className="container">{children}</div>
+      {children}
     </ProjectContextProvider>
   )
 }

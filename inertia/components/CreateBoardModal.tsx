@@ -46,7 +46,12 @@ export default function CreateBoardModal({ projectId, setShowModal }: CreateBoar
 
   function submit(event: { preventDefault: () => void }) {
     event.preventDefault()
-    post('/create_board')
+    post('/create_board', {
+      onSuccess: () => {
+        reset()
+        setShowModal(false)
+      },
+    })
   }
 
   return (
