@@ -12,6 +12,7 @@ body,
   font-family: 'Poppins', sans-serif;
   color: #46444c;
   height: 100%;
+  width: 100%;
 }
 
 .title {
@@ -40,7 +41,12 @@ body,
   flex-direction: column;
   position: relative;
   padding: 16px;
-  height: 100%
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
 }
 
 a {

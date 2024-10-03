@@ -22,7 +22,7 @@ const ListContainer = styled.div<{ $isDraggedOver: boolean }>`
   padding: 20px;
   background: #d7d7d7;
   min-height: 50px;
-  width: 300px;
+  min-width: 200px;
 `
 export default function List({ listId, tasks, list }: ListProps) {
   const listRef = useRef(null)
