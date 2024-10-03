@@ -1,6 +1,6 @@
 import { test } from '@japa/runner'
-import User from '#models/user'
 import testUtils from '@adonisjs/core/services/test_utils'
+import User from '#models/user'
 import { BoardFactory } from '#database/factories/board_factory'
 import { ListFactory } from '#database/factories/list_factory'
 import { TaskFactory } from '#database/factories/task_factory'
@@ -8,7 +8,7 @@ import { TaskFactory } from '#database/factories/task_factory'
 test.group('BoardsController', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
 
-  test('display board component with the board + lists + task in props', async ({ client }) => {
+  test('display board component with the board + lists + tasks in props', async ({ client }) => {
     const user = await User.query().where('username', 'emilien.billy').firstOrFail()
 
     const board = await BoardFactory.create()
@@ -22,7 +22,6 @@ test.group('BoardsController', (group) => {
       .withInertia()
 
     response.assertStatus(200)
-
     response.assertInertiaComponent('board')
 
     response.assertInertiaPropsContains({
