@@ -2,6 +2,7 @@ import { Head, useForm, usePage } from '@inertiajs/react'
 import { SharedProps } from '@adonisjs/inertia/types'
 import { Flex } from '~/components/utils/Flex'
 import styled from 'styled-components'
+import { toast, Toaster } from 'sonner'
 
 const LoginForm = styled.form`
   display: flex;
@@ -46,7 +47,12 @@ export default function Login() {
     username: '',
     password: '',
   })
+
   const error = usePage<SharedProps>().props.flash.all.error
+
+  if (error) {
+    toast('Identdiants incorrects')
+  }
 
   function submit(event: { preventDefault: () => void }) {
     event.preventDefault()
@@ -59,6 +65,7 @@ export default function Login() {
 
       <Flex $center={true} $flxCol={true} $full={true} $gap="25px">
         <div className="title">SojaTask</div>
+        <Toaster position="top-right" />
         {error && <Error>{error}</Error>}
         <LoginForm onSubmit={submit}>
           <label htmlFor="username">Nom d'utilisateur</label>
