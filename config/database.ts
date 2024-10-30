@@ -2,16 +2,16 @@ import env from '#start/env'
 import { defineConfig } from '@adonisjs/lucid'
 
 const dbConfig = defineConfig({
-  connection: 'mysql',
+  connection: 'sojadispro_db',
   connections: {
-    mysql: {
+    sojadispro_db: {
       client: 'mysql2',
       connection: {
-        host: env.get('DB_HOST'),
+        host: env.get('SP_DB_HOST'),
         port: env.get('DB_PORT'),
-        user: env.get('DB_USER'),
-        password: env.get('DB_PASSWORD'),
-        database: env.get('DB_DATABASE'),
+        user: env.get('SP_DB_USER'),
+        password: env.get('SP_DB_PASSWORD'),
+        database: env.get('SP_DB_DATABASE'),
       },
       migrations: {
         naturalSort: true,

@@ -1,7 +1,9 @@
 import { defineConfig, drivers } from '@adonisjs/core/hash'
+import { InferHashers } from '@adonisjs/core/types'
+import { cakePhpDriver } from '../app/HashDrivers/cakephp_driver.js'
 
 const hashConfig = defineConfig({
-  default: 'scrypt',
+  default: 'cakephp',
 
   list: {
     scrypt: drivers.scrypt({
@@ -10,6 +12,7 @@ const hashConfig = defineConfig({
       parallelization: 1,
       maxMemory: 33554432,
     }),
+    cakephp: cakePhpDriver(),
   },
 })
 
