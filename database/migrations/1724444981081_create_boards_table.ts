@@ -9,7 +9,9 @@ export default class extends BaseSchema {
 
       table.string('title').notNullable()
       table.string('description')
-      table.integer('project_id').notNullable()
+      table.timestamp('created_at').notNullable()
+      table.timestamp('updated_at').nullable()
+      table.integer('workspace_id').notNullable()
     })
   }
 
