@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react'
 import { InferPageProps } from '@adonisjs/inertia/types'
-import UserProjectsController from '#controllers/projects/user_projects_controller'
+import UserProjectsController from '#controllers/workspaces/user_workspaces_controller'
 import CreateBoardButton from '~/components/CreateBoardButton'
 import CreateBoardModal from '~/components/CreateBoardModal'
 import { useRef, useState } from 'react'

@@ -1,13 +1,13 @@
 import { BaseModelDto } from '@adocasts.com/dto/base'
-import Project from '#models/project'
+import Workspace from '#models/workspace'
 
-export class ProjectDto extends BaseModelDto {
+export class WorkspaceDto extends BaseModelDto {
   declare id: number
   declare name: string
   declare description: string
   declare createdBy: number
 
-  constructor(project?: Project | null) {
+  constructor(project?: Workspace | null) {
     super()
 
     if (!project) return

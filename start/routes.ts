@@ -10,11 +10,11 @@ const CreateListController = () => import('#controllers/lists/create_list_contro
 const CreateBoardController = () => import('#controllers/boards/create_board_controller')
 const BoardsController = () => import('#controllers/boards/boards_controller')
 
-const UserProjectsController = () => import('#controllers/projects/user_projects_controller')
+const UserWorkspacesController = () => import('#controllers/workspaces/user_workspaces_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
 const DashboardController = () => import('#controllers/dashboard_controller')
 const LoginController = () => import('#controllers/auth/login_controller')
-const ProjectsController = () => import('#controllers/projects/projects_controller')
+const WorkspacesController = () => import('#controllers/workspaces/workspaces_controller')
 
 router
   .get('/', [DashboardController, 'view'])
@@ -28,20 +28,20 @@ router.get('logout', [LogoutController, 'render'])
 router.post('logout', [LogoutController, 'handle']).use(middleware.auth())
 
 router
-  .get('user_projects', [UserProjectsController, 'index'])
+  .get('user_projects', [UserWorkspacesController, 'index'])
   .use(middleware.auth())
   .use(middleware.shareUserProjects())
 router
-  .get('user_projects/:id', [UserProjectsController, 'show'])
+  .get('user_projects/:id', [UserWorkspacesController, 'show'])
   .as('userProjects.show')
   .use(middleware.auth())
   .use(middleware.shareUserProjects())
 router
-  .get('create-project', [ProjectsController, 'create'])
+  .get('create-project', [WorkspacesController, 'create'])
   .use(middleware.auth())
   .use(middleware.shareUserProjects())
 router
-  .post('create-project', [ProjectsController, 'store'])
+  .post('create-project', [WorkspacesController, 'store'])
   .use(middleware.auth())
   .use(middleware.shareUserProjects())
 
