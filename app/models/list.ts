@@ -3,6 +3,7 @@ import type { HasMany } from '@adonisjs/lucid/types/relations'
 import Task from '#models/task'
 
 export default class List extends BaseModel {
+  static table = 'task_lists'
   @column({ isPrimary: true })
   declare id: number
 

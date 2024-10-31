@@ -3,6 +3,8 @@ import Board from '#models/board'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 
 export default class Project extends BaseModel {
+  static table = 'task_projects'
+
   @column({ isPrimary: true })
   declare id: number
 
