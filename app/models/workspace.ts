@@ -2,8 +2,8 @@ import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import Board from '#models/board'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 
-export default class Project extends BaseModel {
-  static table = 'task_projects'
+export default class Workspace extends BaseModel {
+  static table = 'task_workspaces'
 
   @column({ isPrimary: true })
   declare id: number
