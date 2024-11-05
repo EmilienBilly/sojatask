@@ -62,7 +62,7 @@ const DropdownItem = styled(Link)`
 `
 
 export default function UserProjectsDropdownButton() {
-  const { userProjects } = usePage<SharedProps>().props
+  const { userWorkspaces } = usePage<SharedProps>().props
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -76,12 +76,12 @@ export default function UserProjectsDropdownButton() {
 
   const { setSelectedProject } = useProjectContext()
 
-  const handleSelectProject = (userProject: UserProject) => {
+  const handleSelectProject = (userWorkspace: UserProject) => {
     setSelectedProject({
-      id: userProject.id,
-      title: userProject.name,
-      description: userProject.description,
-      created_by: userProject.createdBy,
+      id: userWorkspace.id,
+      title: userWorkspace.name,
+      description: userWorkspace.description,
+      created_by: userWorkspace.createdBy,
     })
     setIsOpen(false)
   }
@@ -92,15 +92,16 @@ export default function UserProjectsDropdownButton() {
         Mes projets <IconArrowDropDown />
       </Button>
       <DropdownMenu $isOpen={isOpen}>
-        {userProjects.map((userProject) => (
-          <DropdownItem
-            key={userProject.id}
-            onClick={() => handleSelectProject(userProject)}
-            href={`/user_projects/${userProject.id}`}
-          >
-            {userProject.name}
-          </DropdownItem>
-        ))}
+        {userWorkspaces &&
+          userWorkspaces.map((userWorkspace) => (
+            <DropdownItem
+              key={userWorkspace.id}
+              onClick={() => handleSelectProject(userWorkspace)}
+              href={`/user_projects/${userWorkspace.id}`}
+            >
+              {userWorkspace.name}
+            </DropdownItem>
+          ))}
       </DropdownMenu>
     </DropdownContainer>
   )
