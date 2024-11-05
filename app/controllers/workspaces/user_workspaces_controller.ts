@@ -11,8 +11,7 @@ export default class UserProjectsController {
   async show({ request, inertia }: HttpContext) {
     const workspace = await Workspace.findBy('id', request.param('id'))
     await workspace?.load('boards')
-    // TODO : Change userProject component name
-    return inertia.render('userProject', {
+    return inertia.render('userWorkspaces', {
       project: new WorkspaceDto(workspace),
       boards: workspace?.boards,
     })

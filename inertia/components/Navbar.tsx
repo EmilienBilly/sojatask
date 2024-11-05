@@ -20,23 +20,6 @@ const Nav = styled.nav`
   border-color: hsla(211, 18%, 68%, 0.16);
 `
 
-const LogoutButton = styled(Link)`
-  height: 32px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background-color: #f7f8fa;
-  color: #8b64fd;
-  padding: 6px 12px;
-  font-size: 14px;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #dedede;
-  }
-`
 export default function Navbar() {
   return (
     <Nav>

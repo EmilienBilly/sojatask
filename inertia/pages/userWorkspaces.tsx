@@ -20,7 +20,7 @@ const BoardsContainer = styled.div`
   gap: 15px;
 `
 
-export default function UserProject(props: InferPageProps<UserProjectsController, 'show'>) {
+export default function UserWorkspaces(props: InferPageProps<UserProjectsController, 'show'>) {
   const project: ProjectType = props.project
   const boards: BoardType[] | undefined = props.boards
   const [showModal, setShowModal] = useState(false)
