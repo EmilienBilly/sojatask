@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import type { NextFn } from '@adonisjs/core/types/http'
 import Workspace from '#models/workspace'
-import { WorkspaceDto } from '#dtos/workspace'
+import WorkspaceDto from '#dtos/workspace'
 
 export default class ShareUserWorkspacesMiddleware {
   async handle({ inertia, auth }: HttpContext, next: NextFn) {

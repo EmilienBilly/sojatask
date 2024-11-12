@@ -1,9 +1,10 @@
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, column, hasOne } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasOne, manyToMany } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import Contact from '#models/contact'
-import type { HasOne } from '@adonisjs/lucid/types/relations'
+import type { HasOne, ManyToMany } from '@adonisjs/lucid/types/relations'
+import Profile from '#models/profile'
 
 const AuthFinder = withAuthFinder(() => hash.use('cakephp'), {
   uids: ['username'],
@@ -24,4 +25,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @hasOne(() => Contact)
   declare contact: HasOne<typeof Contact>
+
+  @manyToMany(() => Profile, {
+    pivotTable: 'profiles_users',
+  })
+  declare profiles: ManyToMany<typeof Profile>
 }
