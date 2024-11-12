@@ -1,7 +1,7 @@
 import User from '#models/user'
 
 export default class UserService {
-  static async getUserProfiles(userId: number) {
+  async getUserProfiles(userId: number) {
     try {
       // Récupération des profils de l'utilisateur
       const user = await User.findOrFail(userId)
@@ -13,11 +13,11 @@ export default class UserService {
     }
   }
 
-  static async hasAtConsultProfile(userId: number) {
+  async hasAtConsultProfile(userId: number) {
     try {
       const userProfiles = await this.getUserProfiles(userId)
 
-      return userProfiles.some((profile) => profile.name === 'at_consult')
+      return userProfiles.some((profile) => profile.name === '_at_consult')
     } catch (error) {
       console.error('Erreur lors de la vérification du profil at_consult :', error)
       throw error
