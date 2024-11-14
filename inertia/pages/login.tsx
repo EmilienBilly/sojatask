@@ -2,46 +2,10 @@ import { Head, useForm, usePage } from '@inertiajs/react'
 import { SharedProps } from '@adonisjs/inertia/types'
 import { Flex } from '~/components/utils/Flex'
 import styled from 'styled-components'
+import AuthLayout from '~/layouts/AuthLayout'
+import { ReactElement } from 'react'
 
-const LoginForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  width: 90%;
-  @media (min-width: 450px) {
-    width: 60%;
-  }
-  @media (min-width: 769px) {
-    width: 40%;
-  }
-
-  input {
-    margin-bottom: 15px;
-    padding: 5px;
-    border: solid 1px #46444c;
-    border-radius: 3px;
-
-    :focus {
-      border-color: #8b64fd;
-      background-color: #8b64fd;
-      outline: none;
-    }
-  }
-
-  button {
-    background-color: #8b64fd;
-    color: white;
-    padding: 8px 16px;
-    font-size: 16px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-  }
-`
-
-const Error = styled.span`
-  color: red;
-`
-export default function Login() {
+const Login = () => {
   const { data, setData, post, processing } = useForm({
     username: '',
     password: '',
@@ -83,3 +47,46 @@ export default function Login() {
     </div>
   )
 }
+
+Login.layout = (page: ReactElement) => <AuthLayout children={page} />
+
+const LoginForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  @media (min-width: 450px) {
+    width: 60%;
+  }
+  @media (min-width: 769px) {
+    width: 40%;
+  }
+
+  input {
+    margin-bottom: 15px;
+    padding: 5px;
+    border: solid 1px #46444c;
+    border-radius: 3px;
+
+    :focus {
+      border-color: #8b64fd;
+      background-color: #8b64fd;
+      outline: none;
+    }
+  }
+
+  button {
+    background-color: #8b64fd;
+    color: white;
+    padding: 8px 16px;
+    font-size: 16px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+`
+
+const Error = styled.span`
+  color: red;
+`
+
+export default Login

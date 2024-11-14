@@ -4,7 +4,7 @@ import '../css/app.css'
 import { createRoot } from 'react-dom/client'
 import { createInertiaApp } from '@inertiajs/react'
 import { resolvePageComponent } from '@adonisjs/inertia/helpers'
-import Layout from '~/pages/layout'
+import AppLayout from '~/layouts/AppLayout'
 import { ReactNode } from 'react'
 
 const appName = import.meta.env.VITE_APP_NAME || 'AdonisJS'
@@ -20,7 +20,7 @@ createInertiaApp({
       import.meta.glob('../pages/**/*.tsx')
     )
 
-    page.default.layout = page.default.layout || ((p: ReactNode) => <Layout children={p} />)
+    page.default.layout = page.default.layout || ((p: ReactNode) => <AppLayout children={p} />)
     return page
   },
 
