@@ -1,6 +1,6 @@
 import { defineConfig } from '@adonisjs/inertia'
 import '@adonisjs/inertia/types'
-import { ProjectDto } from '#dtos/workspace'
+import ProjectDto from '#dtos/workspace'
 
 const inertiaConfig = defineConfig({
   /**
