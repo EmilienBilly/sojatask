@@ -5,6 +5,7 @@ export default class ContactDto extends BaseModelDto {
   declare id: number
   declare firstname: string
   declare lastname: string
+  declare email: string | null
 
   constructor(contact?: Contact) {
     super()
@@ -13,5 +14,6 @@ export default class ContactDto extends BaseModelDto {
     this.id = contact.id
     this.firstname = contact.firstname
     this.lastname = contact.lastname
+    this.email = contact.email
   }
 }
