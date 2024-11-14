@@ -16,10 +16,7 @@ const DashboardController = () => import('#controllers/dashboard_controller')
 const LoginController = () => import('#controllers/auth/login_controller')
 const WorkspacesController = () => import('#controllers/workspaces/workspaces_controller')
 
-router
-  .get('/', [DashboardController, 'view'])
-  .use(middleware.auth())
-  .use(middleware.shareUserProjects())
+router.get('/', [DashboardController, 'view']).use(middleware.auth())
 
 router.get('login', [LoginController, 'render'])
 router.post('login', [LoginController, 'handle'])
@@ -27,36 +24,19 @@ router.post('login', [LoginController, 'handle'])
 router.get('logout', [LogoutController, 'render'])
 router.post('logout', [LogoutController, 'handle']).use(middleware.auth())
 
-router
-  .get('user_projects', [UserWorkspacesController, 'index'])
-  .use(middleware.auth())
-  .use(middleware.shareUserProjects())
+router.get('user_projects', [UserWorkspacesController, 'index']).use(middleware.auth())
 router
   .get('user_projects/:id', [UserWorkspacesController, 'show'])
   .as('userProjects.show')
   .use(middleware.auth())
-  .use(middleware.shareUserProjects())
-router
-  .get('create-project', [WorkspacesController, 'create'])
-  .use(middleware.auth())
-  .use(middleware.shareUserProjects())
-router
-  .post('create-project', [WorkspacesController, 'store'])
-  .use(middleware.auth())
-  .use(middleware.shareUserProjects())
+router.get('create-project', [WorkspacesController, 'create']).use(middleware.auth())
+router.post('create-project', [WorkspacesController, 'store']).use(middleware.auth())
 
 router.post('create_board', [CreateBoardController, 'handle']).use(middleware.auth())
 router
   .get('user_projects/:projectId/boards/:boardId', [BoardsController, 'show'])
   .use(middleware.auth())
-  .use(middleware.shareUserProjects())
-router
-  .post('create-list', [CreateListController])
-  .use(middleware.auth())
-  .use(middleware.shareUserProjects())
-router
-  .post('create-task', [CreateTaskController])
-  .use(middleware.auth())
-  .use(middleware.shareUserProjects())
+router.post('create-list', [CreateListController]).use(middleware.auth())
+router.post('create-task', [CreateTaskController]).use(middleware.auth())
 
 router.patch('tasks/:id/update', [TasksController, 'update']).use(middleware.auth())
