@@ -5,6 +5,7 @@ import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import Contact from '#models/contact'
 import type { HasOne, ManyToMany } from '@adonisjs/lucid/types/relations'
 import Profile from '#models/profile'
+import Workspace from '#models/workspace'
 
 const AuthFinder = withAuthFinder(() => hash.use('cakephp'), {
   uids: ['username'],
@@ -30,4 +31,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
     pivotTable: 'profiles_users',
   })
   declare profiles: ManyToMany<typeof Profile>
+
+  @manyToMany(() => Workspace, {
+    pivotTable: 'task_users_workspaces',
+  })
+  declare workspaces: ManyToMany<typeof Workspace>
 }

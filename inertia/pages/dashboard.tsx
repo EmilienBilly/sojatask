@@ -1,8 +1,7 @@
 import { Head, usePage } from '@inertiajs/react'
-import { InferPageProps, SharedProps } from '@adonisjs/inertia/types'
+import { SharedProps } from '@adonisjs/inertia/types'
 import styled from 'styled-components'
 import { Flex } from '~/components/utils/Flex'
-import DashboardController from '#controllers/dashboard_controller'
 
 const Flash = styled.div`
   display: flex;
@@ -28,7 +27,7 @@ const CurrentDate = styled.div`
   }
 `
 
-export default function Dashboard({ tasks }: InferPageProps<DashboardController, 'view'>) {
+export default function Dashboard() {
   const flash = usePage<SharedProps>().props.flash
 
   const getFormattedDate = () => {
@@ -62,10 +61,6 @@ export default function Dashboard({ tasks }: InferPageProps<DashboardController,
         <div>
           <h3>Projets</h3>
           <span>Vous avez 3 pojets</span>
-        </div>
-        <div>
-          <h3>Tâches du jour</h3>
-          <p>Vous avez {tasks.length} tâches en cours</p>
         </div>
       </Flex>
     </div>
