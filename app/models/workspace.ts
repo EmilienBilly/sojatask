@@ -1,6 +1,7 @@
-import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
 import Board from '#models/board'
-import type { HasMany } from '@adonisjs/lucid/types/relations'
+import Users from '#models/user'
+import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
 
 export default class Workspace extends BaseModel {
   static table = 'task_workspaces'
@@ -9,7 +10,7 @@ export default class Workspace extends BaseModel {
   declare id: number
 
   @column()
-  declare name: string
+  declare title: string
 
   @column()
   declare description: string
@@ -19,4 +20,9 @@ export default class Workspace extends BaseModel {
 
   @hasMany(() => Board)
   declare boards: HasMany<typeof Board>
+
+  @manyToMany(() => Users, {
+    pivotTable: 'task_users_workspaces',
+  })
+  declare users: ManyToMany<typeof Users>
 }
