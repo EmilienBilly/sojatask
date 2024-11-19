@@ -4,7 +4,7 @@ import BoardDto from '#dtos/board'
 
 export default class WorkspaceDto extends BaseModelDto {
   declare id: number
-  declare name: string
+  declare title: string
   declare description: string
   declare createdBy: number
   declare boards: BoardDto[]
@@ -14,7 +14,7 @@ export default class WorkspaceDto extends BaseModelDto {
 
     if (!workspace) return
     this.id = workspace.id
-    this.name = workspace.name
+    this.title = workspace.title
     this.description = workspace.description
     this.createdBy = workspace.createdBy
     this.boards = BoardDto.fromArray(workspace.boards)
