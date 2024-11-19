@@ -8,8 +8,12 @@ export default class ProjectsController {
   }
 
   async store({ request, auth, session, response }: HttpContext) {
+    const user = auth.user!
+
     const payload = await request.validateUsing(createWorkspaceValidator)
-    await Workspace.create({ ...payload, createdBy: auth.user!.id })
+    const workspace = await Workspace.create({ ...payload, createdBy: user.id })
+
+    await user.related('workspaces').attach([workspace.id])
     session.flash('success', 'Projet créé')
     return response.redirect(`/create-project`)
   }

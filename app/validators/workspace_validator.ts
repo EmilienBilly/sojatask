@@ -2,7 +2,7 @@ import vine from '@vinejs/vine'
 
 export const createWorkspaceValidator = vine.compile(
   vine.object({
-    name: vine.string(),
+    title: vine.string(),
     description: vine.string(),
   })
 )
