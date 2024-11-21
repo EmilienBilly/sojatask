@@ -8,13 +8,14 @@ import {
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '~/components/ui/sidebar'
+import WorkspaceDto from '#dtos/workspace'
 
 export function WorkspaceSwitcher({
   workspaces,
   defaultWorkspace,
 }: {
-  workspaces: string[]
-  defaultWorkspace: string
+  workspaces: WorkspaceDto[]
+  defaultWorkspace: WorkspaceDto
 }) {
   const [selectedWorkspace, setSelectedWorkspace] = React.useState(defaultWorkspace)
 
@@ -30,17 +31,17 @@ export function WorkspaceSwitcher({
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                 <GalleryVerticalEnd className="size-4" />
               </div>
-              <div className="flex flex-col gap-0.5 leading-none">
-                <span className="font-semibold">Documentation</span>
-                <span className="">v{selectedWorkspace}</span>
+              <div className="flex flex-col gap-1 leading-none">
+                <span className="font-semibold">Workspace</span>
+                <span className="">{selectedWorkspace.title}</span>
               </div>
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-[--radix-dropdown-menu-trigger-width]" align="start">
             {workspaces.map((workspace) => (
-              <DropdownMenuItem key={workspace} onSelect={() => setSelectedWorkspace(workspace)}>
-                {workspace} {workspace === selectedWorkspace && <Check className="ml-auto" />}
+              <DropdownMenuItem key={workspace.id} onSelect={() => setSelectedWorkspace(workspace)}>
+                {workspace.title} {workspace === selectedWorkspace && <Check className="ml-auto" />}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>

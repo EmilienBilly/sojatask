@@ -14,6 +14,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '~/components/ui/sidebar'
+import WorkspaceDto from '#dtos/workspace'
 
 const data = {
   workspaces: ['1.0.1', '1.1.0-alpha', '2.0.0-beta1'],
@@ -146,11 +147,16 @@ const data = {
   ],
 }
 
-export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export default function AppSidebar({
+  workspaces,
+  ...props
+}: {
+  workspaces: WorkspaceDto[]
+} & React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <WorkspaceSwitcher workspaces={data.workspaces} defaultWorkspace={data.workspaces[0]} />
+        <WorkspaceSwitcher workspaces={workspaces} defaultWorkspace={workspaces[0]} />
         <SearchForm />
       </SidebarHeader>
       <SidebarContent>
