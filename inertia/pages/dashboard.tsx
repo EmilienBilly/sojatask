@@ -3,30 +3,6 @@ import { SharedProps } from '@adonisjs/inertia/types'
 import styled from 'styled-components'
 import { Flex } from '~/components/utils/Flex'
 
-const Flash = styled.div`
-  display: flex;
-  justify-content: center;
-  background-color: seagreen;
-  padding: 10px 10px;
-  color: #f7f8fa;
-  width: 200px;
-`
-
-const Month = styled.p`
-  font-weight: bold;
-  font-size: 18px;
-`
-
-const CurrentDate = styled.div`
-  border: solid 1px #1f1f20;
-  border-radius: 3px;
-  padding: 8px;
-  margin-bottom: 16px;
-  @media (min-width: 769px) {
-    width: 40%;
-  }
-`
-
 export default function Dashboard() {
   const flash = usePage<SharedProps>().props.flash
 
@@ -66,3 +42,27 @@ export default function Dashboard() {
     </div>
   )
 }
+
+const Flash = styled.div`
+  display: flex;
+  justify-content: center;
+  background-color: seagreen;
+  padding: 10px 10px;
+  color: #f7f8fa;
+  width: 200px;
+`
+
+const Month = styled.p`
+  font-weight: bold;
+  font-size: 18px;
+`
+
+const CurrentDate = styled.div`
+  border: solid 1px #1f1f20;
+  border-radius: 3px;
+  padding: 8px;
+  margin-bottom: 16px;
+  @media (min-width: 769px) {
+    width: 40%;
+  }
+`
