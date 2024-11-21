@@ -1,6 +1,6 @@
 import { defineConfig } from '@adonisjs/inertia'
 import '@adonisjs/inertia/types'
-import ProjectDto from '#dtos/workspace'
+import WorkspaceDto from '#dtos/workspace'
 
 const inertiaConfig = defineConfig({
   /**
@@ -40,6 +40,6 @@ export default inertiaConfig
 
 declare module '@adonisjs/inertia/types' {
   export interface SharedProps extends Record<string, any> {
-    userProjects: ProjectDto[]
+    workspaces: WorkspaceDto[]
   }
 }
