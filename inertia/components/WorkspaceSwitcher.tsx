@@ -18,7 +18,7 @@ export function WorkspaceSwitcher({
   defaultWorkspace: WorkspaceDto
 }) {
   const [selectedWorkspace, setSelectedWorkspace] = React.useState(defaultWorkspace)
-
+  console.log(selectedWorkspace)
   return (
     <SidebarMenu>
       <SidebarMenuItem>

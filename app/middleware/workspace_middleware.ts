@@ -22,10 +22,6 @@ export default class WorkspaceMiddleware {
       return ctx.response.redirect().toRoute('workspaces.create')
     }
 
-    console.log({
-      workspaceId: ctx.workspaceId,
-    })
-
     const workspaces = await user.related('workspaces').query().orderBy('title')
 
     ctx.inertia.share({
