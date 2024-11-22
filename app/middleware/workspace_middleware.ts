@@ -16,6 +16,7 @@ export default class WorkspaceMiddleware {
       ctx.workspaceId = ctx.request.cookie(activeCookieName)
 
       ctx.workspace = await this.getActiveWorkspace.handle()
+      console.log(new WorkspaceDto(ctx.workspace))
     } catch (error) {
       console.log(error)
       ctx.session.reflash()
