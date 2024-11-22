@@ -23,12 +23,13 @@ router.post('login', [LoginController, 'handle'])
 router.get('logout', [LogoutController, 'render'])
 router.post('logout', [LogoutController, 'handle']).use(middleware.auth())
 
+router.group(() => {
+  router.get('/workspaces/:id', [WorkspacesController, 'active']).as('workspaces.active')
+})
+
 router
   .group(() => {
-    router
-      .get('/', [DashboardController, 'view'])
-      .use(middleware.auth())
-      .use(middleware.workspace())
+    router.get('/', [DashboardController, 'view'])
 
     router.get('user_projects', [UserWorkspacesController, 'index'])
     router.get('user_projects/:id', [UserWorkspacesController, 'show']).as('userProjects.show')
@@ -42,4 +43,4 @@ router
 
     router.patch('tasks/:id/update', [TasksController, 'update'])
   })
-  .use(middleware.auth())
+  .use([middleware.auth(), middleware.workspace()])

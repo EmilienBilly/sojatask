@@ -9,6 +9,7 @@ import {
 } from '~/components/ui/dropdown-menu'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '~/components/ui/sidebar'
 import WorkspaceDto from '#dtos/workspace'
+import { router } from '@inertiajs/react'
 
 export function WorkspaceSwitcher({
   workspaces,
@@ -18,7 +19,12 @@ export function WorkspaceSwitcher({
   defaultWorkspace: WorkspaceDto
 }) {
   const [selectedWorkspace, setSelectedWorkspace] = React.useState(defaultWorkspace)
-  console.log(selectedWorkspace)
+
+  function setActiveWorkspace(workspace: WorkspaceDto) {
+    setSelectedWorkspace(workspace)
+    router.get(`/workspaces/${workspace.id}`)
+  }
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -33,14 +39,15 @@ export function WorkspaceSwitcher({
               </div>
               <div className="flex flex-col gap-1 leading-none">
                 <span className="font-semibold">Workspace</span>
-                <span className="">{selectedWorkspace.title}</span>
+                {/*TODO: set the state to reflect the actual active workspace*/}
+                <span className="">{selectedWorkspace.title}</span>{' '}
               </div>
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-[--radix-dropdown-menu-trigger-width]" align="start">
             {workspaces.map((workspace) => (
-              <DropdownMenuItem key={workspace.id} onSelect={() => setSelectedWorkspace(workspace)}>
+              <DropdownMenuItem key={workspace.id} onSelect={() => setActiveWorkspace(workspace)}>
                 {workspace.title} {workspace === selectedWorkspace && <Check className="ml-auto" />}
               </DropdownMenuItem>
             ))}
