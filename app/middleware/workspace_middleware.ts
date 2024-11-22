@@ -15,9 +15,7 @@ export default class WorkspaceMiddleware {
     try {
       ctx.workspaceId = ctx.request.cookie(activeCookieName)
 
-      const workspace = await this.getActiveWorkspace.handle()
-
-      ctx.workspace = workspace
+      ctx.workspace = await this.getActiveWorkspace.handle()
     } catch (error) {
       console.log(error)
       ctx.session.reflash()
@@ -34,8 +32,7 @@ export default class WorkspaceMiddleware {
       workspace: new WorkspaceDto(ctx.workspace),
       workspaces: WorkspaceDto.fromArray(workspaces),
     })
-    const output = await next()
-    return output
+    return await next()
   }
 }
 
