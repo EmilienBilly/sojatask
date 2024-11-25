@@ -26,7 +26,7 @@ export default class WorkspaceMiddleware {
     const workspaces = await user.related('workspaces').query().orderBy('title')
 
     ctx.inertia.share({
-      workspace: new WorkspaceDto(ctx.workspace),
+      activeWorkspace: new WorkspaceDto(ctx.workspace),
       workspaces: WorkspaceDto.fromArray(workspaces),
     })
     return await next()

@@ -13,12 +13,12 @@ import { router } from '@inertiajs/react'
 
 export function WorkspaceSwitcher({
   workspaces,
-  defaultWorkspace,
+  activeWorkspace,
 }: {
   workspaces: WorkspaceDto[]
-  defaultWorkspace: WorkspaceDto
+  activeWorkspace: WorkspaceDto
 }) {
-  const [selectedWorkspace, setSelectedWorkspace] = React.useState(defaultWorkspace)
+  const [selectedWorkspace, setSelectedWorkspace] = React.useState(activeWorkspace)
 
   function setActiveWorkspace(workspace: WorkspaceDto) {
     setSelectedWorkspace(workspace)
@@ -39,7 +39,6 @@ export function WorkspaceSwitcher({
               </div>
               <div className="flex flex-col gap-1 leading-none">
                 <span className="font-semibold">Workspace</span>
-                {/*TODO: set the state to reflect the actual active workspace*/}
                 <span className="">{selectedWorkspace.title}</span>{' '}
               </div>
               <ChevronsUpDown className="ml-auto" />

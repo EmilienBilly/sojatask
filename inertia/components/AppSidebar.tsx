@@ -40,15 +40,17 @@ const data = {
 }
 
 export default function AppSidebar({
+  activeWorkspace,
   workspaces,
   ...props
 }: {
+  activeWorkspace: WorkspaceDto
   workspaces: WorkspaceDto[]
 } & React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <WorkspaceSwitcher workspaces={workspaces} defaultWorkspace={workspaces[0]} />
+        <WorkspaceSwitcher workspaces={workspaces} activeWorkspace={activeWorkspace} />
         <SearchForm />
       </SidebarHeader>
       <SidebarContent>
