@@ -19,26 +19,6 @@ import WorkspaceDto from '#dtos/workspace'
 import { NavUser } from '~/components/NavUser'
 
 const data = {
-  navMain: [
-    {
-      title: 'Tableaux',
-      url: '#',
-      items: [
-        {
-          title: 'Planning atelier',
-          url: '#',
-        },
-        {
-          title: 'SojaTask',
-          url: '#',
-        },
-        {
-          title: 'SojadisPro',
-          url: '#',
-        },
-      ],
-    },
-  ],
   user: {
     name: 'Emilien Billy',
     avatar: '',
@@ -61,23 +41,28 @@ export default function AppSidebar({
         <SearchForm />
       </SidebarHeader>
       <SidebarContent>
-        {/* We create a SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
-          <SidebarGroup key={item.title}>
-            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {item.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={item.isActive}>
-                      <a href={item.url}>{item.title}</a>
+        <SidebarGroup>
+          <SidebarGroupLabel>Tableaux</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {activeWorkspace.boards && activeWorkspace.boards.length > 0 ? (
+                activeWorkspace.boards.map((board) => (
+                  <SidebarMenuItem key={board.title}>
+                    <SidebarMenuButton asChild>
+                      <a href="">{board.title}</a>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+                ))
+              ) : (
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <p>Aucun tableau</p>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
