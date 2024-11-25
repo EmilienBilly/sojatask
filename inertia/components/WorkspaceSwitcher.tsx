@@ -1,10 +1,11 @@
 import * as React from 'react'
-import { Briefcase, Check, ChevronsUpDown } from 'lucide-react'
+import { Briefcase, Check, ChevronsUpDown, Plus } from 'lucide-react'
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '~/components/ui/sidebar'
@@ -50,6 +51,13 @@ export function WorkspaceSwitcher({
                 {workspace.title} {workspace === selectedWorkspace && <Check className="ml-auto" />}
               </DropdownMenuItem>
             ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="gap-2 p-2">
+              <div className="flex size-6 items-center justify-center rounded-md border bg-background">
+                <Plus className="size-4" />
+              </div>
+              <div className="font-medium text-muted-foreground">Nouveau workspace</div>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
