@@ -1,17 +1,10 @@
 import { Head, Link } from '@inertiajs/react'
 import { Flex } from '~/components/utils/Flex'
 import styled from 'styled-components'
+import { ReactElement } from 'react'
+import AuthLayout from '~/layouts/AuthLayout'
 
-const Button = styled(Link)`
-  background-color: #8b64fd;
-  color: white;
-  padding: 8px 16px;
-  font-size: 16px;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-`
-export default function Logout() {
+const Logout = () => {
   return (
     <>
       <Head title="Déconnexion" />
@@ -24,3 +17,17 @@ export default function Logout() {
     </>
   )
 }
+
+Logout.layout = (page: ReactElement) => <AuthLayout children={page} />
+
+const Button = styled(Link)`
+  background-color: #8b64fd;
+  color: white;
+  padding: 8px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+`
+
+export default Logout

@@ -19,15 +19,6 @@ body,
   width: 100%;
 }
 
-.title {
-  font-size: 24px;
-
-  font-weight: 500;
-  color: #8b64fd;
-  margin-bottom: 30px;
-  text-align: center;
-}
-
 @media (min-width: 425px) {
   .title {
     font-size: 32px;
@@ -93,6 +84,7 @@ a {
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -133,6 +125,7 @@ a {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
