@@ -93,7 +93,7 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href="/logout">
+              <Link href="/logout" method="post" as="button">
                 <LogOut />
                 Déconnexion
               </Link>
