@@ -7,12 +7,12 @@ import { usePage } from '@inertiajs/react'
 import { SharedProps } from '@adonisjs/inertia/types'
 
 const AppLayout = ({ children }: { children: ReactNode }) => {
-  const { workspaces } = usePage<SharedProps>().props
-
+  const props = usePage<SharedProps>().props
+  console.log(props)
   return (
     <ProjectContextProvider>
       <SidebarProvider>
-        <AppSidebar workspaces={workspaces} />
+        <AppSidebar workspaces={props.workspaces} activeWorkspace={props.activeWorkspace} />
         <SidebarInset>
           <header className="flex sticky top-0 bg-background h-16 shrink-0 items-center gap-2 border-b px-4">
             <SidebarTrigger />
