@@ -8,7 +8,6 @@ import { SharedProps } from '@adonisjs/inertia/types'
 
 const AppLayout = ({ children }: { children: ReactNode }) => {
   const props = usePage<SharedProps>().props
-  console.log(props)
   return (
     <ProjectContextProvider>
       <SidebarProvider>

@@ -15,9 +15,6 @@ const Nav = styled.nav`
   justify-content: space-between;
   color: #b2b8bd;
   padding: 8px;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-color: hsla(211, 18%, 68%, 0.16);
 `
 
 export default function Navbar() {
@@ -28,11 +25,6 @@ export default function Navbar() {
           <HomeLink href="/">SojaTask</HomeLink>
           <DropdownButton />
           <UserProjectsDropdownButton />
-        </Flex>
-        <Flex $gap="10px" $center>
-          <Link href="/logout" method="post" as="button" type="button">
-            Déconnexion
-          </Link>
         </Flex>
       </>
     </Nav>
