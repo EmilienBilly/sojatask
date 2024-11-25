@@ -5,6 +5,7 @@ import { WorkspaceSwitcher } from '~/components/WorkspaceSwitcher'
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -15,6 +16,7 @@ import {
   SidebarRail,
 } from '~/components/ui/sidebar'
 import WorkspaceDto from '#dtos/workspace'
+import { NavUser } from '~/components/NavUser'
 
 const data = {
   navMain: [
@@ -37,6 +39,11 @@ const data = {
       ],
     },
   ],
+  user: {
+    name: 'Emilien Billy',
+    avatar: '',
+    email: 'emilien.billy@sojadis.com',
+  },
 }
 
 export default function AppSidebar({
@@ -72,6 +79,9 @@ export default function AppSidebar({
           </SidebarGroup>
         ))}
       </SidebarContent>
+      <SidebarFooter>
+        <NavUser user={data.user} />
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   )
