@@ -11,11 +11,11 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "~/inertia/components",
-    "utils": "~/lib/utils",
-    "ui": "~/inertia/components/ui",
-    "lib": "~/lib",
-    "hooks": "~/hooks"
+    "components": "#inertia/components",
+    "ui": "#inertia/components/ui",
+    "utils": "#inertia/utils",
+    "lib": "#inertia/lib",
+    "hooks": "#inertia/hooks"
   },
   "iconLibrary": "lucide"
 }
