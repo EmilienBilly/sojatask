@@ -32,8 +32,8 @@
     "#tests/*": "./tests/*.js",
     "#start/*": "./start/*.js",
     "#config/*": "./config/*.js",
-    "#shadcn/*": "./inertia/components/ui/*",
-    "#inertia/*": "./inertia/*"
+    "#shadcn/*": "./inertia/components/ui/*.js",
+    "#inertia/*": "./inertia/components/*.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^7.7.0",
