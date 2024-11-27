@@ -4,6 +4,6 @@ export const createBoardValidator = vine.compile(
   vine.object({
     title: vine.string(),
     description: vine.string().optional(),
-    projectId: vine.number(),
+    workspaceId: vine.number(),
   })
 )
