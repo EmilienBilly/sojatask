@@ -14,7 +14,7 @@ export default class Board extends BaseModel {
   declare description: string
 
   @column()
-  declare projectId: number
+  declare workspaceId: number
 
   @hasMany(() => List)
   declare lists: HasMany<typeof List>
