@@ -7,6 +7,9 @@
     "paths": {
       "#inertia/*": [
         "./inertia/*"
+      ],
+      "#lib/*": [
+        "./inertia/lib/*"
       ]
     }
   },
