@@ -22,7 +22,7 @@ export default class WorkspaceMiddleware {
       return ctx.response.redirect().toRoute('workspaces.create')
     }
 
-    const workspaces = await user.related('workspaces').query().orderBy('title')
+    const workspaces = await user.related('workspaces').query().preload('boards').orderBy('title')
 
     ctx.inertia.share({
       activeWorkspace: new WorkspaceDto(ctx.workspace),
