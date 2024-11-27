@@ -27,6 +27,6 @@ export default class GetActiveWorkspace {
   }
 
   #query() {
-    return this.ctx.auth.use('web').user!.related('workspaces').query()
+    return this.ctx.auth.use('web').user!.related('workspaces').query().preload('boards')
   }
 }
