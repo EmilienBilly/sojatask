@@ -4,7 +4,6 @@ import { Button } from '#shadcn/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#shadcn/card'
 import { Input } from '#shadcn/input'
 import { Textarea } from '#shadcn/textarea'
-import useError from '../hooks/useError'
 import {
   Select,
   SelectContent,
@@ -18,11 +17,10 @@ import { SharedProps } from '@adonisjs/inertia/types'
 export default function CreateBoard() {
   const { workspaces } = usePage<SharedProps>().props
   const { activeWorkspace } = usePage<SharedProps>().props
-  const titleError = useError('title')
-  const { data, setData, post, processing, reset } = useForm({
+  const { data, setData, post, processing, reset, errors } = useForm({
     title: '',
     description: '',
-    workspaceId: '',
+    workspaceId: activeWorkspace.id.toString(),
   })
 
   function submit(event: { preventDefault: () => void }) {
@@ -34,7 +32,7 @@ export default function CreateBoard() {
     })
   }
 
-  console.log(data.workspaceId)
+  console.log(errors)
   return (
     <Card className="mx-auto w-[400px]">
       <CardHeader>
@@ -48,11 +46,10 @@ export default function CreateBoard() {
             <Input
               id="title"
               type="text"
-              required
               value={data.title}
               onChange={(e) => setData('title', e.target.value)}
             />
-            {titleError && <div>{titleError}</div>}
+            {errors.title && <div>{errors.title}</div>}
           </div>
           <div className="grid gap-2">
             <Label htmlFor="description">Description</Label>
@@ -65,7 +62,7 @@ export default function CreateBoard() {
           <div className="grid gap-2">
             <Label htmlFor="workspace">Espace de travail</Label>
             <Select
-              value={data.workspaceId}
+              value={activeWorkspace.id.toString()}
               onValueChange={(value) => setData('workspaceId', value)}
             >
               <SelectTrigger className="w-full">

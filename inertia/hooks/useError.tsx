@@ -2,9 +2,9 @@ import { usePage } from '@inertiajs/react'
 import { SharedProps } from '@adonisjs/inertia/types'
 
 export default function useError(id: string | undefined): string | undefined {
-  const props = usePage<SharedProps>().props.flash
+  const errors = usePage<SharedProps>().props.errors
 
-  if (!props.errors) {
+  if (!errors) {
     return undefined
   }
 
@@ -12,9 +12,9 @@ export default function useError(id: string | undefined): string | undefined {
     return undefined
   }
 
-  if (!props.errors[id]) {
+  if (!errors[id]) {
     return undefined
   }
 
-  return props.errors[id]
+  return errors[id]
 }
