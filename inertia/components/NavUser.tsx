@@ -2,6 +2,9 @@
 
 import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from 'lucide-react'
 
+import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
+import { Link } from '@inertiajs/react'
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '#shadcn/sidebar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,15 +13,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '~/components/ui/dropdown-menu'
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
-} from '~/components/ui/sidebar'
-import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
-import { Link } from '@inertiajs/react'
+} from '#shadcn/dropdown-menu'
 
 export function NavUser({
   user,
