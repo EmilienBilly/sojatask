@@ -4,8 +4,8 @@ import '../css/app.css'
 import { createRoot } from 'react-dom/client'
 import { createInertiaApp } from '@inertiajs/react'
 import { resolvePageComponent } from '@adonisjs/inertia/helpers'
-import AppLayout from '~/layouts/AppLayout'
 import { ReactNode } from 'react'
+import AppLayout from '../layouts/AppLayout'
 
 const appName = import.meta.env.VITE_APP_NAME || 'AdonisJS'
 

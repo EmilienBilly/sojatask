@@ -1,10 +1,10 @@
 import { ReactNode } from 'react'
-import Navbar from '~/components/Navbar'
-import { ProjectContextProvider } from '~/hooks/useProject'
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '~/components/ui/sidebar'
-import AppSidebar from '~/components/AppSidebar'
 import { usePage } from '@inertiajs/react'
 import { SharedProps } from '@adonisjs/inertia/types'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '#shadcn/sidebar'
+import AppSidebar from '#inertia/AppSidebar'
+import Navbar from '#inertia/Navbar'
+import { ProjectContextProvider } from '../hooks/useProject'
 
 const AppLayout = ({ children }: { children: ReactNode }) => {
   const props = usePage<SharedProps>().props

@@ -36,6 +36,7 @@ router
     router.get('create-project', [WorkspacesController, 'create']).as('workspaces.create')
     router.post('create-project', [WorkspacesController, 'store'])
 
+    router.get('boards/create', [CreateBoardController, 'render']).as('boards.create')
     router.post('create_board', [CreateBoardController, 'handle'])
     router.get('user_projects/:projectId/boards/:boardId', [BoardsController, 'show'])
     router.post('create-list', [CreateListController])
