@@ -1,8 +1,8 @@
 import { Link } from '@inertiajs/react'
 import styled from 'styled-components'
-import DropdownButton from '~/components/DropdownButton'
 import { Flex } from '~/components/utils/Flex'
 import UserProjectsDropdownButton from '~/components/UserProjectsDropdownButton'
+import DropdownButton from '#inertia/DropdownButton'
 
 const HomeLink = styled(Link)`
   font-weight: bold;

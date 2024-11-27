@@ -1,7 +1,5 @@
 import * as React from 'react'
 
-import { SearchForm } from '~/components/SearchForm'
-import { WorkspaceSwitcher } from '~/components/WorkspaceSwitcher'
 import {
   Sidebar,
   SidebarContent,
@@ -14,9 +12,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from '~/components/ui/sidebar'
+} from '#shadcn/sidebar'
 import WorkspaceDto from '#dtos/workspace'
-import { NavUser } from '~/components/NavUser'
+import { WorkspaceSwitcher } from '#inertia/WorkspaceSwitcher'
+import { SearchForm } from '#inertia/SearchForm'
+import { NavUser } from '#inertia/NavUser'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '#shadcn/collapsible'
+import { ChevronDown, Plus } from 'lucide-react'
+import { Link } from '@inertiajs/react'
 
 const data = {
   user: {
@@ -42,27 +45,54 @@ export default function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Tableaux</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {activeWorkspace.boards && activeWorkspace.boards.length > 0 ? (
-                activeWorkspace.boards.map((board) => (
-                  <SidebarMenuItem key={board.title}>
-                    <SidebarMenuButton asChild>
-                      <a href="">{board.title}</a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))
-              ) : (
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
-                    <p>Aucun tableau</p>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              )}
-            </SidebarMenu>
-          </SidebarGroupContent>
+          <SidebarGroupContent></SidebarGroupContent>
         </SidebarGroup>
+        <Collapsible defaultOpen className="group/collapsible">
+          <SidebarGroup>
+            <SidebarGroupLabel
+              asChild
+              className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+            >
+              <CollapsibleTrigger>
+                Tableaux
+                <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+              </CollapsibleTrigger>
+            </SidebarGroupLabel>
+            <CollapsibleContent>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {activeWorkspace.boards && activeWorkspace.boards.length > 0 ? (
+                    activeWorkspace.boards.map((board) => (
+                      <SidebarMenuItem key={board.title}>
+                        <SidebarMenuButton asChild>
+                          {/*TODO: set href with board link*/}
+                          <a href="">{board.title}</a>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild>
+                          <Link href="/boards/create">
+                            Créer un tableau
+                            <Plus />
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))
+                  ) : (
+                    <SidebarMenuItem>
+                      <p className="p-2">Il n'y a aucun tableau dans cet espace de travail</p>
+                      <SidebarMenuButton asChild>
+                        <Link href="/boards/create">
+                          Créer un tableau
+                          <Plus />
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )}
+                  <SidebarMenuItem></SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </SidebarGroup>
+        </Collapsible>
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
