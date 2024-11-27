@@ -1,21 +1,8 @@
 import { Link } from '@inertiajs/react'
 import styled from 'styled-components'
-import { Flex } from '~/components/utils/Flex'
-import UserProjectsDropdownButton from '~/components/UserProjectsDropdownButton'
 import DropdownButton from '#inertia/DropdownButton'
-
-const HomeLink = styled(Link)`
-  font-weight: bold;
-  color: #8b64fd;
-  margin-right: 8px;
-`
-
-const Nav = styled.nav`
-  display: flex;
-  justify-content: space-between;
-  color: #b2b8bd;
-  padding: 8px;
-`
+import UserProjectsDropdownButton from '#inertia/UserProjectsDropdownButton'
+import { Flex } from './utils/Flex'
 
 export default function Navbar() {
   return (
@@ -30,3 +17,16 @@ export default function Navbar() {
     </Nav>
   )
 }
+
+const HomeLink = styled(Link)`
+  font-weight: bold;
+  color: #8b64fd;
+  margin-right: 8px;
+`
+
+const Nav = styled.nav`
+  display: flex;
+  justify-content: space-between;
+  color: #b2b8bd;
+  padding: 8px;
+`

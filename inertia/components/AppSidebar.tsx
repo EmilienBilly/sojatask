@@ -66,28 +66,21 @@ export default function AppSidebar({
                       <SidebarMenuItem key={board.title}>
                         <SidebarMenuButton asChild>
                           {/*TODO: set href with board link*/}
-                          <a href="">{board.title}</a>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton asChild>
-                          <Link href="/boards/create">
-                            Créer un tableau
-                            <Plus />
-                          </Link>
+                          <Link href="">{board.title}</Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     ))
                   ) : (
                     <SidebarMenuItem>
                       <p className="p-2">Il n'y a aucun tableau dans cet espace de travail</p>
-                      <SidebarMenuButton asChild>
-                        <Link href="/boards/create">
-                          Créer un tableau
-                          <Plus />
-                        </Link>
-                      </SidebarMenuButton>
                     </SidebarMenuItem>
                   )}
-                  <SidebarMenuItem></SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link as="button" href="/boards/create">
+                      Créer un tableau
+                      <Plus />
+                    </Link>
+                  </SidebarMenuButton>
                 </SidebarMenu>
               </SidebarGroupContent>
             </CollapsibleContent>

@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from '#shadcn/select'
 import { SharedProps } from '@adonisjs/inertia/types'
+import { toast } from 'sonner'
 
 export default function CreateBoard() {
   const { workspaces } = usePage<SharedProps>().props
@@ -28,11 +29,11 @@ export default function CreateBoard() {
     post('/create_board', {
       onSuccess: () => {
         reset()
+        toast.success('Tableau créé')
       },
     })
   }
 
-  console.log(errors)
   return (
     <Card className="mx-auto w-[400px]">
       <CardHeader>
