@@ -88,6 +88,7 @@ export default function Board(props: InferPageProps<BoardsController, 'show'>) {
       <div>{board.description}</div>
       <div className="flex flex-row gap-4">
         {lists?.map((list) => (
+          /*TODO: clean up props*/
           <List key={list.id} listId={list.id} list={list} tasks={list.tasks}></List>
         ))}
         <CreateList board={board} />
