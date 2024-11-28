@@ -65,8 +65,7 @@ export default function AppSidebar({
                     activeWorkspace.boards.map((board) => (
                       <SidebarMenuItem key={board.title}>
                         <SidebarMenuButton asChild>
-                          {/*TODO: set href with board link*/}
-                          <Link href="">{board.title}</Link>
+                          <Link href={`/boards/${board.id}`}>{board.title}</Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     ))
@@ -76,7 +75,7 @@ export default function AppSidebar({
                     </SidebarMenuItem>
                   )}
                   <SidebarMenuButton asChild>
-                    <Link as="button" href="/boards/create">
+                    <Link as="button" href={'/boards/create'}>
                       Créer un tableau
                       <Plus />
                     </Link>

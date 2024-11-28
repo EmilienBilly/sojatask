@@ -38,7 +38,7 @@ router
 
     router.get('boards/create', [CreateBoardController, 'render']).as('boards.create')
     router.post('create_board', [CreateBoardController, 'handle'])
-    router.get('user_projects/:projectId/boards/:boardId', [BoardsController, 'show'])
+    router.get('/boards/:boardId', [BoardsController, 'show'])
     router.post('create-list', [CreateListController])
     router.post('create-task', [CreateTaskController])
 

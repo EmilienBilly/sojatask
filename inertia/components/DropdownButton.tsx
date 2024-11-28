@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { Link } from '@inertiajs/react'
-import { IconArrowDropDown } from '~/components/icons/IconArrowDropDown'
-import useClickOutside from '~/hooks/useClickOutside'
+import useClickOutside from '../hooks/useClickOutside'
+import { IconArrowDropDown } from '#inertia/icons/IconArrowDropDown'
 
 const DropdownContainer = styled.div`
   position: relative;
