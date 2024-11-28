@@ -7,7 +7,7 @@ export default function Dashboard() {
   const flash = usePage<SharedProps>().props.flash
 
   return (
-    <div className="container">
+    <div>
       <Head title="Dashboard" />
       <Flex $flxCol={true} $gap="18px">
         {flash.error && <Flash className="alert alert-error">{flash.error}</Flash>}
