@@ -7,7 +7,7 @@ export default class CreateTaskController {
     console.log(request.all())
     const payload = await request.validateUsing(createTaskValidator)
 
-    await Task.create({ ...payload, createdBy: auth.user!.id, deadline: 0 })
+    await Task.create({ ...payload, createdBy: auth.user!.id })
     return response.redirect().back()
   }
 }

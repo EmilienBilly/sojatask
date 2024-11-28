@@ -8,7 +8,7 @@ export default class Task extends BaseModel {
   declare id: number
 
   @column()
-  declare name: string
+  declare title: string
 
   @column()
   declare description: string
@@ -19,11 +19,11 @@ export default class Task extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
-  @column()
-  declare archived: number
+  @column.dateTime()
+  declare dueDate: DateTime
 
   @column()
-  declare deadline: number
+  declare archived: number
 
   @column()
   declare createdBy: number
