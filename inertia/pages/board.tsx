@@ -1,23 +1,14 @@
 import { InferPageProps } from '@adonisjs/inertia/types'
 import BoardsController from '#controllers/boards/boards_controller'
-import { BoardType } from '~/types/board'
-import { ListType } from '~/types/list'
-import styled from 'styled-components'
-import CreateListButton from '~/components/CreateListButton'
-import List from '~/components/List'
 import { useCallback, useEffect, useState } from 'react'
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
-import { router } from '@inertiajs/react'
-
-const BoardCanva = styled.div`
-  display: flex;
-  gap: 20px;
-  margin-top: 12px;
-`
+import { Head, router } from '@inertiajs/react'
+import List from '#inertia/List'
+import CreateList from '#inertia/CreateList'
 
 export default function Board(props: InferPageProps<BoardsController, 'show'>) {
-  const board: BoardType = props.board
-  const [lists, setLists] = useState<ListType[]>(props.board.lists)
+  const board = props.board
+  const [lists, setLists] = useState(props.board.lists)
 
   useEffect(() => {
     setLists(props.board.lists)
@@ -91,15 +82,16 @@ export default function Board(props: InferPageProps<BoardsController, 'show'>) {
     })
   }, [handleDrop])
   return (
-    <div className="container">
+    <>
+      <Head title={board.title} />
       <h1>{board.title}</h1>
       <div>{board.description}</div>
-      <BoardCanva>
+      <div className="flex flex-row gap-4">
         {lists?.map((list) => (
           <List key={list.id} listId={list.id} list={list} tasks={list.tasks}></List>
         ))}
-        <CreateListButton board={board} />
-      </BoardCanva>
-    </div>
+        <CreateList board={board} />
+      </div>
+    </>
   )
 }
