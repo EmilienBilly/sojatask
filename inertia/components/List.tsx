@@ -1,11 +1,10 @@
-import styled from 'styled-components'
-import CreateTaskButton from '~/components/CreateTaskButton'
-import Task from '~/components/Task'
 import { useEffect, useRef, useState } from 'react'
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 import invariant from 'tiny-invariant'
-import { TaskType } from '~/types/task'
-import { ListType } from '~/types/list'
+import Task from '#inertia/Task'
+import { ListType } from '../types/list'
+import { TaskType } from '../types/task'
+import CreateTask from '#inertia/CreateTask'
 
 type ListProps = {
   listId: number
@@ -13,17 +12,6 @@ type ListProps = {
   list: ListType
 }
 
-const ListContainer = styled.div<{ $isDraggedOver: boolean }>`
-  display: flex;
-  gap: 10px;
-  border: ${(props) => (props.$isDraggedOver ? '1px solid red' : 'none')};
-  border-radius: 8px;
-  flex-direction: column;
-  padding: 20px;
-  background: #d7d7d7;
-  min-height: 50px;
-  min-width: 200px;
-`
 export default function List({ listId, tasks, list }: ListProps) {
   const listRef = useRef(null)
   const [isDraggedOver, setIsDraggedOver] = useState(false)
@@ -44,11 +32,11 @@ export default function List({ listId, tasks, list }: ListProps) {
 
   return (
     <>
-      <ListContainer $isDraggedOver={isDraggedOver} ref={listRef}>
+      <div className="w-72 border p-4 rounded-md self-start" ref={listRef}>
         <h2>{list.title}</h2>
         {tasks?.map((task) => <Task key={task.id} task={task} />)}
-        <CreateTaskButton listId={list.id} />
-      </ListContainer>
+        <CreateTask listId={list.id} />
+      </div>
     </>
   )
 }
