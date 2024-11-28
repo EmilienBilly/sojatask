@@ -10,6 +10,6 @@ export default class BoardService {
       })
       .firstOrFail()
 
-    return new BoardDto(board).toJson()
+    return new BoardDto(board)
   }
 }
