@@ -32,7 +32,7 @@ export default function List({ listId, tasks, list }: ListProps) {
 
   return (
     <>
-      <div className="w-72 border p-4 rounded-md self-start" ref={listRef}>
+      <div className="min-w-72 border p-4 rounded-md self-start" ref={listRef}>
         <h2>{list.title}</h2>
         {tasks?.map((task) => <Task key={task.id} task={task} />)}
         <CreateTask listId={list.id} />

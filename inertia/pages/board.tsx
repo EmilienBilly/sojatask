@@ -5,6 +5,7 @@ import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/ad
 import { Head, router } from '@inertiajs/react'
 import List from '#inertia/List'
 import CreateList from '#inertia/CreateList'
+import BoardHeader from '#inertia/BoardHeader'
 
 export default function Board(props: InferPageProps<BoardsController, 'show'>) {
   const board = props.board
@@ -84,9 +85,8 @@ export default function Board(props: InferPageProps<BoardsController, 'show'>) {
   return (
     <>
       <Head title={board.title} />
-      <h1>{board.title}</h1>
-      <div>{board.description}</div>
-      <div className="flex flex-row gap-4">
+      <BoardHeader board={board} />
+      <div className="flex flex-row flex-1 gap-4 p-4 overflow-x-auto">
         {lists?.map((list) => (
           /*TODO: clean up props*/
           <List key={list.id} listId={list.id} list={list} tasks={list.tasks}></List>
