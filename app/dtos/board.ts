@@ -6,7 +6,7 @@ export default class BoardDto extends BaseModelDto {
   declare id: number
   declare title: string
   declare description: string
-  declare projectId: number
+  declare workspaceId: number
   declare lists: ListDto[]
 
   constructor(board?: Board) {
@@ -16,7 +16,7 @@ export default class BoardDto extends BaseModelDto {
     this.id = board.id
     this.title = board.title
     this.description = board.description
-    this.projectId = board.projectId
+    this.workspaceId = board.workspaceId
     this.lists = ListDto.fromArray(board.lists)
   }
 }

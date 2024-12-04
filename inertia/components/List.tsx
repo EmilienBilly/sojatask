@@ -13,6 +13,7 @@ type ListProps = {
 }
 
 export default function List({ listId, tasks, list }: ListProps) {
+  console.log(tasks)
   const listRef = useRef(null)
   const [isDraggedOver, setIsDraggedOver] = useState(false)
 
