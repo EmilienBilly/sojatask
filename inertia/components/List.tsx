@@ -13,7 +13,6 @@ type ListProps = {
 }
 
 export default function List({ listId, tasks, list }: ListProps) {
-  console.log(tasks)
   const listRef = useRef(null)
   const [isDraggedOver, setIsDraggedOver] = useState(false)
 
@@ -33,7 +32,7 @@ export default function List({ listId, tasks, list }: ListProps) {
 
   return (
     <>
-      <div className="min-w-72 border p-4 rounded-md self-start" ref={listRef}>
+      <div className="flex flex-col min-w-72 border p-4 rounded-md self-start gap-2" ref={listRef}>
         <h2>{list.title}</h2>
         {tasks?.map((task) => <Task key={task.id} task={task} />)}
         <CreateTask listId={list.id} />

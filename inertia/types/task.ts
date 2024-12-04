@@ -7,5 +7,5 @@ export type TaskType = {
   listId: number
   createdAt: string
   updatedAt: string
-  dueDate: string
+  dueDate: string | null
 }
