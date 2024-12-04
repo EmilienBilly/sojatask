@@ -1,23 +1,9 @@
-import styled from 'styled-components'
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 import { useEffect, useRef, useState } from 'react'
 import invariant from 'tiny-invariant'
 import { TaskType } from '../types/task'
+import { Card, CardHeader, CardTitle } from '#shadcn/card'
 
-const Container = styled.div<{ $dragging: boolean }>`
-  opacity: ${(props) => (props.$dragging ? '20%' : '100%')};
-  background-color: #ffffff;
-  border-radius: 8px;
-  padding: 8px;
-  overflow: hidden;
-`
-
-const TaskName = styled.p`
-  color: #46444c;
-  font-weight: 400;
-  font-size: 14px;
-  margin-bottom: 8px;
-`
 type TaskCardProps = {
   task: TaskType
 }
@@ -42,9 +28,11 @@ export default function Task({ task }: TaskCardProps) {
 
   return (
     <>
-      <Container $dragging={dragging} ref={taskRef}>
-        <TaskName>{task.title}</TaskName>
-      </Container>
+      <Card className="rounded-md" ref={taskRef}>
+        <CardHeader>
+          <CardTitle>{task.title}</CardTitle>
+        </CardHeader>
+      </Card>
     </>
   )
 }
