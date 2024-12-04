@@ -1,11 +1,11 @@
 export type TaskType = {
   id: number
-  name: string
+  title: string
   description: string
   archived: number
-  deadline: number
   createdBy: number
   listId: number
   createdAt: string
   updatedAt: string
+  dueDate: string
 }

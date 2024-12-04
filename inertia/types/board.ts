@@ -1,9 +1,9 @@
-import { ListType } from '~/types/list'
+import { ListType } from './list'
 
 export type BoardType = {
   id: number
   title: string
   description: string
-  projectId: number
+  workspaceId: number
   lists: ListType[]
 }

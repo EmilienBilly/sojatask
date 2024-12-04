@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 import { useEffect, useRef, useState } from 'react'
 import invariant from 'tiny-invariant'
-import { TaskType } from '~/types/task'
+import { TaskType } from '../types/task'
 
 const Container = styled.div<{ $dragging: boolean }>`
   opacity: ${(props) => (props.$dragging ? '20%' : '100%')};
@@ -43,7 +43,7 @@ export default function Task({ task }: TaskCardProps) {
   return (
     <>
       <Container $dragging={dragging} ref={taskRef}>
-        <TaskName>{task.name}</TaskName>
+        <TaskName>{task.title}</TaskName>
       </Container>
     </>
   )
