@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { ReactNode } from 'react'
 import { usePage } from '@inertiajs/react'
 import { SharedProps } from '@adonisjs/inertia/types'
@@ -15,12 +14,12 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
       <Toaster />
       <SidebarProvider>
         <AppSidebar workspaces={props.workspaces} activeWorkspace={props.activeWorkspace} />
-        <div className="flex flex-col flex-1 overflow-x-auto">
+        <div className="flex flex-col flex-1 overflow-hidden">
           <header className="flex sticky top-0 bg-background h-16 shrink-0 items-center gap-2 border-b p-4">
             <SidebarTrigger />
             <Navbar />
           </header>
-          <div className="flex flex-col flex-1">{children}</div>
+          <div className="h-full flex flex-col flex-1 overflow-auto">{children}</div>
         </div>
       </SidebarProvider>
     </ProjectContextProvider>
