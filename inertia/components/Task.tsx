@@ -4,15 +4,30 @@ import EditTaskDialog from '#inertia/EditTaskDialog'
 import { useState } from 'react'
 import { GripVertical, Pencil } from 'lucide-react'
 import { Button } from '#shadcn/button'
+import { useDraggable } from '@dnd-kit/core'
 
 type TaskCardProps = {
   task: TaskType
 }
 export default function Task({ task }: TaskCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: task.id,
+  })
+
+  const style = transform
+    ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+      }
+    : undefined
   return (
     <>
       <Card
+        ref={setNodeRef}
+        {...listeners}
+        {...attributes}
+        style={style}
         onClick={() => setIsDialogOpen(!isDialogOpen)}
         className="rounded-md hover:bg-hovered cursor-pointer group"
       >
