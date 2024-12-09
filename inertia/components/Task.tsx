@@ -10,7 +10,10 @@ export default function Task({ task }: TaskCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   return (
     <>
-      <Card onClick={() => setIsDialogOpen(!isDialogOpen)} className="rounded-md">
+      <Card
+        onClick={() => setIsDialogOpen(!isDialogOpen)}
+        className="rounded-md hover:bg-hovered cursor-pointer"
+      >
         <CardHeader>
           <CardTitle>{task.title}</CardTitle>
         </CardHeader>
