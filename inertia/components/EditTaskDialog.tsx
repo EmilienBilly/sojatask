@@ -29,7 +29,7 @@ export default function EditTaskDialog({ task, open, onOpenChange }: EditTaskDia
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-full">
+      <DialogContent className="">
         <DialogHeader>
           <DialogTitle>{task.title}</DialogTitle>
           <DialogDescription>Modifier la tâche</DialogDescription>
