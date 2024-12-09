@@ -5,6 +5,7 @@ import { ScrollArea, ScrollBar } from '#shadcn/scroll-area'
 import BoardHeader from '#inertia/BoardHeader'
 import CreateList from '#inertia/CreateList'
 import List from '#inertia/List'
+import { DndContext } from '@dnd-kit/core'
 
 export default function Board(props: InferPageProps<BoardsController, 'show'>) {
   const board = props.board
@@ -18,10 +19,12 @@ export default function Board(props: InferPageProps<BoardsController, 'show'>) {
     <>
       <BoardHeader board={board} />
       <ScrollArea className="px-2 md:px-0 pb-4">
-        <div className="flex gap-4 flex-row p-4">
-          {lists?.map((list) => <List key={list.id} list={list} tasks={list.tasks} />)}
-          <CreateList board={board} />
-        </div>
+        <DndContext>
+          <div className="flex gap-4 flex-row p-4">
+            {lists?.map((list) => <List key={list.id} list={list} tasks={list.tasks} />)}
+            <CreateList board={board} />
+          </div>
+        </DndContext>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
     </>
