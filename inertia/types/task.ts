@@ -4,7 +4,7 @@ export type TaskType = {
   description: string
   archived: number
   createdBy: number
-  listId: number
+  columnId: number
   createdAt: string
   updatedAt: string
   dueDate: string | null
