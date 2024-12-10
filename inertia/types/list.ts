@@ -1,6 +1,6 @@
-import { TaskType } from '~/types/task'
+import { TaskType } from './task'
 
-export type ListType = {
+export type ColumnType = {
   id: number
   title: string
   boardId: number

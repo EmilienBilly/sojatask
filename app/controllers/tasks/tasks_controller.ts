@@ -7,7 +7,7 @@ export default class TasksController {
     const { newListId } = request.only(['newListId'])
 
     const task = await Task.findOrFail(taskId)
-    task.listId = newListId
+    task.columnId = newListId
     await task.save()
 
     return response.redirect().back()

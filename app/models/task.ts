@@ -29,5 +29,5 @@ export default class Task extends BaseModel {
   declare createdBy: number
 
   @column()
-  declare listId: number
+  declare columnId: number
 }

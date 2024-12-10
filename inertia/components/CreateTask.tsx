@@ -6,14 +6,14 @@ import { Button } from '#shadcn/button'
 import { Card, CardContent, CardFooter } from '#shadcn/card'
 
 type CreateTaskButtonProps = {
-  listId: number
+  columnId: number
 }
-export default function CreateTask({ listId }: CreateTaskButtonProps) {
+export default function CreateTask({ columnId }: CreateTaskButtonProps) {
   const [isFormVisible, setIsFormVisible] = useState(false)
 
   const { data, setData, post, processing, reset } = useForm({
     title: '',
-    listId: listId,
+    columnsId: columnId,
   })
 
   function submit(event: { preventDefault: () => void }) {

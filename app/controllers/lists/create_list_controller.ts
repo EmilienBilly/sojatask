@@ -1,6 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { createListValidator } from '#validators/list_validator'
-import List from '#models/list'
+import List from '#models/column'
 
 export default class CreateListController {
   async handle({ request, response }: HttpContext) {
