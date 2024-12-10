@@ -47,44 +47,50 @@ export default function AppSidebar({
         <SidebarGroup>
           <SidebarGroupContent></SidebarGroupContent>
         </SidebarGroup>
-        <Collapsible defaultOpen className="group/collapsible">
-          <SidebarGroup>
-            <SidebarGroupLabel
-              asChild
-              className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-            >
-              <CollapsibleTrigger>
-                Tableaux
-                <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
-              </CollapsibleTrigger>
-            </SidebarGroupLabel>
-            <CollapsibleContent>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {activeWorkspace.boards && activeWorkspace.boards.length > 0 ? (
-                    activeWorkspace.boards.map((board) => (
-                      <SidebarMenuItem key={board.title}>
-                        <SidebarMenuButton asChild>
-                          <Link href={`/boards/${board.id}`}>{board.title}</Link>
-                        </SidebarMenuButton>
+        {workspaces ? (
+          <Collapsible defaultOpen className="group/collapsible">
+            <SidebarGroup>
+              <SidebarGroupLabel
+                asChild
+                className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              >
+                <CollapsibleTrigger>
+                  Tableaux
+                  <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                </CollapsibleTrigger>
+              </SidebarGroupLabel>
+              <CollapsibleContent>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {activeWorkspace.boards && activeWorkspace.boards.length > 0 ? (
+                      activeWorkspace.boards.map((board) => (
+                        <SidebarMenuItem key={board.title}>
+                          <SidebarMenuButton asChild>
+                            <Link href={`/boards/${board.id}`}>{board.title}</Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ))
+                    ) : (
+                      <SidebarMenuItem>
+                        <p className="p-2">Il n'y a aucun tableau dans cet espace de travail</p>
                       </SidebarMenuItem>
-                    ))
-                  ) : (
-                    <SidebarMenuItem>
-                      <p className="p-2">Il n'y a aucun tableau dans cet espace de travail</p>
-                    </SidebarMenuItem>
-                  )}
-                  <SidebarMenuButton asChild>
-                    <Link as="button" href={'/boards/create'}>
-                      Créer un tableau
-                      <Plus />
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </CollapsibleContent>
+                    )}
+                    <SidebarMenuButton asChild>
+                      <Link as="button" href={'/boards/create'}>
+                        Créer un tableau
+                        <Plus />
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </CollapsibleContent>
+            </SidebarGroup>
+          </Collapsible>
+        ) : (
+          <SidebarGroup>
+            <SidebarGroupContent>Aucun espace de travail créé pour le moment</SidebarGroupContent>
           </SidebarGroup>
-        </Collapsible>
+        )}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
