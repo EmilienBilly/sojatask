@@ -1,19 +1,14 @@
 import { InferPageProps } from '@adonisjs/inertia/types'
 import BoardsController from '#controllers/boards/boards_controller'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { ScrollArea, ScrollBar } from '#shadcn/scroll-area'
 import BoardHeader from '#inertia/BoardHeader'
 import CreateList from '#inertia/CreateList'
 import List from '#inertia/List'
 import { DndContext } from '@dnd-kit/core'
 
-export default function Board(props: InferPageProps<BoardsController, 'show'>) {
-  const board = props.board
-  const [lists, setLists] = useState(props.board.lists)
-
-  useEffect(() => {
-    setLists(props.board.lists)
-  }, [props.board.lists])
+export default function Board({ board }: InferPageProps<BoardsController, 'show'>) {
+  const [lists, setLists] = useState(board.lists)
 
   return (
     <>
