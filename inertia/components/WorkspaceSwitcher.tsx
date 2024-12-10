@@ -7,10 +7,10 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '~/components/ui/dropdown-menu'
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '~/components/ui/sidebar'
+} from '#shadcn/dropdown-menu'
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '#shadcn/sidebar'
 import WorkspaceDto from '#dtos/workspace'
-import { router } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 
 export function WorkspaceSwitcher({
   workspaces,
@@ -40,23 +40,30 @@ export function WorkspaceSwitcher({
               </div>
               <div className="flex flex-col gap-1 leading-none">
                 <span className="font-semibold">Workspace</span>
-                <span className="">{selectedWorkspace.title}</span>{' '}
+                <span className="">{selectedWorkspace && selectedWorkspace.title}</span>{' '}
               </div>
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-[--radix-dropdown-menu-trigger-width]" align="start">
-            {workspaces.map((workspace) => (
-              <DropdownMenuItem key={workspace.id} onSelect={() => setActiveWorkspace(workspace)}>
-                {workspace.title} {workspace === selectedWorkspace && <Check className="ml-auto" />}
-              </DropdownMenuItem>
-            ))}
+            {workspaces ? (
+              workspaces.map((workspace) => (
+                <DropdownMenuItem key={workspace.id} onSelect={() => setActiveWorkspace(workspace)}>
+                  {workspace.title}{' '}
+                  {workspace === selectedWorkspace && <Check className="ml-auto" />}
+                </DropdownMenuItem>
+              ))
+            ) : (
+              <DropdownMenuItem>Vous n'avez aucun workspace</DropdownMenuItem>
+            )}
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="gap-2 p-2">
-              <div className="flex size-6 items-center justify-center rounded-md border bg-background">
-                <Plus className="size-4" />
-              </div>
-              <div className="font-medium text-muted-foreground">Nouveau workspace</div>
+            <DropdownMenuItem className="gap-2 p-2 cursor-pointer" asChild>
+              <Link href={'/workspaces/create'}>
+                <div className="flex size-6 items-center justify-center rounded-md border bg-background">
+                  <Plus className="size-4" />
+                </div>
+                <div className="font-medium text-muted-foreground">Nouveau workspace</div>
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

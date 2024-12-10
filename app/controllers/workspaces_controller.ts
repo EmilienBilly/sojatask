@@ -12,15 +12,14 @@ export default class ProjectsController {
     return inertia.render('createProject')
   }
 
-  async store({ request, auth, session, response }: HttpContext) {
+  async store({ request, auth, response }: HttpContext) {
     const user = auth.user!
 
     const payload = await request.validateUsing(createWorkspaceValidator)
     const workspace = await Workspace.create({ ...payload, createdBy: user.id })
 
     await user.related('workspaces').attach([workspace.id])
-    session.flash('success', 'Projet créé')
-    return response.redirect(`/create-project`)
+    return response.redirect(`/`)
   }
 
   async active({ params, response }: HttpContext) {
