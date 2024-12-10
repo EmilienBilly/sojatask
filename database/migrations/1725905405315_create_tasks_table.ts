@@ -14,7 +14,7 @@ export default class extends BaseSchema {
       table.timestamp('due_date').nullable()
       table.boolean('archived').notNullable()
       table.integer('created_by').notNullable()
-      table.integer('list_id').notNullable()
+      table.integer('column_id').notNullable()
     })
   }
 

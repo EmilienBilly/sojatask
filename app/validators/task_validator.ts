@@ -5,6 +5,6 @@ export const createTaskValidator = vine.compile(
     title: vine.string(),
     archived: vine.number().optional(),
     deadline: vine.number().optional(),
-    listId: vine.number(),
+    columnId: vine.number(),
   })
 )

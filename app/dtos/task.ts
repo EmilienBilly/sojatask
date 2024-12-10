@@ -10,7 +10,7 @@ export default class TaskDto extends BaseModelDto {
   declare archived: number
   declare dueDate: string | null
   declare createdBy: number
-  declare listId: number
+  declare columnId: number
 
   constructor(task?: Task) {
     super()
@@ -24,6 +24,6 @@ export default class TaskDto extends BaseModelDto {
     this.archived = task.archived
     this.dueDate = task.dueDate?.toISO() ?? null
     this.createdBy = task.createdBy
-    this.listId = task.listId
+    this.columnId = task.columnId
   }
 }

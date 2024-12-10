@@ -1,6 +1,6 @@
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
-import List from '#models/list'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
+import Column from '#models/column'
 
 export default class Board extends BaseModel {
   static table = 'task_boards'
@@ -16,6 +16,6 @@ export default class Board extends BaseModel {
   @column()
   declare workspaceId: number
 
-  @hasMany(() => List)
-  declare lists: HasMany<typeof List>
+  @hasMany(() => Column)
+  declare columns: HasMany<typeof Column>
 }

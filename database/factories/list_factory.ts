@@ -1,5 +1,5 @@
 import factory from '@adonisjs/lucid/factories'
-import List from '#models/list'
+import List from '#models/column'
 
 export const ListFactory = factory
   .define(List, ({ faker }) => {

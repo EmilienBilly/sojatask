@@ -5,7 +5,7 @@ export default class BoardService {
   async getBoardWithListsAndTasks(boardId: number) {
     const board = await Board.query()
       .where('id', boardId)
-      .preload('lists', (query) => {
+      .preload('columns', (query) => {
         query.preload('tasks')
       })
       .firstOrFail()
