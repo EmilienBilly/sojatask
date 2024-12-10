@@ -7,11 +7,11 @@ import { Input } from '#shadcn/input'
 import { X } from 'lucide-react'
 import useClickOutside from '../hooks/useClickOutside'
 
-type CreateListProps = {
+type CreateColumnProps = {
   board: BoardType
 }
 
-export default function CreateList({ board }: CreateListProps) {
+export default function CreateColumn({ board }: CreateColumnProps) {
   const [isFormVisible, setIsFormVisible] = useState(false)
 
   const { data, setData, post, processing, reset } = useForm({
@@ -21,7 +21,7 @@ export default function CreateList({ board }: CreateListProps) {
 
   function submit(event: { preventDefault: () => void }) {
     event.preventDefault()
-    post('/create-list', {
+    post(`/boards/${board.id}/columns`, {
       onSuccess: () => {
         setIsFormVisible(false)
         reset()

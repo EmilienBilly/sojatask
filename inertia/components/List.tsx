@@ -1,5 +1,5 @@
 import Task from '#inertia/Task'
-import { ColumnType } from '../types/list'
+import { ColumnType } from '../types/column'
 import { TaskType } from '../types/task'
 import CreateTask from '#inertia/CreateTask'
 import { Card, CardContent, CardHeader } from '#shadcn/card'
