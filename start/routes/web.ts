@@ -6,9 +6,8 @@ const CreateTaskController = () => import('#controllers/tasks/create_task_contro
 const CreateListController = () => import('#controllers/lists/create_list_controller')
 const CreateBoardController = () => import('#controllers/boards/create_board_controller')
 const BoardsController = () => import('#controllers/boards/boards_controller')
-const UserWorkspacesController = () => import('#controllers/workspaces/user_workspaces_controller')
 const DashboardController = () => import('#controllers/dashboard_controller')
-const WorkspacesController = () => import('#controllers/workspaces/workspaces_controller')
+const WorkspacesController = () => import('#controllers/workspaces_controller')
 
 //
 
@@ -23,8 +22,6 @@ router
 
 router
   .group(() => {
-    router.get('user_projects', [UserWorkspacesController, 'index'])
-    router.get('user_projects/:id', [UserWorkspacesController, 'show']).as('userProjects.show')
     router.get('boards/create', [CreateBoardController, 'render']).as('boards.create')
     router.post('create_board', [CreateBoardController, 'handle'])
     router.get('/boards/:boardId', [BoardsController, 'show'])
