@@ -9,7 +9,6 @@ type CreateTaskButtonProps = {
   columnId: number
 }
 export default function CreateTask({ columnId }: CreateTaskButtonProps) {
-  console.log(columnId)
   const [isFormVisible, setIsFormVisible] = useState(false)
 
   const { data, setData, post, processing, reset } = useForm({

@@ -11,7 +11,7 @@ type ListProps = {
   column: ColumnType
 }
 
-export default function List({ tasks, column }: ListProps) {
+export default function Column({ tasks, column }: ListProps) {
   const { setNodeRef } = useDroppable({
     id: column.id,
   })
