@@ -18,6 +18,7 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
+    console.log(active, over)
 
     if (over && active.id !== over.id) {
       setColumns((items) => {
