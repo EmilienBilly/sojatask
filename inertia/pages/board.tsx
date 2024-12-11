@@ -5,7 +5,7 @@ import { ScrollArea, ScrollBar } from '#shadcn/scroll-area'
 import BoardHeader from '#inertia/BoardHeader'
 import CreateColumn from '#inertia/CreateColumn'
 import Column from '#inertia/Column'
-import { closestCenter, DndContext, DragEndEvent, UniqueIdentifier } from '@dnd-kit/core'
+import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core'
 import { arrayMove, SortableContext } from '@dnd-kit/sortable'
 import { router } from '@inertiajs/react'
 
@@ -19,8 +19,6 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
 
-    console.log(active, over)
-
     if (over && active.id !== over.id) {
       setColumns((items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id)
@@ -28,18 +26,11 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
         return arrayMove(items, oldIndex, newIndex)
       })
 
-      updateColumnOrderInDatabase(active.id, over.id)
+      router.patch(`/boards/${board.id}/reorder`, {
+        activeColumnId: active.id,
+        overColumnId: over.id,
+      })
     }
-  }
-
-  const updateColumnOrderInDatabase = (
-    activeColumnId: UniqueIdentifier,
-    overColumnId: UniqueIdentifier
-  ) => {
-    router.patch(`/boards/${board.id}/reorder`, {
-      activeColumnId,
-      overColumnId,
-    })
   }
 
   return (
