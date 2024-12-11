@@ -4,21 +4,37 @@ import EditTaskDialog from '#inertia/EditTaskDialog'
 import { useState } from 'react'
 import { GripVertical, Pencil } from 'lucide-react'
 import { Button } from '#shadcn/button'
+import { CSS } from '@dnd-kit/utilities'
+import { useSortable } from '@dnd-kit/sortable'
 
 type TaskCardProps = {
   task: TaskType
 }
 export default function Task({ task }: TaskCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+    id: task.id,
+    data: {
+      type: 'Task',
+    },
+  })
 
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  }
   return (
     <>
       <Card
+        style={style}
+        ref={setNodeRef}
         onClick={() => setIsDialogOpen(!isDialogOpen)}
         className="rounded-md hover:bg-hovered cursor-pointer group"
       >
         <CardHeader className="px-3 py-3 justify-between items-center flex flex-row border-b-2 border-secondary relative">
           <Button
+            {...attributes}
+            {...listeners}
             variant={'ghost'}
             className="p-1 text-secondary-foreground/50 -ml-2 h-auto cursor-grab"
           >

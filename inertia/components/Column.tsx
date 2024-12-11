@@ -4,8 +4,9 @@ import { TaskType } from '../types/task'
 import CreateTask from '#inertia/CreateTask'
 import { Card, CardContent, CardHeader } from '#shadcn/card'
 import { ScrollArea } from '#shadcn/scroll-area'
-import { useSortable } from '@dnd-kit/sortable'
+import { SortableContext, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { closestCenter, DndContext } from '@dnd-kit/core'
 
 type ListProps = {
   tasks: TaskType[]
@@ -15,6 +16,9 @@ type ListProps = {
 export default function Column({ tasks, column }: ListProps) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: column.id,
+    data: {
+      type: 'Column',
+    },
   })
 
   const style = {
@@ -37,7 +41,13 @@ export default function Column({ tasks, column }: ListProps) {
       </CardHeader>
       <ScrollArea>
         <CardContent className="flex flex-grow flex-col gap-2 p-2">
-          {tasks?.map((task) => <Task key={task.id} task={task} />)}
+          <DndContext collisionDetection={closestCenter}>
+            <SortableContext items={tasks.map((task) => task.id)}>
+              {tasks.map((task) => (
+                <Task key={task.id} task={task} />
+              ))}
+            </SortableContext>
+          </DndContext>
           <CreateTask columnId={column.id} />
         </CardContent>
       </ScrollArea>
