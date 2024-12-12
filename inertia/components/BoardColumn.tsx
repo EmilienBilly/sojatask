@@ -4,29 +4,39 @@ import { Card, CardContent, CardHeader } from '#shadcn/card'
 import { ScrollArea } from '#shadcn/scroll-area'
 import { arrayMove, SortableContext, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core'
+import { closestCenter, DndContext, DragEndEvent, DragOverlay, DragStartEvent } from '@dnd-kit/core'
 import { Column } from '../types/column'
 import { Task } from '../types/task'
 import { useState } from 'react'
+import { cva } from 'class-variance-authority'
 
 type ListProps = {
   tasks: Task[]
   column: Column
+  isOverlay?: boolean
 }
 
-export default function BoardColumn({ tasks: initialTasks, column }: ListProps) {
+export default function BoardColumn({ isOverlay, tasks: initialTasks, column }: ListProps) {
   const [tasks, setTasks] = useState(initialTasks)
+  const [activeTask, setActiveTask] = useState<Task | null>(null)
 
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column.id,
     data: {
       type: 'Column',
+      column,
     },
   })
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+  }
+
+  function handleDragStart(event: DragStartEvent) {
+    const { active } = event
+
+    setActiveTask(active.data.current?.task)
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -39,19 +49,29 @@ export default function BoardColumn({ tasks: initialTasks, column }: ListProps) 
         const newIndex = items.findIndex((item) => item.id === over.id)
         return arrayMove(items, oldIndex, newIndex)
       })
-
-      // router.patch(`/boards/${board.id}/reorder`, {
-      //   activeColumnId: active.id,
-      //   overColumnId: over.id,
-      // })
     }
   }
+
+  const variants = cva(
+    'h-[720px] max-h-[720px] w-[350px] max-w-full bg-primary-foreground flex flex-col flex-shrink-0 snap-center',
+    {
+      variants: {
+        dragging: {
+          default: 'border-2 border-transparent',
+          over: 'ring-2 opacity-30',
+          overlay: 'ring-2 ring-primary',
+        },
+      },
+    }
+  )
 
   return (
     <Card
       style={style}
       ref={setNodeRef}
-      className="max-h-[720px] w-[350px] max-w-full flex flex-col flex-shrink-0 snap-center"
+      className={variants({
+        dragging: isOverlay ? 'overlay' : isDragging ? 'over' : undefined,
+      })}
     >
       <CardHeader
         {...attributes}
@@ -62,12 +82,19 @@ export default function BoardColumn({ tasks: initialTasks, column }: ListProps) 
       </CardHeader>
       <ScrollArea>
         <CardContent className="flex flex-grow flex-col gap-2 p-2">
-          <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <DndContext
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+            onDragStart={handleDragStart}
+          >
             <SortableContext items={tasks.map((task) => task.id)}>
               {tasks.map((task) => (
                 <TaskCard key={task.id} task={task} />
               ))}
             </SortableContext>
+            <DragOverlay>
+              {activeTask && <TaskCard key={activeTask.id} task={activeTask} />}
+            </DragOverlay>
           </DndContext>
           <CreateTask columnId={column.id} />
         </CardContent>
