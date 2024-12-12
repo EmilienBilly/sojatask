@@ -1,8 +1,8 @@
-import { TaskType } from './task'
+import { Task } from './task'
 
-export type ColumnType = {
+export type Column = {
   id: number
   title: string
   boardId: number
-  tasks: TaskType[]
+  tasks: Task[]
 }
