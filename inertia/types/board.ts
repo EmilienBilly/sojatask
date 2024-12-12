@@ -1,9 +1,9 @@
-import { ColumnType } from './column'
+import { Column } from './column'
 
-export type BoardType = {
+export type Board = {
   id: number
   title: string
   description: string
   workspaceId: number
-  columns: ColumnType[]
+  columns: Column[]
 }
