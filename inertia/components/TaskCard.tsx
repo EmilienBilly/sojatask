@@ -6,16 +6,19 @@ import { Button } from '#shadcn/button'
 import { CSS } from '@dnd-kit/utilities'
 import { useSortable } from '@dnd-kit/sortable'
 import { Task } from '../types/task'
+import { cva } from 'class-variance-authority'
 
 type TaskCardProps = {
   task: Task
+  isOverlay?: boolean
 }
-export default function TaskCard({ task }: TaskCardProps) {
+export default function TaskCard({ isOverlay, task }: TaskCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: task.id,
     data: {
       type: 'Task',
+      task,
     },
   })
 
@@ -23,13 +26,25 @@ export default function TaskCard({ task }: TaskCardProps) {
     transform: CSS.Transform.toString(transform),
     transition,
   }
+
+  const variants = cva('hover:bg-hovered cursor-pointer group', {
+    variants: {
+      dragging: {
+        over: 'ring-2 opacity-30',
+        overlay: 'ring-2 ring-primary',
+      },
+    },
+  })
+
   return (
     <>
       <Card
         style={style}
         ref={setNodeRef}
         onClick={() => setIsDialogOpen(!isDialogOpen)}
-        className="rounded-md hover:bg-hovered cursor-pointer group"
+        className={variants({
+          dragging: isOverlay ? 'overlay' : isDragging ? 'over' : undefined,
+        })}
       >
         <CardHeader className="px-3 py-3 justify-between items-center flex flex-row border-b-2 border-secondary relative">
           <Button
