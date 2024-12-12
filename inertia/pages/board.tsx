@@ -1,20 +1,15 @@
 import { InferPageProps } from '@adonisjs/inertia/types'
 import BoardsController from '#controllers/boards/boards_controller'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { ScrollArea, ScrollBar } from '#shadcn/scroll-area'
 import BoardHeader from '#inertia/BoardHeader'
 import CreateColumn from '#inertia/CreateColumn'
 import BoardColumn from '#inertia/BoardColumn'
 import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core'
 import { arrayMove, SortableContext } from '@dnd-kit/sortable'
-import { router } from '@inertiajs/react'
 
 export default function Board({ board }: InferPageProps<BoardsController, 'show'>) {
   const [columns, setColumns] = useState(board.columns)
-
-  useEffect(() => {
-    setColumns(board.columns)
-  }, [board.columns])
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
@@ -27,10 +22,10 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
         return arrayMove(items, oldIndex, newIndex)
       })
 
-      router.patch(`/boards/${board.id}/reorder`, {
-        activeColumnId: active.id,
-        overColumnId: over.id,
-      })
+      // router.patch(`/boards/${board.id}/reorder`, {
+      //   activeColumnId: active.id,
+      //   overColumnId: over.id,
+      // })
     }
   }
 
