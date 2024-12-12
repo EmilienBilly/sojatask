@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { ScrollArea, ScrollBar } from '#shadcn/scroll-area'
 import BoardHeader from '#inertia/BoardHeader'
 import CreateColumn from '#inertia/CreateColumn'
-import Column from '#inertia/Column'
+import BoardColumn from '#inertia/BoardColumn'
 import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core'
 import { arrayMove, SortableContext } from '@dnd-kit/sortable'
 import { router } from '@inertiajs/react'
@@ -42,7 +42,7 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
           <div className="flex gap-4 flex-row p-4">
             <SortableContext items={columns}>
               {columns?.map((column) => (
-                <Column key={column.id} column={column} tasks={column.tasks} />
+                <BoardColumn key={column.id} column={column} tasks={column.tasks} />
               ))}
             </SortableContext>
             <CreateColumn board={board} />

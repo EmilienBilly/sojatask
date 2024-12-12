@@ -1,4 +1,3 @@
-import { TaskType } from '../types/task'
 import { Card, CardContent, CardHeader } from '#shadcn/card'
 import EditTaskDialog from '#inertia/EditTaskDialog'
 import { useState } from 'react'
@@ -6,11 +5,12 @@ import { GripVertical, Pencil } from 'lucide-react'
 import { Button } from '#shadcn/button'
 import { CSS } from '@dnd-kit/utilities'
 import { useSortable } from '@dnd-kit/sortable'
+import { Task } from '../types/task'
 
 type TaskCardProps = {
-  task: TaskType
+  task: Task
 }
-export default function Task({ task }: TaskCardProps) {
+export default function TaskCard({ task }: TaskCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: task.id,
