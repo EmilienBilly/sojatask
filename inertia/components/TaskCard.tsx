@@ -1,12 +1,12 @@
 import { Card, CardContent, CardHeader } from '#shadcn/card'
 import EditTaskDialog from '#inertia/EditTaskDialog'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { GripVertical, Pencil } from 'lucide-react'
 import { Button } from '#shadcn/button'
-import { CSS } from '@dnd-kit/utilities'
-import { useSortable } from '@dnd-kit/sortable'
 import { Task } from '../types/task'
 import { cva } from 'class-variance-authority'
+import { draggable } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
+import invariant from 'tiny-invariant'
 
 type TaskCardProps = {
   task: Task
@@ -14,18 +14,20 @@ type TaskCardProps = {
 }
 export default function TaskCard({ isOverlay, task }: TaskCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: task.id,
-    data: {
-      type: 'Task',
-      task,
-    },
-  })
+  const [dragging, setDragging] = useState<boolean>(false)
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  }
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const draggableElement = ref.current
+    invariant(draggableElement)
+    return draggable({
+      element: draggableElement,
+      getInitialData: () => ({ card: task }),
+      onDragStart: () => setDragging(true),
+      onDrop: () => setDragging(false),
+    })
+  }, [])
 
   const variants = cva('hover:bg-hovered cursor-pointer group', {
     variants: {
@@ -39,17 +41,14 @@ export default function TaskCard({ isOverlay, task }: TaskCardProps) {
   return (
     <>
       <Card
-        style={style}
-        ref={setNodeRef}
+        ref={ref}
         onClick={() => setIsDialogOpen(!isDialogOpen)}
         className={variants({
-          dragging: isOverlay ? 'overlay' : isDragging ? 'over' : undefined,
+          dragging: dragging ? 'over' : undefined,
         })}
       >
         <CardHeader className="px-3 py-3 justify-between items-center flex flex-row border-b-2 border-secondary relative">
           <Button
-            {...attributes}
-            {...listeners}
             variant={'ghost'}
             className="p-1 text-secondary-foreground/50 -ml-2 h-auto cursor-grab"
           >
