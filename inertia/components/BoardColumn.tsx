@@ -4,10 +4,7 @@ import { Card, CardContent, CardHeader } from '#shadcn/card'
 import { ScrollArea } from '#shadcn/scroll-area'
 import { Column } from '../types/column'
 import { Task } from '../types/task'
-import { useEffect, useRef, useState } from 'react'
 import { cva } from 'class-variance-authority'
-import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
-import invariant from 'tiny-invariant'
 
 type ListProps = {
   columnId: number
@@ -16,24 +13,7 @@ type ListProps = {
   isOverlay?: boolean
 }
 
-export default function BoardColumn({ isOverlay, columnId, tasks, column }: ListProps) {
-  const [isDraggedOver, setIsDraggedOver] = useState(false)
-
-  const ref = useRef(null)
-
-  useEffect(() => {
-    const draggedOverElement = ref.current
-    invariant(draggedOverElement)
-
-    return dropTargetForElements({
-      element: draggedOverElement,
-      getData: () => ({ columnId }),
-      onDragEnter: () => setIsDraggedOver(true),
-      onDragLeave: () => setIsDraggedOver(false),
-      onDrop: () => setIsDraggedOver(false),
-    })
-  }, [])
-
+export default function BoardColumn({ columnId, tasks, column }: ListProps) {
   const variants = cva(
     'h-[720px] max-h-[720px] w-[350px] max-w-full bg-primary-foreground flex flex-col flex-shrink-0 snap-center',
     {
@@ -49,9 +29,8 @@ export default function BoardColumn({ isOverlay, columnId, tasks, column }: List
 
   return (
     <Card
-      ref={ref}
       className={variants({
-        dragging: isDraggedOver ? 'over' : undefined,
+        dragging: undefined,
       })}
     >
       <CardHeader className="p-4 font-semibold border-b-2 text-left flex flex-row space-between items-center">
@@ -60,7 +39,7 @@ export default function BoardColumn({ isOverlay, columnId, tasks, column }: List
       <ScrollArea>
         <CardContent className="flex flex-grow flex-col gap-2 p-2">
           {tasks.map((task) => (
-            <TaskCard key={task.id} task={task} />
+            <TaskCard key={task.id} task={task} columnId={columnId} />
           ))}
           <CreateTask columnId={column.id} />
         </CardContent>

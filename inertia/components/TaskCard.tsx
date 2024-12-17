@@ -5,16 +5,17 @@ import { GripVertical, Pencil } from 'lucide-react'
 import { Button } from '#shadcn/button'
 import { Task } from '../types/task'
 import { cva } from 'class-variance-authority'
-import { draggable } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
+import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 import invariant from 'tiny-invariant'
 
 type TaskCardProps = {
   task: Task
-  isOverlay?: boolean
+  columnId: number
 }
-export default function TaskCard({ isOverlay, task }: TaskCardProps) {
+export default function TaskCard({ columnId, task }: TaskCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [dragging, setDragging] = useState<boolean>(false)
+  const [isDraggedOver, setIsDraggedOver] = useState(false)
 
   const ref = useRef(null)
 
@@ -26,6 +27,19 @@ export default function TaskCard({ isOverlay, task }: TaskCardProps) {
       getInitialData: () => ({ card: task }),
       onDragStart: () => setDragging(true),
       onDrop: () => setDragging(false),
+    })
+  }, [])
+
+  useEffect(() => {
+    const draggedOverElement = ref.current
+    invariant(draggedOverElement)
+
+    return dropTargetForElements({
+      element: draggedOverElement,
+      getData: () => ({ columnId, taskId: task.id }),
+      onDragEnter: () => setIsDraggedOver(true),
+      onDragLeave: () => setIsDraggedOver(false),
+      onDrop: () => setIsDraggedOver(false),
     })
   }, [])
 
