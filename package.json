@@ -117,6 +117,20 @@
     "overrides": [
       {
         "files": [
+          "./inertia/components/utils/*.ts",
+          "./inertia/components/utils/*.tsx"
+        ],
+        "rules": {
+          "unicorn/filename-case": [
+            "error",
+            {
+              "case": "camelCase"
+            }
+          ]
+        }
+      },
+      {
+        "files": [
           "./inertia/**/*.ts",
           "./inertia/**/*.tsx"
         ],
@@ -131,8 +145,8 @@
       },
       {
         "files": [
-          "./inertia/components/**/*.ts",
-          "./inertia/components/**/*.tsx",
+          "./inertia/components/*.ts",
+          "./inertia/components/*.tsx",
           "./inertia/layouts/**/*.ts",
           "./inertia/layouts/**/*.tsx"
         ],

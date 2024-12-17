@@ -41,7 +41,7 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
 
         const card = source.data.card as Task
         const columnId = destination.data.columnId as number
-        const destinationCardId = destination.data.cardId as number
+        const destinationCardId = destination.data.taskId as number
 
         setBoardColumns((columns) =>
           moveTask(card, { columnId, cardId: destinationCardId }, { ...board, columns })
