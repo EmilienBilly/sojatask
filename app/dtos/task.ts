@@ -11,6 +11,7 @@ export default class TaskDto extends BaseModelDto {
   declare dueDate: string | null
   declare createdBy: number
   declare columnId: number
+  declare order: number
 
   constructor(task?: Task) {
     super()
@@ -25,5 +26,6 @@ export default class TaskDto extends BaseModelDto {
     this.dueDate = task.dueDate?.toISO() ?? null
     this.createdBy = task.createdBy
     this.columnId = task.columnId
+    this.order = task.order
   }
 }
