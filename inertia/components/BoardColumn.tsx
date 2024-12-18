@@ -26,8 +26,12 @@ export default function BoardColumn({ columnId, tasks, column }: ListProps) {
 
     return dropTargetForElements({
       element,
+      getData: () => ({
+        columnId: columnId,
+        type: 'column', // Ajoutez un type pour distinguer les drop targets
+      }),
     })
-  }, [])
+  }, [columnId])
 
   const variants = cva(
     'h-[720px] max-h-[720px] w-[350px] max-w-full bg-primary-foreground flex flex-col flex-shrink-0 snap-center',

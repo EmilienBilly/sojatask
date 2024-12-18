@@ -37,13 +37,20 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
         console.log('Source', source)
         console.log('Location', location)
         const destination = location.current.dropTargets[0]
+
         if (!destination) {
           return
         }
 
         const task = source.data.task as Task
-        const columnId = destination.data.columnId as number
-        const destinationCardId = destination.data.taskId as number
+
+        // Vérifiez si le drop target est une colonne ou une tâche
+        const isColumnDrop = destination.data.type === 'column'
+        const columnId = isColumnDrop
+          ? (destination.data.columnId as number)
+          : (destination.data.columnId as number)
+
+        const destinationCardId = isColumnDrop ? undefined : (destination.data.taskId as number)
 
         setBoardColumns((columns) =>
           moveTask(task, { columnId, cardId: destinationCardId }, { ...board, columns })
