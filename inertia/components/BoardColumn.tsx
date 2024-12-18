@@ -5,6 +5,8 @@ import { ScrollArea } from '#shadcn/scroll-area'
 import { Column } from '../types/column'
 import { Task } from '../types/task'
 import { cva } from 'class-variance-authority'
+import { useEffect, useRef } from 'react'
+import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 
 type ListProps = {
   columnId: number
@@ -14,6 +16,22 @@ type ListProps = {
 }
 
 export default function BoardColumn({ columnId, tasks, column }: ListProps) {
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const element = ref.current
+    if (!element) {
+      return
+    }
+
+    return dropTargetForElements({
+      element,
+      onDragLeave() {
+        console.log('moving away from column')
+      },
+    })
+  }, [])
+
   const variants = cva(
     'h-[720px] max-h-[720px] w-[350px] max-w-full bg-primary-foreground flex flex-col flex-shrink-0 snap-center',
     {
@@ -29,6 +47,7 @@ export default function BoardColumn({ columnId, tasks, column }: ListProps) {
 
   return (
     <Card
+      ref={ref}
       className={variants({
         dragging: undefined,
       })}

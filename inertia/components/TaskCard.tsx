@@ -7,6 +7,9 @@ import { Task } from '../types/task'
 import { cva } from 'class-variance-authority'
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 import invariant from 'tiny-invariant'
+import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine'
+import DropIndicator from '@atlaskit/pragmatic-drag-and-drop-react-drop-indicator/box'
+import { Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/types'
 
 type TaskCardProps = {
   task: Task
@@ -16,34 +19,44 @@ export default function TaskCard({ columnId, task }: TaskCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [dragging, setDragging] = useState<boolean>(false)
   const [isDraggedOver, setIsDraggedOver] = useState(false)
+  const [closestEdge, setClosestEdge] = useState<Edge | null>(null)
 
   const ref = useRef(null)
 
   useEffect(() => {
-    const draggableElement = ref.current
-    invariant(draggableElement)
-    return draggable({
-      element: draggableElement,
-      getInitialData: () => ({ card: task }),
-      onDragStart: () => setDragging(true),
-      onDrop: () => setDragging(false),
-    })
-  }, [])
+    const element = ref.current
+    invariant(element)
+    return combine(
+      draggable({
+        element,
+        getInitialData: () => ({ task: task }),
+        onDragStart: () => setDragging(true),
+        onDrop: () => setDragging(false),
+      }),
 
-  useEffect(() => {
-    const draggedOverElement = ref.current
-    invariant(draggedOverElement)
+      dropTargetForElements({
+        element,
+        getData: () => ({ columnId, taskId: task.id }),
+        canDrop({ source }) {
+          return source.element !== element
+        },
+        onDragEnter: () => {
+          setIsDraggedOver(true)
+          setClosestEdge('bottom')
+        },
+        onDragLeave: () => {
+          setIsDraggedOver(false)
+          setClosestEdge(null)
+        },
+        onDrop: () => {
+          setIsDraggedOver(false)
+          setClosestEdge(null)
+        },
+      })
+    )
+  }, [task])
 
-    return dropTargetForElements({
-      element: draggedOverElement,
-      getData: () => ({ columnId, taskId: task.id }),
-      onDragEnter: () => setIsDraggedOver(true),
-      onDragLeave: () => setIsDraggedOver(false),
-      onDrop: () => setIsDraggedOver(false),
-    })
-  }, [])
-
-  const variants = cva('hover:bg-hovered cursor-pointer group', {
+  const variants = cva('hover:bg-hovered cursor-pointer group inline-block relative', {
     variants: {
       dragging: {
         over: 'ring-2 opacity-30',
@@ -76,6 +89,7 @@ export default function TaskCard({ columnId, task }: TaskCardProps) {
           />
         </CardHeader>
         <CardContent className="px-3 pt-3 pb-6 text-left">{task.title}</CardContent>
+        {closestEdge && <DropIndicator edge={closestEdge} gap="8px" />}
       </Card>
       <EditTaskDialog open={isDialogOpen} task={task} onOpenChange={setIsDialogOpen} />
     </>
