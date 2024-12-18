@@ -8,7 +8,7 @@ import BoardColumn from '#inertia/BoardColumn'
 import { SortableContext } from '@dnd-kit/sortable'
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 import { Task } from '../types/task'
-import { moveTask } from '#inertia/utils/board.business'
+import { moveTask, updateReorderedTaskInDatabase } from '#inertia/utils/board.business'
 
 export default function Board({ board }: InferPageProps<BoardsController, 'show'>) {
   const [boardColumns, setBoardColumns] = useState(board.columns)
@@ -43,6 +43,9 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
         }
 
         const task = source.data.task as Task
+        const sourceColumnId = source.data.columnId as number
+        const destinationColumnId = destination.data.columnId as number
+        const destinationTaskId = destination.data.taskId as number | null
 
         // Vérifiez si le drop target est une colonne ou une tâche
         const isColumnDrop = destination.data.type === 'column'
@@ -54,6 +57,14 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
 
         setBoardColumns((columns) =>
           moveTask(task, { columnId, cardId: destinationCardId }, { ...board, columns })
+        )
+
+        updateReorderedTaskInDatabase(
+          board.id,
+          task.id,
+          destinationTaskId,
+          sourceColumnId,
+          destinationColumnId
         )
       },
     })

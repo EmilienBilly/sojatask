@@ -29,8 +29,7 @@ router
     router.get('/boards/:boardId', [BoardsController, 'show'])
     router.post('/boards/:boardId/columns/', [CreateColumnController])
     router.patch('/boards/:boardId/reorder', [ColumnController, 'reorder']).as('boards.reorder')
+    router.patch('/boards/:boardId/reorder/tasks', [TasksController, 'reorder']).as('tasks.reorder')
     router.post('create-task', [CreateTaskController])
-
-    router.patch('tasks/:id/update', [TasksController, 'update'])
   })
   .use([middleware.auth(), middleware.workspace()])
