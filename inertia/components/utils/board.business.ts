@@ -25,10 +25,15 @@ const dropTaskAfter = (
   destinationTaskId: number | undefined,
   destinationColumn: Column
 ): Column => {
-  console.log(originTask, destinationTaskId)
   return produce(destinationColumn, (draft) => {
-    const index = draft.tasks.findIndex((task) => task.id === destinationTaskId)
-    draft.tasks.splice(index + 1, 0, originTask)
+    if (destinationTaskId === undefined) {
+      // Si aucune tâche de destination n'est spécifiée, ajouter à la fin
+      draft.tasks.push(originTask)
+    } else {
+      // Sinon, insérer après la tâche de destination
+      const index = draft.tasks.findIndex((task) => task.id === destinationTaskId)
+      draft.tasks.splice(index + 1, 0, originTask)
+    }
   })
 }
 

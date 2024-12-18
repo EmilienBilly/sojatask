@@ -22,24 +22,23 @@ type TaskCardProps = {
 export default function TaskCard({ columnId, task }: TaskCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [dragging, setDragging] = useState<boolean>(false)
-  const [isDraggedOver, setIsDraggedOver] = useState(false)
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null)
 
   const ref = useRef(null)
 
   useEffect(() => {
-    const element = ref.current
-    invariant(element)
+    const taskCardElement = ref.current
+    invariant(taskCardElement)
     return combine(
       draggable({
-        element,
+        element: taskCardElement,
         getInitialData: () => ({ task: task }),
         onDragStart: () => setDragging(true),
         onDrop: () => setDragging(false),
       }),
 
       dropTargetForElements({
-        element,
+        element: taskCardElement,
         getIsSticky: () => true,
         getData: ({ input, element }) => {
           const data = { columnId: columnId, taskId: task.id }
@@ -51,29 +50,26 @@ export default function TaskCard({ columnId, task }: TaskCardProps) {
           })
         },
         canDrop({ source }) {
-          return source.element !== element
+          return source.element !== taskCardElement
         },
         onDragEnter: ({ self }) => {
-          setIsDraggedOver(true)
-          const closestEdge = extractClosestEdge(self.data)
-          if (!closestEdge) {
+          const edge = extractClosestEdge(self.data)
+          if (!edge) {
             return
           }
-          setClosestEdge(closestEdge)
+          setClosestEdge(edge)
         },
         onDrag: ({ self }) => {
-          const closestEdge = extractClosestEdge(self.data)
-          if (!closestEdge) {
+          const edge = extractClosestEdge(self.data)
+          if (!edge) {
             return
           }
-          setClosestEdge(closestEdge)
+          setClosestEdge(edge)
         },
         onDragLeave: () => {
-          setIsDraggedOver(false)
           setClosestEdge(null)
         },
         onDrop: () => {
-          setIsDraggedOver(false)
           setClosestEdge(null)
         },
       })
