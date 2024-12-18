@@ -8,4 +8,5 @@ export type Task = {
   createdAt: string
   updatedAt: string
   dueDate: string | null
+  order: number
 }

@@ -6,7 +6,9 @@ export default class GetBoardWithColumnsAndTasks {
       .where('id', id)
       .preload('columns', (query) => {
         query.orderBy('order', 'asc')
-        query.preload('tasks')
+        query.preload('tasks', (queryTasks) => {
+          queryTasks.orderBy('order', 'asc')
+        })
       })
       .firstOrFail()
 

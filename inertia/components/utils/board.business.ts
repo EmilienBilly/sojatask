@@ -3,6 +3,7 @@ import { produce } from 'immer'
 import { Task } from '../../types/task'
 import { Column } from '../../types/column'
 import { Board } from '../../types/board'
+import { router } from '@inertiajs/react'
 
 type DropTaskArgs = { columnId: number; cardId?: number } // cardId est optionnel
 
@@ -27,13 +28,27 @@ const dropTaskAfter = (
 ): Column => {
   return produce(destinationColumn, (draft) => {
     if (destinationTaskId === undefined) {
-      // Si aucune tâche de destination n'est spécifiée, ajouter à la fin
-      draft.tasks.push(originTask)
+      // Si pas de tâche de destination, ajouter à la fin
+      draft.tasks.push({
+        ...originTask,
+        order: draft.tasks.length + 1,
+      })
     } else {
-      // Sinon, insérer après la tâche de destination
+      // Insérer après la tâche de destination
       const index = draft.tasks.findIndex((task) => task.id === destinationTaskId)
-      draft.tasks.splice(index + 1, 0, originTask)
+      draft.tasks.splice(index + 1, 0, {
+        ...originTask,
+        order: draft.tasks[index].order + 0.5, // Placement entre deux ordres
+      })
     }
+
+    // Réordonner les tâches
+    draft.tasks = draft.tasks
+      .sort((a, b) => (a.order || 0) - (b.order || 0))
+      .map((task, index) => ({
+        ...task,
+        order: index + 1,
+      }))
   })
 }
 
@@ -61,4 +76,19 @@ export const moveTask = (task: Task, dropArgs: DropTaskArgs, board: Board): Colu
   const boardWithoutTask = removeTaskFromColumn(task, board)
   const boardWithTaskAdded = addTaskToColumn(task, dropArgs, boardWithoutTask)
   return boardWithTaskAdded.columns
+}
+
+export const updateReorderedTaskInDatabase = (
+  boardId: number,
+  taskId: number,
+  destinationTaskId: number | null,
+  sourceColumnId: number,
+  destinationColumnId: number
+) => {
+  router.patch(`/boards/${boardId}/reorder/tasks`, {
+    activeTaskId: taskId,
+    overTaskId: destinationTaskId,
+    activeColumnId: sourceColumnId,
+    overColumnId: destinationColumnId,
+  })
 }
