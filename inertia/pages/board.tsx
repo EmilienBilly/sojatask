@@ -34,6 +34,8 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
   useEffect(() => {
     return monitorForElements({
       onDrop({ source, location }) {
+        console.log('Source', source)
+        console.log('Location', location)
         const destination = location.current.dropTargets[0]
         if (!destination) {
           return

@@ -10,6 +10,10 @@ import invariant from 'tiny-invariant'
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine'
 import DropIndicator from '@atlaskit/pragmatic-drag-and-drop-react-drop-indicator/box'
 import { Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/types'
+import {
+  attachClosestEdge,
+  extractClosestEdge,
+} from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge'
 
 type TaskCardProps = {
   task: Task
@@ -36,13 +40,33 @@ export default function TaskCard({ columnId, task }: TaskCardProps) {
 
       dropTargetForElements({
         element,
-        getData: () => ({ columnId, taskId: task.id }),
+        getIsSticky: () => true,
+        getData: ({ input, element }) => {
+          const data = { columnId: columnId, taskId: task.id }
+          return attachClosestEdge(data, {
+            input,
+            element,
+            // you can specify what edges you want to allow the user to be closest to
+            allowedEdges: ['top', 'bottom'],
+          })
+        },
         canDrop({ source }) {
           return source.element !== element
         },
-        onDragEnter: () => {
+        onDragEnter: ({ self }) => {
           setIsDraggedOver(true)
-          setClosestEdge('bottom')
+          const closestEdge = extractClosestEdge(self.data)
+          if (!closestEdge) {
+            return
+          }
+          setClosestEdge(closestEdge)
+        },
+        onDrag: ({ self }) => {
+          const closestEdge = extractClosestEdge(self.data)
+          if (!closestEdge) {
+            return
+          }
+          setClosestEdge(closestEdge)
         },
         onDragLeave: () => {
           setIsDraggedOver(false)

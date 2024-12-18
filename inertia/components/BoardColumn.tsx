@@ -26,9 +26,6 @@ export default function BoardColumn({ columnId, tasks, column }: ListProps) {
 
     return dropTargetForElements({
       element,
-      onDragLeave() {
-        console.log('moving away from column')
-      },
     })
   }, [])
 
