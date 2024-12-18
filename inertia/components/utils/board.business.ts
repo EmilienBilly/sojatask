@@ -22,10 +22,12 @@ const removeTaskFromColumn = (task: Task, board: Board): Board => {
  * Ajoute une tâche après une autre tâche dans une colonne spécifique.
  */
 const dropTaskAfter = (
+  destinationTask: Symbol,
   originTask: Task,
   destinationTaskId: number | undefined,
   destinationColumn: Column
 ): Column => {
+  console.log(destinationTask)
   return produce(destinationColumn, (draft) => {
     if (destinationTaskId === undefined) {
       // Si pas de tâche de destination, ajouter à la fin
@@ -34,31 +36,33 @@ const dropTaskAfter = (
         order: draft.tasks.length + 1,
       })
     } else {
-      // Insérer après la tâche de destination
+      // Trouver l'index de la tâche de destination
       const index = draft.tasks.findIndex((task) => task.id === destinationTaskId)
-      draft.tasks.splice(index + 1, 0, {
-        ...originTask,
-        order: draft.tasks[index].order + 0.5, // Placement entre deux ordres
-      })
-    }
 
-    // Réordonner les tâches
-    draft.tasks = draft.tasks
-      .sort((a, b) => (a.order || 0) - (b.order || 0))
-      .map((task, index) => ({
+      // Insérer après la tâche de destination
+      draft.tasks.splice(index + 1, 0, originTask)
+
+      // Réassigner les ordres
+      draft.tasks = draft.tasks.map((task, i) => ({
         ...task,
-        order: index + 1,
+        order: i + 1,
       }))
+    }
   })
 }
 
 /**
  * Ajoute une tâche à une colonne spécifique dans le tableau.
  */
-const addTaskToColumn = (task: Task, dropArgs: DropTaskArgs, board: Board): Board => {
+const addTaskToColumn = (
+  destinationTask: Symbol,
+  task: Task,
+  dropArgs: DropTaskArgs,
+  board: Board
+): Board => {
   const newColumns = board.columns.map((column) => {
     if (column.id === dropArgs.columnId) {
-      return dropTaskAfter(task, dropArgs.cardId, column)
+      return dropTaskAfter(destinationTask, task, dropArgs.cardId, column)
     }
     return column
   })
@@ -72,9 +76,14 @@ const addTaskToColumn = (task: Task, dropArgs: DropTaskArgs, board: Board): Boar
 /**
  * Déplace une tâche entre colonnes dans un tableau.
  */
-export const moveTask = (task: Task, dropArgs: DropTaskArgs, board: Board): Column[] => {
+export const moveTask = (
+  destinationTask: Symbol,
+  task: Task,
+  dropArgs: DropTaskArgs,
+  board: Board
+): Column[] => {
   const boardWithoutTask = removeTaskFromColumn(task, board)
-  const boardWithTaskAdded = addTaskToColumn(task, dropArgs, boardWithoutTask)
+  const boardWithTaskAdded = addTaskToColumn(destinationTask, task, dropArgs, boardWithoutTask)
   return boardWithTaskAdded.columns
 }
 
