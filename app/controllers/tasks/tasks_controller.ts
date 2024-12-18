@@ -16,17 +16,38 @@ export default class TaskController {
       const overTask = await Task.findOrFail(overTaskId)
 
       if (activeColumnId === overColumnId) {
-        const tempOrder = activeTask.order
-        activeTask.order = overTask.order
-        overTask.order = tempOrder
+        // Handle case where task is placed between two others in the same column
+        const allTasks = await Task.query().where('columnId', activeColumnId).orderBy('order')
 
-        await activeTask.save()
-        await overTask.save()
+        const overTaskIndex = allTasks.findIndex((task) => task.id === overTaskId)
+        const activeTaskIndex = allTasks.findIndex((task) => task.id === activeTaskId)
+
+        // Remove the active task from the list and insert it at the new position
+        allTasks.splice(activeTaskIndex, 1)
+        allTasks.splice(overTaskIndex + 1, 0, activeTask)
+
+        // Reassign order values to tasks in the updated list
+        for (const [i, allTask] of allTasks.entries()) {
+          allTask.order = i + 1
+          await allTask.save()
+        }
       } else {
         activeTask.columnId = overColumnId
-        activeTask.order = overTask.order
+        activeTask.order = overTask.order + 0.5
 
-        await activeTask.save()
+        // Ensure no duplicate orders in the destination column
+        const tasksInDestinationColumn = await Task.query()
+          .where('columnId', overColumnId)
+          .orderBy('order')
+
+        tasksInDestinationColumn.push(activeTask)
+        tasksInDestinationColumn.sort((a, b) => a.order - b.order)
+
+        // Reassign order values to tasks in the destination column
+        for (const [i, element] of tasksInDestinationColumn.entries()) {
+          element.order = i + 1
+          await element.save()
+        }
       }
     } else {
       // Handling case when moving to an empty column

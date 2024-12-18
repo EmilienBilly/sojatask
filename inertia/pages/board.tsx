@@ -46,6 +46,7 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
         const sourceColumnId = source.data.columnId as number
         const destinationColumnId = destination.data.columnId as number
         const destinationTaskId = destination.data.taskId as number | null
+        const destinationTask = destination.data
 
         // Vérifiez si le drop target est une colonne ou une tâche
         const isColumnDrop = destination.data.type === 'column'
@@ -56,7 +57,12 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
         const destinationCardId = isColumnDrop ? undefined : (destination.data.taskId as number)
 
         setBoardColumns((columns) =>
-          moveTask(task, { columnId, cardId: destinationCardId }, { ...board, columns })
+          moveTask(
+            destinationTask,
+            task,
+            { columnId, cardId: destinationCardId },
+            { ...board, columns }
+          )
         )
 
         updateReorderedTaskInDatabase(
