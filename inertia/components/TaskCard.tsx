@@ -14,11 +14,50 @@ import {
   attachClosestEdge,
   extractClosestEdge,
 } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge'
+import { getTaskData } from '#inertia/utils/kanbanboard.business'
 
 type TaskCardProps = {
   task: Task
   columnId: number
 }
+
+type TCardState =
+  | {
+      type: 'idle'
+    }
+  | {
+      type: 'is-dragging'
+    }
+  | {
+      type: 'is-dragging-and-left-self'
+    }
+  | {
+      type: 'is-over'
+      dragging: DOMRect
+      closestEdge: Edge
+    }
+  | {
+      type: 'preview'
+      container: HTMLElement
+      dragging: DOMRect
+    }
+
+const idle: TCardState = { type: 'idle' }
+
+const innerStyles: { [Key in TCardState['type']]?: string } = {
+  'idle': 'hover:outline outline-2 outline-neutral-50 cursor-grab',
+  'is-dragging': 'opacity-40',
+}
+
+const outerStyles: { [Key in TCardState['type']]?: string } = {
+  // We no longer render the draggable item after we have left it
+  // as it's space will be taken up by a shadow on adjacent items.
+  // Using `display:none` rather than returning `null` so we can always
+  // return refs from this component.
+  // Keeping the refs allows us to continue to receive events during the drag.
+  'is-dragging-and-left-self': 'hidden',
+}
+
 export default function TaskCard({ columnId, task }: TaskCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [dragging, setDragging] = useState<boolean>(false)
@@ -32,8 +71,13 @@ export default function TaskCard({ columnId, task }: TaskCardProps) {
     return combine(
       draggable({
         element: taskCardElement,
-        getInitialData: () => ({ task: task }),
-        onDragStart: () => setDragging(true),
+        getInitialData: () => {
+          return getTaskData({ task, columnId })
+        },
+        onDragStart: ({ source }) => {
+          setDragging(true)
+          console.log(source)
+        },
         onDrop: () => setDragging(false),
       }),
 
@@ -41,7 +85,7 @@ export default function TaskCard({ columnId, task }: TaskCardProps) {
         element: taskCardElement,
         getIsSticky: () => true,
         getData: ({ input, element }) => {
-          const data = { columnId: columnId, taskId: task.id }
+          const data = getTaskData({ task, columnId })
           return attachClosestEdge(data, {
             input,
             element,
