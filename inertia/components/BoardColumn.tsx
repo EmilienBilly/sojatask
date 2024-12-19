@@ -123,10 +123,10 @@ export default function BoardColumn({ columnId, tasks, column }: ListProps) {
               preview.style.width = `${rect.width}px`
               preview.style.height = `${rect.height}px`
 
-              // rotation of native drag previews does not work in safari
-              if (!isSafari()) {
-                preview.style.transform = 'rotate(4deg)'
-              }
+              // // rotation of native drag previews does not work in safari
+              // if (!isSafari()) {
+              //   preview.style.transform = 'rotate(4deg)'
+              // }
 
               container.appendChild(preview)
             },
