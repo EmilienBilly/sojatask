@@ -4,13 +4,12 @@ import { SharedProps } from '@adonisjs/inertia/types'
 import { SidebarProvider, SidebarTrigger } from '#shadcn/sidebar'
 import AppSidebar from '#inertia/AppSidebar'
 import Navbar from '#inertia/Navbar'
-import { ProjectContextProvider } from '../hooks/useProject'
 import { Toaster } from 'sonner'
 
 const AppLayout = ({ children }: { children: ReactNode }) => {
   const props = usePage<SharedProps>().props
   return (
-    <ProjectContextProvider>
+    <div className="h-screen bg-amber-700">
       <Toaster />
       <SidebarProvider>
         <AppSidebar workspaces={props.workspaces} activeWorkspace={props.activeWorkspace} />
@@ -19,10 +18,14 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
             <SidebarTrigger />
             <Navbar />
           </header>
-          <div className="h-full flex flex-col flex-1 overflow-auto">{children}</div>
+          <div className="relative flex-grow">
+            <div className="absolute inset-0">
+              <main className="h-full bg-sky-700">{children}</main>
+            </div>
+          </div>
         </div>
       </SidebarProvider>
-    </ProjectContextProvider>
+    </div>
   )
 }
 
