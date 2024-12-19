@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader } from '#shadcn/card'
 import { ScrollArea } from '#shadcn/scroll-area'
 import { Column } from '../types/column'
 import { Task } from '../types/task'
-import { cva } from 'class-variance-authority'
 import { memo, useContext, useEffect, useRef, useState } from 'react'
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 import { getColumnData, isColumnData } from '#inertia/utils/column.business'
@@ -215,26 +214,11 @@ export default function BoardColumn({ columnId, tasks, column }: ListProps) {
     )
   }, [column, settings])
 
-  const variants = cva(
-    'h-[720px] max-h-[720px] w-[350px] max-w-full bg-primary-foreground flex flex-col flex-shrink-0 snap-center',
-    {
-      variants: {
-        dragging: {
-          default: 'border-2 border-transparent',
-          over: 'ring-2',
-          overlay: 'ring-2 ring-primary',
-        },
-      },
-    }
-  )
-
   return (
-    <div ref={outerFullHeightRef}>
+    <div ref={outerFullHeightRef} className="">
       <Card
         ref={innerRef}
-        className={variants({
-          dragging: undefined,
-        })}
+        className={`h-[720px] max-h-[720px] w-[350px] max-w-full bg-primary-foreground flex flex-col flex-shrink-0 snap-center ${stateStyles[state.type]}`}
       >
         <CardHeader
           ref={headerRef}
