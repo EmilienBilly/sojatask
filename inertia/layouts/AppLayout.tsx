@@ -9,7 +9,7 @@ import { Toaster } from 'sonner'
 const AppLayout = ({ children }: { children: ReactNode }) => {
   const props = usePage<SharedProps>().props
   return (
-    <div className="h-screen bg-amber-700">
+    <div className="h-screen">
       <Toaster />
       <SidebarProvider>
         <AppSidebar workspaces={props.workspaces} activeWorkspace={props.activeWorkspace} />
@@ -18,11 +18,7 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
             <SidebarTrigger />
             <Navbar />
           </header>
-          <div className="relative flex-grow">
-            <div className="absolute inset-0">
-              <main className="h-full bg-sky-700">{children}</main>
-            </div>
-          </div>
+          <main className="h-full flex flex-col flex-1 overflow-auto">{children}</main>
         </div>
       </SidebarProvider>
     </div>

@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader } from '#shadcn/card'
 import EditTaskDialog from '#inertia/EditTaskDialog'
-import { useEffect, useRef, useState } from 'react'
+import { MutableRefObject, useEffect, useRef, useState } from 'react'
 import { GripVertical, Pencil } from 'lucide-react'
 import { Button } from '#shadcn/button'
 import { Task } from '../types/task'
@@ -8,7 +8,6 @@ import { cva } from 'class-variance-authority'
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 import invariant from 'tiny-invariant'
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine'
-import DropIndicator from '@atlaskit/pragmatic-drag-and-drop-react-drop-indicator/box'
 import { Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/types'
 import {
   attachClosestEdge,
@@ -23,6 +22,7 @@ import {
 } from '#inertia/utils/kanbanboard.business'
 import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview'
 import { preserveOffsetOnSource } from '@atlaskit/pragmatic-drag-and-drop/element/preserve-offset-on-source'
+import { createPortal } from 'react-dom'
 
 type TaskCardProps = {
   task: Task
@@ -57,25 +57,64 @@ const innerStyles: { [Key in TCardState['type']]?: string } = {
   'is-dragging': 'opacity-40',
 }
 
-const outerStyles: { [Key in TCardState['type']]?: string } = {
-  // We no longer render the draggable item after we have left it
-  // as it's space will be taken up by a shadow on adjacent items.
-  // Using `display:none` rather than returning `null` so we can always
-  // return refs from this component.
-  // Keeping the refs allows us to continue to receive events during the drag.
-  'is-dragging-and-left-self': 'hidden',
+export function CardShadow({ dragging }: { dragging: DOMRect }) {
+  return <div className="flex-shrink-0 rounded bg-gray-200" style={{ height: dragging.height }} />
+}
+
+export function TaskCardDisplay({
+  task,
+  state,
+  taskCardref,
+}: {
+  task: Task
+  state: TCardState
+  taskCardref?: MutableRefObject<HTMLDivElement | null>
+}) {
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+
+  return (
+    <>
+      {/* Put a shadow before the item if closer to the top edge */}
+      {state.type === 'is-over' && state.closestEdge === 'top' ? (
+        <CardShadow dragging={state.dragging} />
+      ) : null}
+      <Card
+        ref={taskCardref}
+        onClick={() => setIsDialogOpen(!isDialogOpen)}
+        className={`hover:bg-hovered cursor-pointer group inline-block relative ${innerStyles[state.type]}`}
+      >
+        <CardHeader className="px-3 py-3 justify-between items-center flex flex-row border-b-2 border-secondary relative">
+          <Button
+            variant={'ghost'}
+            className="p-1 text-secondary-foreground/50 -ml-2 h-auto cursor-grab"
+          >
+            <span className="sr-only">Move task</span>
+            <GripVertical />
+          </Button>
+          <Pencil
+            size={16}
+            strokeWidth={2}
+            className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 m-0"
+          />
+        </CardHeader>
+        <CardContent className="px-3 pt-3 pb-6 text-left">{task.title}</CardContent>
+      </Card>
+      {/* Put a shadow after the item if closer to the bottom edge */}
+      {state.type === 'is-over' && state.closestEdge === 'bottom' ? (
+        <CardShadow dragging={state.dragging} />
+      ) : null}
+      <EditTaskDialog open={isDialogOpen} task={task} onOpenChange={setIsDialogOpen} />
+    </>
+  )
 }
 
 export default function TaskCard({ columnId, task }: TaskCardProps) {
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [closestEdge, setClosestEdge] = useState<Edge | null>(null)
   const taskCardRef = useRef<HTMLDivElement | null>(null)
   const [state, setState] = useState<TCardState>(idle)
 
   useEffect(() => {
     const element = taskCardRef.current
     invariant(element)
-
     return combine(
       draggable({
         element,
@@ -177,31 +216,10 @@ export default function TaskCard({ columnId, task }: TaskCardProps) {
 
   return (
     <>
-      <Card
-        ref={taskCardRef}
-        onClick={() => setIsDialogOpen(!isDialogOpen)}
-        className={variants({
-          dragging: undefined,
-        })}
-      >
-        <CardHeader className="px-3 py-3 justify-between items-center flex flex-row border-b-2 border-secondary relative">
-          <Button
-            variant={'ghost'}
-            className="p-1 text-secondary-foreground/50 -ml-2 h-auto cursor-grab"
-          >
-            <span className="sr-only">Move task</span>
-            <GripVertical />
-          </Button>
-          <Pencil
-            size={16}
-            strokeWidth={2}
-            className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 m-0"
-          />
-        </CardHeader>
-        <CardContent className="px-3 pt-3 pb-6 text-left">{task.title}</CardContent>
-        {closestEdge && <DropIndicator edge={closestEdge} gap="8px" />}
-      </Card>
-      <EditTaskDialog open={isDialogOpen} task={task} onOpenChange={setIsDialogOpen} />
+      <TaskCardDisplay taskCardref={taskCardRef} state={state} task={task} />
+      {state.type === 'preview'
+        ? createPortal(<TaskCardDisplay state={state} task={task} />, state.container)
+        : null}
     </>
   )
 }
