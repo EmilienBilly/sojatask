@@ -14,7 +14,15 @@ import {
   attachClosestEdge,
   extractClosestEdge,
 } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge'
-import { getTaskData } from '#inertia/utils/kanbanboard.business'
+import {
+  getCardDropTargetData,
+  getTaskData,
+  isCardData,
+  isDraggingACard,
+  isShallowEqual,
+} from '#inertia/utils/kanbanboard.business'
+import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview'
+import { preserveOffsetOnSource } from '@atlaskit/pragmatic-drag-and-drop/element/preserve-offset-on-source'
 
 type TaskCardProps = {
   task: Task
@@ -60,65 +68,103 @@ const outerStyles: { [Key in TCardState['type']]?: string } = {
 
 export default function TaskCard({ columnId, task }: TaskCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [dragging, setDragging] = useState<boolean>(false)
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null)
-
-  const ref = useRef(null)
+  const taskCardRef = useRef<HTMLDivElement | null>(null)
+  const [state, setState] = useState<TCardState>(idle)
 
   useEffect(() => {
-    const taskCardElement = ref.current
-    invariant(taskCardElement)
+    const element = taskCardRef.current
+    invariant(element)
+
     return combine(
       draggable({
-        element: taskCardElement,
-        getInitialData: () => {
-          return getTaskData({ task, columnId })
-        },
-        onDragStart: ({ source }) => {
-          setDragging(true)
-          console.log(source)
-        },
-        onDrop: () => setDragging(false),
-      }),
-
-      dropTargetForElements({
-        element: taskCardElement,
-        getIsSticky: () => true,
-        getData: ({ input, element }) => {
-          const data = getTaskData({ task, columnId })
-          return attachClosestEdge(data, {
-            input,
-            element,
-            // you can specify what edges you want to allow the user to be closest to
-            allowedEdges: ['top', 'bottom'],
+        element,
+        getInitialData: ({ element }) =>
+          getTaskData({ task, columnId, rect: element.getBoundingClientRect() }),
+        onGenerateDragPreview({ nativeSetDragImage, location, source }) {
+          const data = source.data
+          invariant(isCardData(data))
+          setCustomNativeDragPreview({
+            nativeSetDragImage,
+            getOffset: preserveOffsetOnSource({
+              element,
+              input: location.current.input,
+            }),
+            render({ container }) {
+              // Demonstrating using a react portal to generate a preview
+              setState({
+                type: 'preview',
+                container,
+                dragging: element.getBoundingClientRect(),
+              })
+            },
           })
         },
-        canDrop({ source }) {
-          return source.element !== taskCardElement
+        onDragStart() {
+          setState({ type: 'is-dragging' })
         },
-        onDragEnter: ({ self }) => {
-          const edge = extractClosestEdge(self.data)
-          if (!edge) {
+        onDrop() {
+          setState(idle)
+        },
+      }),
+      dropTargetForElements({
+        element,
+        getIsSticky: () => true,
+        canDrop: isDraggingACard,
+        getData: ({ element, input }) => {
+          const data = getCardDropTargetData({ task, columnId })
+          return attachClosestEdge(data, { element, input, allowedEdges: ['top', 'bottom'] })
+        },
+        onDragEnter({ source, self }) {
+          if (!isCardData(source.data)) {
             return
           }
-          setClosestEdge(edge)
-        },
-        onDrag: ({ self }) => {
-          const edge = extractClosestEdge(self.data)
-          if (!edge) {
+          if (source.data.task.id === task.id) {
             return
           }
-          setClosestEdge(edge)
+          const closestEdge = extractClosestEdge(self.data)
+          if (!closestEdge) {
+            return
+          }
+
+          setState({ type: 'is-over', dragging: source.data.rect, closestEdge })
         },
-        onDragLeave: () => {
-          setClosestEdge(null)
+        onDrag({ source, self }) {
+          if (!isCardData(source.data)) {
+            return
+          }
+          if (source.data.task.id === task.id) {
+            return
+          }
+          const closestEdge = extractClosestEdge(self.data)
+          if (!closestEdge) {
+            return
+          }
+          // optimization - Don't update react state if we don't need to.
+          const proposed: TCardState = { type: 'is-over', dragging: source.data.rect, closestEdge }
+          setState((current) => {
+            if (isShallowEqual(proposed, current)) {
+              return current
+            }
+            return proposed
+          })
         },
-        onDrop: () => {
-          setClosestEdge(null)
+        onDragLeave({ source }) {
+          if (!isCardData(source.data)) {
+            return
+          }
+          if (source.data.task.id === task.id) {
+            setState({ type: 'is-dragging-and-left-self' })
+            return
+          }
+          setState(idle)
+        },
+        onDrop() {
+          setState(idle)
         },
       })
     )
-  }, [task])
+  }, [task, columnId])
 
   const variants = cva('hover:bg-hovered cursor-pointer group inline-block relative', {
     variants: {
@@ -132,10 +178,10 @@ export default function TaskCard({ columnId, task }: TaskCardProps) {
   return (
     <>
       <Card
-        ref={ref}
+        ref={taskCardRef}
         onClick={() => setIsDialogOpen(!isDialogOpen)}
         className={variants({
-          dragging: dragging ? 'over' : undefined,
+          dragging: undefined,
         })}
       >
         <CardHeader className="px-3 py-3 justify-between items-center flex flex-row border-b-2 border-secondary relative">
