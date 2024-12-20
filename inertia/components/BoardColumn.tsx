@@ -1,11 +1,10 @@
 import CreateTask from '#inertia/CreateTask'
 import { Card, CardContent, CardHeader } from '#shadcn/card'
-import { ScrollArea } from '#shadcn/scroll-area'
 import { Column } from '../types/column'
 import { memo, useContext, useEffect, useRef, useState } from 'react'
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 import { getColumnData, isColumnData } from '#inertia/utils/column.business'
-import TaskCard from '#inertia/TaskCard'
+import TaskCard, { CardShadow } from '#inertia/TaskCard'
 import {
   isCardData,
   isCardDropTargetData,
@@ -168,13 +167,6 @@ export default function BoardColumn({ column }: { column: Column }) {
         },
       }),
       autoScrollForElements({
-        canScroll({ source }) {
-          if (!settings.isOverElementAutoScrollEnabled) {
-            return false
-          }
-
-          return isDraggingACard({ source })
-        },
         getConfiguration: () => ({ maxScrollSpeed: settings.columnScrollSpeed }),
         element: scrollable,
       }),
@@ -218,12 +210,18 @@ export default function BoardColumn({ column }: { column: Column }) {
         >
           {column.title}
         </CardHeader>
-        <ScrollArea ref={scrollableRef}>
-          <CardContent className="flex flex-grow flex-col gap-2 p-2">
-            <TaskCardList column={column} />
-            <CreateTask columnId={column.id} />
-          </CardContent>
-        </ScrollArea>
+        <CardContent
+          ref={scrollableRef}
+          className="flex flex-grow flex-col gap-2 p-2 overflow-y-auto"
+        >
+          <TaskCardList column={column} />
+          {state.type === 'is-card-over' && !state.isOverChildCard ? (
+            <div className="flex-shrink-0 px-3 py-1">
+              <CardShadow dragging={state.dragging} />
+            </div>
+          ) : null}
+          <CreateTask columnId={column.id} />
+        </CardContent>
       </Card>
     </div>
   )
