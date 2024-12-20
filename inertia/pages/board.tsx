@@ -1,7 +1,6 @@
 import { InferPageProps } from '@adonisjs/inertia/types'
 import BoardsController from '#controllers/boards/boards_controller'
 import { useContext, useEffect, useRef, useState } from 'react'
-import { ScrollArea, ScrollBar } from '#shadcn/scroll-area'
 import BoardHeader from '#inertia/BoardHeader'
 import CreateColumn from '#inertia/CreateColumn'
 import BoardColumn from '#inertia/BoardColumn'
@@ -12,6 +11,7 @@ import { extractClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/clo
 import { isColumnData } from '#inertia/utils/column.business'
 import { reorder } from '@atlaskit/pragmatic-drag-and-drop/reorder'
 import {
+  blockBoardPanningAttr,
   Column,
   isCardData,
   isCardDropTargetData,
@@ -22,29 +22,13 @@ import { SettingsContext } from '#inertia/utils/settings-context'
 import { autoScrollForElements } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/element'
 import { unsafeOverflowAutoScrollForElements } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/unsafe-overflow/element'
 import invariant from 'tiny-invariant'
+import { CleanupFn } from '@atlaskit/pragmatic-drag-and-drop/dist/types/internal-types'
+import { bindAll } from 'bind-event-listener'
 
 export default function Board({ board }: InferPageProps<BoardsController, 'show'>) {
   const [boardData, setBoardData] = useState(board)
   const scrollableRef = useRef<HTMLDivElement | null>(null)
   const { settings } = useContext(SettingsContext)
-
-  // const handleDragEnd = (event: DragEndEvent) => {
-  //   const { active, over } = event
-  //
-  //   if (over && active.id !== over.id) {
-  //     setColumns((items) => {
-  //       const oldIndex = items.findIndex((item) => item.id === active.id)
-  //       const newIndex = items.findIndex((item) => item.id === over.id)
-  //       return arrayMove(items, oldIndex, newIndex)
-  //     })
-  //     setActiveColumn(null)
-  //
-  //     router.patch(`/boards/${board.id}/reorder`, {
-  //       activeColumnId: active.id,
-  //       overColumnId: over.id,
-  //     })
-  //   }
-  // }
 
   useEffect(() => {
     const element = scrollableRef.current
@@ -253,31 +237,12 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
         },
       }),
       autoScrollForElements({
-        canScroll({ source }) {
-          if (!settings.isOverElementAutoScrollEnabled) {
-            return false
-          }
-
-          return isDraggingACard({ source }) || isDraggingAColumn({ source })
-        },
         getConfiguration: () => ({ maxScrollSpeed: settings.boardScrollSpeed }),
         element,
       }),
       unsafeOverflowAutoScrollForElements({
         element,
         getConfiguration: () => ({ maxScrollSpeed: settings.boardScrollSpeed }),
-        canScroll({ source }) {
-          if (!settings.isOverElementAutoScrollEnabled) {
-            return false
-          }
-
-          let settings
-          if (!settings.isOverflowScrollingEnabled) {
-            return false
-          }
-
-          return isDraggingACard({ source }) || isDraggingAColumn({ source })
-        },
         getOverflow() {
           return {
             forLeftEdge: {
@@ -296,23 +261,79 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
     )
   }, [boardData, settings])
 
+  // Panning the board
+  useEffect(() => {
+    let cleanupActive: CleanupFn | null = null
+    const scrollable = scrollableRef.current
+    invariant(scrollable)
+
+    function begin({ startX }: { startX: number }) {
+      let lastX = startX
+
+      const cleanupEvents = bindAll(
+        window,
+        [
+          {
+            type: 'pointermove',
+            listener(event) {
+              const currentX = event.clientX
+              const diffX = lastX - currentX
+
+              lastX = currentX
+              scrollable?.scrollBy({ left: diffX })
+            },
+          },
+          // stop panning if we see any of these events
+          ...(
+            [
+              'pointercancel',
+              'pointerup',
+              'pointerdown',
+              'keydown',
+              'resize',
+              'click',
+              'visibilitychange',
+            ] as const
+          ).map((eventName) => ({ type: eventName, listener: () => cleanupEvents() })),
+        ],
+        // need to make sure we are not after the "pointerdown" on the scrollable
+        // Also this is helpful to make sure we always hear about events from this point
+        { capture: true }
+      )
+
+      cleanupActive = cleanupEvents
+    }
+
+    const cleanupStart = bindAll(scrollable, [
+      {
+        type: 'pointerdown',
+        listener(event) {
+          if (!(event.target instanceof HTMLElement)) {
+            return
+          }
+          // ignore interactive elements
+          if (event.target.closest(`[${blockBoardPanningAttr}]`)) {
+            return
+          }
+
+          begin({ startX: event.clientX })
+        },
+      },
+    ])
+
+    return function cleanupAll() {
+      cleanupStart()
+      cleanupActive?.()
+    }
+  }, [])
+
   return (
     <>
       <BoardHeader board={boardData} />
-      <ScrollArea className="px-2 md:px-0 pb-4">
-        <div ref={scrollableRef} className="flex gap-4 flex-row p-4">
-          {boardData.columns?.map((column) => (
-            <BoardColumn
-              key={column.id}
-              columnId={column.id}
-              column={column}
-              tasks={column.tasks}
-            />
-          ))}
-          <CreateColumn board={boardData} />
-        </div>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+      <div ref={scrollableRef} className="flex gap-4 flex-row p-4 overflow-x-auto">
+        {boardData.columns?.map((column) => <BoardColumn key={column.id} column={column} />)}
+        <CreateColumn board={boardData} />
+      </div>
     </>
   )
 }
