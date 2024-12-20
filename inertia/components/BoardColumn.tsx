@@ -2,7 +2,6 @@ import CreateTask from '#inertia/CreateTask'
 import { Card, CardContent, CardHeader } from '#shadcn/card'
 import { ScrollArea } from '#shadcn/scroll-area'
 import { Column } from '../types/column'
-import { Task } from '../types/task'
 import { memo, useContext, useEffect, useRef, useState } from 'react'
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 import { getColumnData, isColumnData } from '#inertia/utils/column.business'
@@ -23,13 +22,6 @@ import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/el
 import { preserveOffsetOnSource } from '@atlaskit/pragmatic-drag-and-drop/element/preserve-offset-on-source'
 import { autoScrollForElements } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/element'
 import { unsafeOverflowAutoScrollForElements } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/unsafe-overflow/element'
-
-type ListProps = {
-  columnId: number
-  tasks: Task[]
-  column: Column
-  isOverlay?: boolean
-}
 
 type TColumnState =
   | {
@@ -65,7 +57,7 @@ const TaskCardList = memo(function CardList({ column }: { column: Column }) {
   return column.tasks.map((task) => <TaskCard key={task.id} task={task} columnId={column.id} />)
 })
 
-export default function BoardColumn({ columnId, tasks, column }: ListProps) {
+export default function BoardColumn({ column }: { column: Column }) {
   const scrollableRef = useRef<HTMLDivElement | null>(null)
   const outerFullHeightRef = useRef<HTMLDivElement | null>(null)
   const headerRef = useRef<HTMLDivElement | null>(null)
