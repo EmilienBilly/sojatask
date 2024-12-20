@@ -57,6 +57,15 @@ const innerStyles: { [Key in TCardState['type']]?: string } = {
   'is-dragging': 'opacity-40',
 }
 
+const outerStyles: { [Key in TCardState['type']]?: string } = {
+  // We no longer render the draggable item after we have left it
+  // as it's space will be taken up by a shadow on adjacent items.
+  // Using `display:none` rather than returning `null` so we can always
+  // return refs from this component.
+  // Keeping the refs allows us to continue to receive events during the drag.
+  'is-dragging-and-left-self': 'hidden',
+}
+
 export function CardShadow({ dragging }: { dragging: DOMRect }) {
   return <div className="flex-shrink-0 rounded bg-gray-200" style={{ height: dragging.height }} />
 }
@@ -81,7 +90,7 @@ export function TaskCardDisplay({
       <Card
         ref={taskCardref}
         onClick={() => setIsDialogOpen(!isDialogOpen)}
-        className={`hover:bg-hovered cursor-pointer group inline-block relative ${innerStyles[state.type]}`}
+        className={`hover:bg-hovered cursor-pointer group inline-block relative ${innerStyles[state.type]} ${outerStyles[state.type]}`}
       >
         <CardHeader className="px-3 py-3 justify-between items-center flex flex-row border-b-2 border-secondary relative">
           <Button

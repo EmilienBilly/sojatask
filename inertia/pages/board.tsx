@@ -177,7 +177,7 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
 
               const updated: Column = {
                 ...home,
-                cards: reordered,
+                tasks: reordered,
               }
               const columns = Array.from(boardData.columns)
               columns[homeColumnIndex] = updated
