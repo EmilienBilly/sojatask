@@ -4,7 +4,6 @@ import { MutableRefObject, useEffect, useRef, useState } from 'react'
 import { GripVertical, Pencil } from 'lucide-react'
 import { Button } from '#shadcn/button'
 import { Task } from '../types/task'
-import { cva } from 'class-variance-authority'
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 import invariant from 'tiny-invariant'
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine'
@@ -55,14 +54,6 @@ const idle: TCardState = { type: 'idle' }
 const innerStyles: { [Key in TCardState['type']]?: string } = {
   'idle': 'hover:outline outline-2 outline-neutral-50 cursor-grab',
   'is-dragging': 'opacity-40',
-}
-
-const outerStyles: { [Key in TCardState['type']]?: string } = {
-  // We no longer render the draggable item after we have left it
-  // as it's space will be taken up by a shadow on adjacent items.
-  // Using `display:none` rather than returning `null` so we can always
-  // return refs from this component.
-  // Keeping the refs allows us to continue to receive events during the drag.
   'is-dragging-and-left-self': 'hidden',
 }
 
@@ -90,7 +81,7 @@ export function TaskCardDisplay({
       <Card
         ref={taskCardref}
         onClick={() => setIsDialogOpen(!isDialogOpen)}
-        className={`hover:bg-hovered cursor-pointer group inline-block relative ${innerStyles[state.type]} ${outerStyles[state.type]}`}
+        className={`hover:bg-hovered cursor-pointer group inline-block relative ${innerStyles[state.type]}`}
       >
         <CardHeader className="px-3 py-3 justify-between items-center flex flex-row border-b-2 border-secondary relative">
           <Button
@@ -122,11 +113,11 @@ export default function TaskCard({ columnId, task }: TaskCardProps) {
   const [state, setState] = useState<TCardState>(idle)
 
   useEffect(() => {
-    const element = taskCardRef.current
-    invariant(element)
+    const taskElement = taskCardRef.current
+    invariant(taskElement)
     return combine(
       draggable({
-        element,
+        element: taskElement,
         getInitialData: ({ element }) =>
           getTaskData({ task, columnId, rect: element.getBoundingClientRect() }),
         onGenerateDragPreview({ nativeSetDragImage, location, source }) {
@@ -135,7 +126,7 @@ export default function TaskCard({ columnId, task }: TaskCardProps) {
           setCustomNativeDragPreview({
             nativeSetDragImage,
             getOffset: preserveOffsetOnSource({
-              element,
+              element: taskElement,
               input: location.current.input,
             }),
             render({ container }) {
@@ -143,7 +134,7 @@ export default function TaskCard({ columnId, task }: TaskCardProps) {
               setState({
                 type: 'preview',
                 container,
-                dragging: element.getBoundingClientRect(),
+                dragging: taskElement.getBoundingClientRect(),
               })
             },
           })
@@ -156,7 +147,7 @@ export default function TaskCard({ columnId, task }: TaskCardProps) {
         },
       }),
       dropTargetForElements({
-        element,
+        element: taskElement,
         getIsSticky: () => true,
         canDrop: isDraggingACard,
         getData: ({ element, input }) => {
@@ -213,15 +204,6 @@ export default function TaskCard({ columnId, task }: TaskCardProps) {
       })
     )
   }, [task, columnId])
-
-  const variants = cva('hover:bg-hovered cursor-pointer group inline-block relative', {
-    variants: {
-      dragging: {
-        over: 'ring-2 opacity-30',
-        overlay: 'ring-2 ring-primary',
-      },
-    },
-  })
 
   return (
     <>
