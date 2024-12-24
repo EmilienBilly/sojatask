@@ -1,4 +1,5 @@
 import { InferPageProps } from '@adonisjs/inertia/types'
+import type { Board } from '../types/board'
 import BoardsController from '#controllers/boards/boards_controller'
 import { useContext, useEffect, useRef, useState } from 'react'
 import BoardHeader from '#inertia/BoardHeader'
@@ -24,11 +25,21 @@ import { unsafeOverflowAutoScrollForElements } from '@atlaskit/pragmatic-drag-an
 import invariant from 'tiny-invariant'
 import { CleanupFn } from '@atlaskit/pragmatic-drag-and-drop/dist/types/internal-types'
 import { bindAll } from 'bind-event-listener'
+import { router } from '@inertiajs/react'
 
 export default function Board({ board }: InferPageProps<BoardsController, 'show'>) {
   const [boardData, setBoardData] = useState(board)
   const scrollableRef = useRef<HTMLDivElement | null>(null)
   const { settings } = useContext(SettingsContext)
+
+  function saveTaskOrder(updatedBoard: Board) {
+    const columns = updatedBoard.columns.map((column) => ({
+      id: column.id,
+      tasks: column.tasks.map((task) => task.id),
+    }))
+    console.log(columns)
+    router.patch(`/boards/${updatedBoard.id}/tasks/order`, { columns })
+  }
 
   useEffect(() => {
     const element = scrollableRef.current
@@ -42,21 +53,21 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
             return
           }
 
-          const innerMost = location.current.dropTargets[0]
+          const dropTarget = location.current.dropTargets[0]
 
-          if (!innerMost) {
+          if (!dropTarget) {
             return
           }
-          const dropTargetData = innerMost.data
+          const dropTargetData = dropTarget.data
           const homeColumnIndex = boardData.columns.findIndex(
             (column) => column.id === draggingElement.columnId
           )
-          const home: Column | undefined = boardData.columns[homeColumnIndex]
+          const homeColumn: Column | undefined = boardData.columns[homeColumnIndex]
 
-          if (!home) {
+          if (!homeColumn) {
             return
           }
-          const cardIndexInHome = home.tasks.findIndex(
+          const taskIndexInHomeColumn = homeColumn.tasks.findIndex(
             (task) => task.id === draggingElement.task.id
           )
 
@@ -67,18 +78,18 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
             )
             const destination = boardData.columns[destinationColumnIndex]
             // reordering in home column
-            if (home === destination) {
-              const cardFinishIndex = home.tasks.findIndex(
+            if (homeColumn === destination) {
+              const taskIndexInDroppedColumn = homeColumn.tasks.findIndex(
                 (task) => task.id === dropTargetData.task.id
               )
 
               // could not find cards needed
-              if (cardIndexInHome === -1 || cardFinishIndex === -1) {
+              if (taskIndexInHomeColumn === -1 || taskIndexInDroppedColumn === -1) {
                 return
               }
 
               // no change needed
-              if (cardIndexInHome === cardFinishIndex) {
+              if (taskIndexInHomeColumn === taskIndexInDroppedColumn) {
                 return
               }
 
@@ -86,19 +97,25 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
 
               const reordered = reorderWithEdge({
                 axis: 'vertical',
-                list: home.tasks,
-                startIndex: cardIndexInHome,
-                indexOfTarget: cardFinishIndex,
+                list: homeColumn.tasks,
+                startIndex: taskIndexInHomeColumn,
+                indexOfTarget: taskIndexInDroppedColumn,
                 closestEdgeOfTarget: closestEdge,
               })
+              // console.log(homeColumn.tasks)
+              // console.log(reordered)
 
               const updated: Column = {
-                ...home,
+                ...homeColumn,
                 tasks: reordered,
               }
               const columns = Array.from(boardData.columns)
               columns[homeColumnIndex] = updated
-              setBoardData({ ...boardData, columns })
+              console.log(boardData.columns)
+              const updatedBoardData = { ...boardData, columns }
+              setBoardData(updatedBoardData)
+              saveTaskOrder(updatedBoardData)
+              console.log(updatedBoardData)
               return
             }
 
@@ -117,8 +134,8 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
             const finalIndex = closestEdge === 'bottom' ? indexOfTarget + 1 : indexOfTarget
 
             // remove card from home list
-            const homeCards = Array.from(home.tasks)
-            homeCards.splice(cardIndexInHome, 1)
+            const homeCards = Array.from(homeColumn.tasks)
+            homeCards.splice(taskIndexInHomeColumn, 1)
 
             // insert into destination list
             const destinationCards = Array.from(destination.tasks)
@@ -126,7 +143,7 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
 
             const columns = Array.from(boardData.columns)
             columns[homeColumnIndex] = {
-              ...home,
+              ...homeColumn,
               tasks: homeCards,
             }
             columns[destinationColumnIndex] = {
@@ -149,18 +166,18 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
             }
 
             // dropping on home
-            if (home === destination) {
+            if (homeColumn === destination) {
               console.log('moving card to home column')
 
               // move to last position
               const reordered = reorder({
-                list: home.tasks,
-                startIndex: cardIndexInHome,
-                finishIndex: home.tasks.length - 1,
+                list: homeColumn.tasks,
+                startIndex: taskIndexInHomeColumn,
+                finishIndex: homeColumn.tasks.length - 1,
               })
 
               const updated: Column = {
-                ...home,
+                ...homeColumn,
                 tasks: reordered,
               }
               const columns = Array.from(boardData.columns)
@@ -173,8 +190,8 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
 
             // remove card from home list
 
-            const homeCards = Array.from(home.tasks)
-            homeCards.splice(cardIndexInHome, 1)
+            const homeCards = Array.from(homeColumn.tasks)
+            homeCards.splice(taskIndexInHomeColumn, 1)
 
             // insert into destination list
             const destinationCards = Array.from(destination.tasks)
@@ -182,7 +199,7 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
 
             const columns = Array.from(boardData.columns)
             columns[homeColumnIndex] = {
-              ...home,
+              ...homeColumn,
               tasks: homeCards,
             }
             columns[destinationColumnIndex] = {

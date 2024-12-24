@@ -18,37 +18,49 @@ type TaskFLatData = {
 
 export default class UpdateTaskOrder {
   static async handle({ boardId, data }: Params) {
-    const column = await Column.query().where('boardId', boardId).firstOrFail()
-    const tasks = await column.related('tasks').query().select('id', 'columnId', 'order')
+    // Load all columns for the board along with their tasks
+    const columns = await Column.query().where('boardId', boardId).preload('tasks') // Ensure the 'tasks' relationship is properly defined
+
+    const tasksInDb = columns.flatMap((column) => column.tasks)
+
+    // Prepare the new task data from the input
     const taskData = this.#flattenData(data)
 
+    // Identify changes and apply necessary updates
     return db.transaction(async (trx) => {
-      const promises = taskData.map(({ id, columnId: colId, order }) => {
-        const task = tasks.find((item) => item.id === id)
-        const isSame = task?.order === order && task?.columnId === colId
+      const updatePromises = taskData.map(({ id, columnId, order }) => {
+        const taskInDb = tasksInDb.find((task) => task.id === id)
 
-        if (!task || isSame) {
-          return
+        if (!taskInDb) {
+          throw new Error(`Task with ID ${id} not found`)
         }
 
-        task.useTransaction(trx)
+        const hasChanged = taskInDb.columnId !== columnId || taskInDb.order !== order
 
-        return task.merge({ columnId: colId, order }).save()
+        if (!hasChanged) {
+          return null // No update required
+        }
+
+        // Update the task if needed
+        taskInDb.useTransaction(trx)
+        return taskInDb.merge({ columnId, order }).save()
       })
 
-      return Promise.all(promises)
+      // Execute all update promises
+      return Promise.all(updatePromises.filter(Boolean))
     })
   }
 
+  // Flatten the input data into a unified structure
   static #flattenData(data: SortData) {
-    return data.columns.reduce<TaskFLatData[]>((tasks, column) => {
+    return data.columns.reduce<TaskFLatData[]>((result, column) => {
       const columnTasks = column.tasks.map((id, index) => ({
         id,
         columnId: column.id,
         order: index,
       }))
 
-      return [...tasks, ...columnTasks]
+      return [...result, ...columnTasks]
     }, [])
   }
 }
