@@ -1,20 +1,15 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import Column from '#models/column'
+import UpdateColumnOrder from '#actions/update_column_order'
+import { columneOrderValidator } from '#validators/column_validator'
 
 export default class ColumnController {
-  /*TODO: utiliser une action pour rendre le code plus props*/
-  async reorder({ request, response }: HttpContext) {
-    const { activeColumnId, overColumnId } = request.only(['activeColumnId', 'overColumnId'])
+  async order({ params, request, response }: HttpContext) {
+    const { ids } = await request.validateUsing(columneOrderValidator)
 
-    const activeColumn = await Column.findOrFail(activeColumnId)
-    const overColumn = await Column.findOrFail(overColumnId)
-
-    const tempOrder = activeColumn.order
-    activeColumn.order = overColumn.order
-    overColumn.order = tempOrder
-
-    await activeColumn.save()
-    await overColumn.save()
+    await UpdateColumnOrder.handle({
+      boardId: params.boardId,
+      ids,
+    })
 
     return response.redirect().back()
   }

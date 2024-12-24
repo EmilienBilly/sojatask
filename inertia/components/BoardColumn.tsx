@@ -3,11 +3,12 @@ import { Card, CardContent, CardHeader } from '#shadcn/card'
 import { Column } from '../types/column'
 import { memo, useContext, useEffect, useRef, useState } from 'react'
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
-import { getColumnData, isColumnData } from '#inertia/utils/column.business'
 import TaskCard, { CardShadow } from '#inertia/TaskCard'
 import {
+  getColumnData,
   isCardData,
   isCardDropTargetData,
+  isColumnData,
   isDraggingACard,
   isDraggingAColumn,
   isShallowEqual,
@@ -42,7 +43,7 @@ const stateStyles: { [Key in TColumnState['type']]: string } = {
   'idle': 'cursor-grab',
   'is-card-over': 'outline outline-2 outline-neutral-50',
   'is-dragging': 'opacity-40',
-  'is-column-over': 'bg-slate-900',
+  'is-column-over': 'bg-slate-200',
 }
 
 const idle = { type: 'idle' } satisfies TColumnState
@@ -74,7 +75,7 @@ export default function BoardColumn({ column }: { column: Column }) {
     invariant(header)
     invariant(inner)
 
-    const columnData = getColumnData(column)
+    const columnData = getColumnData({ column })
 
     function setIsCardOver({ data, location }: { data: TaskData; location: DragLocationHistory }) {
       const innerMost = location.current.dropTargets[0]
@@ -199,7 +200,7 @@ export default function BoardColumn({ column }: { column: Column }) {
   }, [column, settings])
 
   return (
-    <div ref={outerFullHeightRef} className="">
+    <div ref={outerFullHeightRef}>
       <Card
         ref={innerRef}
         className={`h-[720px] max-h-[720px] w-[350px] max-w-full bg-primary-foreground flex flex-col flex-shrink-0 snap-center ${stateStyles[state.type]}`}
