@@ -111,11 +111,10 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
               }
               const columns = Array.from(boardData.columns)
               columns[homeColumnIndex] = updated
-              console.log(boardData.columns)
               const updatedBoardData = { ...boardData, columns }
+
               setBoardData(updatedBoardData)
               saveTaskOrder(updatedBoardData)
-              console.log(updatedBoardData)
               return
             }
 
@@ -150,7 +149,10 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
               ...destination,
               tasks: destinationCards,
             }
-            setBoardData({ ...boardData, columns })
+            const updatedBoardData = { ...boardData, columns }
+
+            setBoardData(updatedBoardData)
+            saveTaskOrder(updatedBoardData)
             return
           }
 
@@ -182,7 +184,10 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
               }
               const columns = Array.from(boardData.columns)
               columns[homeColumnIndex] = updated
-              setBoardData({ ...boardData, columns })
+              const updatedBoardData = { ...boardData, columns }
+
+              setBoardData(updatedBoardData)
+              saveTaskOrder(updatedBoardData)
               return
             }
 
@@ -206,7 +211,10 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
               ...destination,
               tasks: destinationCards,
             }
-            setBoardData({ ...boardData, columns })
+            const updatedBoardData = { ...boardData, columns }
+
+            setBoardData(updatedBoardData)
+            saveTaskOrder(updatedBoardData)
             return
           }
         },
