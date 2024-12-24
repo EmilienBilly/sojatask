@@ -1,7 +1,7 @@
 import { InferPageProps } from '@adonisjs/inertia/types'
 import type { Board } from '../types/board'
 import BoardsController from '#controllers/boards/boards_controller'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import BoardHeader from '#inertia/BoardHeader'
 import CreateColumn from '#inertia/CreateColumn'
 import BoardColumn from '#inertia/BoardColumn'
@@ -19,7 +19,6 @@ import {
   isDraggingACard,
   isDraggingAColumn,
 } from '#inertia/utils/kanbanboard.business'
-import { SettingsContext } from '#inertia/utils/settings-context'
 import { autoScrollForElements } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/element'
 import { unsafeOverflowAutoScrollForElements } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/unsafe-overflow/element'
 import invariant from 'tiny-invariant'
@@ -30,7 +29,6 @@ import { router } from '@inertiajs/react'
 export default function Board({ board }: InferPageProps<BoardsController, 'show'>) {
   const [boardData, setBoardData] = useState(board)
   const scrollableRef = useRef<HTMLDivElement | null>(null)
-  const { settings } = useContext(SettingsContext)
 
   function saveColumnOrder(updatedBoard: Board) {
     const ids = updatedBoard.columns.map((column) => column.id)
@@ -108,8 +106,6 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
                 indexOfTarget: taskIndexInDroppedColumn,
                 closestEdgeOfTarget: closestEdge,
               })
-              // console.log(homeColumn.tasks)
-              // console.log(reordered)
 
               const updated: Column = {
                 ...homeColumn,
@@ -244,8 +240,6 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
 
           if (!isColumnData(dropTargetData)) {
             return
-          } else {
-            console.log('ok')
           }
 
           const homeIndex = boardData.columns.findIndex(
@@ -275,12 +269,12 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
         },
       }),
       autoScrollForElements({
-        getConfiguration: () => ({ maxScrollSpeed: settings.boardScrollSpeed }),
+        getConfiguration: () => ({ maxScrollSpeed: 'fast' }),
         element,
       }),
       unsafeOverflowAutoScrollForElements({
         element,
-        getConfiguration: () => ({ maxScrollSpeed: settings.boardScrollSpeed }),
+        getConfiguration: () => ({ maxScrollSpeed: 'fast' }),
         getOverflow() {
           return {
             forLeftEdge: {
@@ -297,7 +291,7 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
         },
       })
     )
-  }, [boardData, settings])
+  }, [boardData])
 
   // Panning the board
   useEffect(() => {
