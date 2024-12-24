@@ -1,5 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { createColumnValidator } from '#validators/list_validator'
+import { createColumnValidator } from '#validators/column_validator'
 import Column from '#models/column'
 
 export default class CreateColumnController {

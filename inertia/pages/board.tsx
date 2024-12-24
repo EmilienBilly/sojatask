@@ -9,13 +9,13 @@ import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/ad
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine'
 import { reorderWithEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/util/reorder-with-edge'
 import { extractClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge'
-import { isColumnData } from '#inertia/utils/column.business'
 import { reorder } from '@atlaskit/pragmatic-drag-and-drop/reorder'
 import {
   blockBoardPanningAttr,
   Column,
   isCardData,
   isCardDropTargetData,
+  isColumnData,
   isDraggingACard,
   isDraggingAColumn,
 } from '#inertia/utils/kanbanboard.business'
@@ -31,6 +31,12 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
   const [boardData, setBoardData] = useState(board)
   const scrollableRef = useRef<HTMLDivElement | null>(null)
   const { settings } = useContext(SettingsContext)
+
+  function saveColumnOrder(updatedBoard: Board) {
+    const ids = updatedBoard.columns.map((column) => column.id)
+    console.log(ids)
+    router.patch(`/boards/${updatedBoard.id}/columns/order`, { ids })
+  }
 
   function saveTaskOrder(updatedBoard: Board) {
     const columns = updatedBoard.columns.map((column) => ({
@@ -223,6 +229,8 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
         canMonitor: isDraggingAColumn,
         onDrop({ source, location }) {
           const dragging = source.data
+          console.log(dragging)
+          console.log(location)
           if (!isColumnData(dragging)) {
             return
           }
@@ -236,6 +244,8 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
 
           if (!isColumnData(dropTargetData)) {
             return
+          } else {
+            console.log('ok')
           }
 
           const homeIndex = boardData.columns.findIndex(
@@ -258,7 +268,10 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
             startIndex: homeIndex,
             finishIndex: destinationIndex,
           })
-          setBoardData({ ...boardData, columns: reordered })
+
+          const updatedBoardData = { ...boardData, columns: reordered }
+          setBoardData(updatedBoardData)
+          saveColumnOrder(updatedBoardData)
         },
       }),
       autoScrollForElements({

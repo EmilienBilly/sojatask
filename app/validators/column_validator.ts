@@ -6,3 +6,9 @@ export const createColumnValidator = vine.compile(
     boardId: vine.number(),
   })
 )
+
+export const columneOrderValidator = vine.compile(
+  vine.object({
+    ids: vine.array(vine.number()),
+  })
+)
