@@ -7,16 +7,28 @@ import { DateTime } from 'luxon'
 import { useState } from 'react'
 
 type DatePickerProps = {
-  date: string | null
+  date: string | null // La date initiale sous forme de chaîne ou null
+  onDateChange: (date: DateTime | undefined) => void // Callback pour transmettre la date sélectionnée
 }
 
-export default function DatePicker({ date }: DatePickerProps) {
-  const [dateState, setDateState] = useState<Date | undefined>(date ? new Date(date) : undefined)
+export default function DatePicker({ date, onDateChange }: DatePickerProps) {
+  // Initialisation de l'état avec DateTime ou undefined
+  const [dateState, setDateState] = useState<DateTime | undefined>(
+    date ? DateTime.fromISO(date) : undefined
+  )
+
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 
   const formattedDate = dateState
-    ? DateTime.fromJSDate(dateState).setLocale('fr').toLocaleString(DateTime.DATE_MED)
+    ? dateState.setLocale('fr').toLocaleString(DateTime.DATE_MED)
     : 'Aucune date sélectionnée'
+
+  const handleDateSelect = (selectedDate: Date | undefined) => {
+    const dateTime = selectedDate ? DateTime.fromJSDate(selectedDate) : undefined
+    setDateState(dateTime) // Mise à jour de l'état local
+    onDateChange(dateTime) // Appel du callback pour transmettre la date au parent
+    setIsPopoverOpen(false) // Ferme le Popover
+  }
 
   return (
     <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
@@ -30,17 +42,14 @@ export default function DatePicker({ date }: DatePickerProps) {
           aria-label="Sélectionner une date"
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {dateState ? formattedDate : <span>Sélectionnez une date</span>}
+          {formattedDate}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
         <Calendar
           mode="single"
-          selected={dateState}
-          onSelect={(selectedDate) => {
-            setDateState(selectedDate ?? undefined)
-            setIsPopoverOpen(false)
-          }}
+          selected={dateState?.toJSDate()} // Convertit DateTime en Date pour le Calendar
+          onSelect={(selectedDate) => handleDateSelect(selectedDate ?? undefined)}
           initialFocus
         />
       </PopoverContent>

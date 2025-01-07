@@ -31,5 +31,7 @@ router
     router.patch('/boards/:boardId/tasks/order', [TasksController, 'order']).as('tasks.order')
     router.patch('/boards/:boardId/columns/order', [ColumnsController, 'order']).as('columns.order')
     router.post('create-task', [CreateTaskController])
+
+    router.put('/tasks/:id', [TasksController, 'update']).as('tasks.update')
   })
   .use([middleware.auth(), middleware.workspace()])
