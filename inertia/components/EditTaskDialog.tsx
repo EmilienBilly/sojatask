@@ -4,6 +4,8 @@ import { Input } from '#shadcn/input'
 import { useForm } from '@inertiajs/react'
 import TaskDto from '#dtos/task'
 import DatePicker from '#inertia/DatePicker'
+import { DateTime } from 'luxon'
+import { Button } from '#shadcn/button'
 
 type EditTaskDialogProps = {
   task: TaskDto
@@ -12,32 +14,54 @@ type EditTaskDialogProps = {
 }
 
 export default function EditTaskDialog({ task, open, onOpenChange }: EditTaskDialogProps) {
-  const { data, setData, post, processing, reset, errors } = useForm({
-    title: '',
-    description: '',
+  const { data, setData, put, processing, reset, errors } = useForm({
+    title: task.title || '',
+    description: task.description || '',
+    dueDate: task.dueDate || null,
   })
+
+  const handleDateChange = (date: DateTime | undefined) => {
+    const isoDate = date?.toISO() || null
+    setData('dueDate', isoDate)
+  }
+
+  function submit(event: { preventDefault: () => void }) {
+    event.preventDefault()
+    put(`/tasks/${task.id}`, {
+      // onSuccess: () => {
+      //   reset()
+      //   onOpenChange(false)
+      // },
+    })
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>{task.title}</DialogTitle>
         </DialogHeader>
-        <form className="flex flex-col gap-8">
+        <form onSubmit={submit} className="flex flex-col gap-8">
           <div className="grid gap-2">
             <Label htmlFor="title">Description</Label>
             <Input
               id="title"
               type="text"
-              value={data.title}
+              value={data.description}
               onChange={(e) => setData('title', e.target.value)}
             />
           </div>
           <div className="flex items-center gap-2">
-            <Label htmlFor="title">Date limite</Label>
-            <DatePicker date={task.dueDate} />
+            <Label htmlFor="dueDate">Date limite</Label>
+            <DatePicker
+              date={data.dueDate ? DateTime.fromISO(data.dueDate).toISO() : null}
+              onDateChange={handleDateChange}
+            />
             {errors.title && <div>{errors.title}</div>}
           </div>
+          <Button type="submit" disabled={processing}>
+            Enregistrer
+          </Button>
         </form>
       </DialogContent>
     </Dialog>

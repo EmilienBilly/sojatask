@@ -20,7 +20,7 @@ export default class Task extends BaseModel {
   declare updatedAt: DateTime
 
   @column.dateTime()
-  declare dueDate: DateTime
+  declare dueDate: DateTime | null
 
   @column()
   declare archived: number
