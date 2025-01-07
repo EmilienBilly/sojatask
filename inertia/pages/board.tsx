@@ -32,7 +32,6 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
 
   function saveColumnOrder(updatedBoard: Board) {
     const ids = updatedBoard.columns.map((column) => column.id)
-    console.log(ids)
     router.patch(`/boards/${updatedBoard.id}/columns/order`, { ids })
   }
 
@@ -41,7 +40,6 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
       id: column.id,
       tasks: column.tasks.map((task) => task.id),
     }))
-    console.log(columns)
     router.patch(`/boards/${updatedBoard.id}/tasks/order`, { columns })
   }
 
@@ -171,8 +169,6 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
 
             // dropping on home
             if (homeColumn === destination) {
-              console.log('moving card to home column')
-
               // move to last position
               const reordered = reorder({
                 list: homeColumn.tasks,
@@ -192,8 +188,6 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
               saveTaskOrder(updatedBoardData)
               return
             }
-
-            console.log('moving card to another column')
 
             // remove card from home list
 
@@ -225,8 +219,6 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
         canMonitor: isDraggingAColumn,
         onDrop({ source, location }) {
           const dragging = source.data
-          console.log(dragging)
-          console.log(location)
           if (!isColumnData(dragging)) {
             return
           }

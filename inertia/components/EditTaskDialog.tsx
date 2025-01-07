@@ -1,12 +1,12 @@
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '#shadcn/dialog'
-import { TaskType } from '../types/task'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '#shadcn/dialog'
 import { Label } from '#shadcn/label'
 import { Input } from '#shadcn/input'
 import { useForm } from '@inertiajs/react'
-import { toast } from 'sonner'
+import TaskDto from '#dtos/task'
+import DatePicker from '#inertia/DatePicker'
 
 type EditTaskDialogProps = {
-  task: TaskType
+  task: TaskDto
   open: boolean
   onOpenChange: (open: boolean) => void
 }
@@ -17,32 +17,25 @@ export default function EditTaskDialog({ task, open, onOpenChange }: EditTaskDia
     description: '',
   })
 
-  function submit(event: { preventDefault: () => void }) {
-    event.preventDefault()
-    post('/create_board', {
-      onSuccess: () => {
-        reset()
-        toast.success('Tableau créé')
-      },
-    })
-  }
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="">
         <DialogHeader>
           <DialogTitle>{task.title}</DialogTitle>
-          <DialogDescription>Modifier la tâche</DialogDescription>
         </DialogHeader>
-        <form>
+        <form className="flex flex-col gap-8">
           <div className="grid gap-2">
-            <Label htmlFor="title">Titre</Label>
+            <Label htmlFor="title">Description</Label>
             <Input
               id="title"
               type="text"
               value={data.title}
               onChange={(e) => setData('title', e.target.value)}
             />
+          </div>
+          <div className="flex items-center gap-2">
+            <Label htmlFor="title">Date limite</Label>
+            <DatePicker date={task.dueDate} />
             {errors.title && <div>{errors.title}</div>}
           </div>
         </form>

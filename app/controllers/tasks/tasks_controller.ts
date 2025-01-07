@@ -10,7 +10,6 @@ export default class TaskController {
       boardId: params.boardId,
       data,
     })
-    console.log('Data', data)
     return response.redirect().back()
   }
 }
