@@ -24,11 +24,14 @@ export const taskOrderValidator = vine.compile(
 export const taskValidator = vine.compile(
   vine.object({
     title: vine.string(),
-    description: vine.string().optional(),
+    description: vine.string().nullable(),
     dueDate: vine
-      .date()
+      .string()
       .nullable()
-      .optional()
-      .transform((value) => (value ? DateTime.fromJSDate(value) : null)),
+      .transform((value) => (value ? DateTime.fromISO(value) : null)),
+    startDate: vine
+      .string()
+      .nullable()
+      .transform((value) => (value ? DateTime.fromISO(value) : null)),
   })
 )
