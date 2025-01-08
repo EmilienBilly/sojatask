@@ -19,8 +19,11 @@ export default class Task extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
-  @column.dateTime()
+  @column.date()
   declare dueDate: DateTime | null
+
+  @column.date()
+  declare startDate: DateTime | null
 
   @column()
   declare archived: number

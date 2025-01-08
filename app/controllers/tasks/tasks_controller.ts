@@ -15,6 +15,7 @@ export default class TaskController {
   }
 
   async update({ params, request, response }: HttpContext) {
+    console.log(request.body())
     const data = await request.validateUsing(taskValidator)
     //TODO: Corriger le validator car erreur et voir pour afficher les erreurs
     console.log(data)
