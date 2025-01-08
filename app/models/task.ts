@@ -11,7 +11,7 @@ export default class Task extends BaseModel {
   declare title: string
 
   @column()
-  declare description: string
+  declare description: string | null
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
