@@ -9,6 +9,7 @@ export default class TaskDto extends BaseModelDto {
   declare updatedAt: string
   declare archived: number
   declare dueDate: string | null
+  declare startDate: string | null
   declare createdBy: number
   declare columnId: number
   declare order: number
@@ -24,6 +25,7 @@ export default class TaskDto extends BaseModelDto {
     this.updatedAt = task.updatedAt.toISO()!
     this.archived = task.archived
     this.dueDate = task.dueDate?.toISO() ?? null
+    this.startDate = task.startDate?.toISO() ?? null
     this.createdBy = task.createdBy
     this.columnId = task.columnId
     this.order = task.order
