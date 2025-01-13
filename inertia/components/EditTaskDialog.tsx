@@ -4,9 +4,7 @@ import { Input } from '#shadcn/input'
 import { useForm } from '@inertiajs/react'
 import TaskDto from '#dtos/task'
 import DatePicker from '#inertia/DatePicker'
-import { DateTime } from 'luxon' // Assure-toi d'importer luxon
 import { Button } from '#shadcn/button'
-import { useEffect } from 'react'
 
 type EditTaskDialogProps = {
   task: TaskDto
@@ -22,21 +20,13 @@ export default function EditTaskDialog({ task, open, onOpenChange }: EditTaskDia
     startDate: task.startDate || null,
   })
 
-  // Fonction pour gérer les changements de dates depuis le DatePicker
   const handleDateChange = (startDate: string | null, dueDate: string | null) => {
-    // Convertir les chaînes ISO en objets DateTime ou null
-    const convertedStartDate = startDate ? DateTime.fromISO(startDate) : null
-    const convertedDueDate = dueDate ? DateTime.fromISO(dueDate) : null
-    // Si `setData` attend une chaîne ISO, reconvertir les objets DateTime en ISO ou null
-    setData('startDate', convertedStartDate ? convertedStartDate.toISO() : null)
-    setData('dueDate', convertedDueDate ? convertedDueDate.toISO() : null)
-    console.log(convertedStartDate)
-    console.log(data.startDate)
+    setData((prevData) => ({
+      ...prevData,
+      startDate,
+      dueDate,
+    }))
   }
-
-  useEffect(() => {
-    console.log(data)
-  }, [data])
 
   function submit(event: { preventDefault: () => void }) {
     event.preventDefault()
@@ -51,9 +41,9 @@ export default function EditTaskDialog({ task, open, onOpenChange }: EditTaskDia
         </DialogHeader>
         <form onSubmit={submit} className="flex flex-col gap-8">
           <div className="grid gap-2">
-            <Label htmlFor="title">Description</Label>
+            <Label htmlFor="description">Description</Label>
             <Input
-              id="title"
+              id="description"
               type="text"
               value={data.description}
               onChange={(e) => setData('description', e.target.value)}
