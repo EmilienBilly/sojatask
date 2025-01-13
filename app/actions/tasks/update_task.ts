@@ -9,7 +9,6 @@ type Params = {
 
 export default class UpdateTask {
   static async handle({ id, data }: Params) {
-    console.log(data)
     const task = await Task.query().where('id', id).firstOrFail()
     await task.merge(data).save()
 
