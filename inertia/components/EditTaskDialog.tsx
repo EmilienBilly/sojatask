@@ -3,8 +3,9 @@ import { Label } from '#shadcn/label'
 import { Input } from '#shadcn/input'
 import { useForm } from '@inertiajs/react'
 import TaskDto from '#dtos/task'
-import DatePicker from '#inertia/DatePicker'
 import { Button } from '#shadcn/button'
+import DynamicDateLabel from '#inertia/DynamicDateLabel'
+import DatePicker from '#inertia/DatePicker'
 
 type EditTaskDialogProps = {
   task: TaskDto
@@ -50,11 +51,16 @@ export default function EditTaskDialog({ task, open, onOpenChange }: EditTaskDia
             />
           </div>
           <div className="flex items-center gap-2">
-            <Label htmlFor="dueDate">Date limite</Label>
+            <DynamicDateLabel startDate={data.startDate} dueDate={data.dueDate} />
+            {/*<DatePicker*/}
+            {/*  startDate={task.startDate ? new Date(task.startDate) : undefined}*/}
+            {/*  dueDate={task.dueDate ? new Date(task.dueDate) : undefined}*/}
+            {/*  onDateChange={handleDateChange} // Pass handleDateChange*/}
+            {/*/>*/}
             <DatePicker
-              startDate={task.startDate ? new Date(task.startDate) : undefined}
-              dueDate={task.dueDate ? new Date(task.dueDate) : undefined}
-              onDateChange={handleDateChange} // Pass handleDateChange
+              startDate={data.startDate ? new Date(data.startDate) : undefined}
+              dueDate={data.dueDate ? new Date(data.dueDate) : undefined}
+              onDateChange={handleDateChange}
             />
             {errors.title && <div>{errors.title}</div>}
           </div>
