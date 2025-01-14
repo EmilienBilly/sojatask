@@ -7,24 +7,19 @@ import { Popover, PopoverContent, PopoverTrigger } from '#shadcn/popover'
 import { Button } from '#shadcn/button'
 import { Calendar } from '#shadcn/calendar'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '#shadcn/select'
+import { useForm } from '@inertiajs/react'
+import DynamicDateLabel from '#inertia/DynamicDateLabel'
+import { PopoverClose } from '@radix-ui/react-popover'
 
 type DatePickerMode = 'dueDate' | 'startDate' | 'range'
 
-type FlexibleDatePickerProps = {
+type DatePickerProps = {
+  taskId: number
   startDate: Date | undefined
   dueDate: Date | undefined
-  onDateChange: (startDate: string | null, dueDate: string | null) => void
 }
 
-export default function DatePicker({ startDate, dueDate, onDateChange }: FlexibleDatePickerProps) {
-  const getInitialMode = (): DatePickerMode => {
-    if (startDate && dueDate) return 'range'
-    if (startDate) return 'startDate'
-    if (dueDate) return 'dueDate'
-    return 'dueDate'
-  }
-
-  const [mode, setMode] = React.useState<DatePickerMode>(getInitialMode())
+export default function DatePicker({ taskId, startDate, dueDate }: DatePickerProps) {
   const [selectedDates, setSelectedDates] = React.useState<{
     start: Date | undefined
     end: Date | undefined
@@ -33,15 +28,35 @@ export default function DatePicker({ startDate, dueDate, onDateChange }: Flexibl
     end: dueDate,
   })
 
+  const { data, setData, put, processing } = useForm({
+    startDate: startDate?.toISOString() || null,
+    dueDate: dueDate?.toISOString() || null,
+  })
+
+  const getInitialMode = (): DatePickerMode => {
+    if (startDate && dueDate) return 'range'
+    if (startDate) return 'startDate'
+    if (dueDate) return 'dueDate'
+    return 'dueDate'
+  }
+
+  const [mode, setMode] = React.useState<DatePickerMode>(getInitialMode())
+
   const handleDateSelection = (date: Date | undefined) => {
     switch (mode) {
       case 'dueDate':
         setSelectedDates((prev) => ({ ...prev, end: date }))
-        onDateChange(null, date?.toISOString() ?? null)
+        setData({
+          startDate: null,
+          dueDate: date?.toISOString() ?? null,
+        })
         break
       case 'startDate':
         setSelectedDates((prev) => ({ ...prev, start: date }))
-        onDateChange(date?.toISOString() ?? null, null)
+        setData({
+          startDate: date?.toISOString() ?? null,
+          dueDate: null,
+        })
         break
     }
   }
@@ -51,7 +66,10 @@ export default function DatePicker({ startDate, dueDate, onDateChange }: Flexibl
       start: range?.from,
       end: range?.to,
     })
-    onDateChange(range?.from?.toISOString() ?? null, range?.to?.toISOString() ?? null)
+    setData({
+      startDate: range?.from?.toISOString() ?? null,
+      dueDate: range?.to?.toISOString() ?? null,
+    })
   }
 
   const getButtonText = () => {
@@ -67,11 +85,21 @@ export default function DatePicker({ startDate, dueDate, onDateChange }: Flexibl
 
   const clearDates = () => {
     setSelectedDates({ start: undefined, end: undefined })
-    onDateChange(null, null)
+    setData({
+      startDate: null,
+      dueDate: null,
+    })
+  }
+
+  const handleSubmit = () => {
+    put(`/tasks/${taskId}`, {
+      preserveScroll: true,
+    })
   }
 
   return (
-    <div className="flex">
+    <div className="flex items-center gap-2">
+      <DynamicDateLabel startDate={data.startDate} dueDate={data.dueDate} />
       <Popover>
         <PopoverTrigger asChild>
           <Button
@@ -85,8 +113,19 @@ export default function DatePicker({ startDate, dueDate, onDateChange }: Flexibl
             {getButtonText()}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-4" align="start">
-          <div className="space-y-4">
+        <PopoverContent
+          className="w-auto"
+          align="center"
+          side="right"
+          onInteractOutside={() => {
+            setSelectedDates({ start: startDate, end: dueDate })
+            setData({
+              startDate: startDate?.toISOString() || null,
+              dueDate: dueDate?.toISOString() || null,
+            })
+          }}
+        >
+          <div>
             <Select value={mode} onValueChange={(value: DatePickerMode) => setMode(value)}>
               <SelectTrigger>
                 <SelectValue placeholder="Type de date" />
@@ -117,18 +156,22 @@ export default function DatePicker({ startDate, dueDate, onDateChange }: Flexibl
                 initialFocus
               />
             )}
+
+            <div className="flex flex-col gap-2">
+              <PopoverClose asChild>
+                <Button className="flex-1" onClick={handleSubmit} disabled={processing}>
+                  Valider
+                </Button>
+              </PopoverClose>
+              {(selectedDates.start || selectedDates.end) && (
+                <PopoverClose asChild>
+                  <Button variant="outline" className="flex-1" onClick={clearDates}>
+                    Effacer
+                  </Button>
+                </PopoverClose>
+              )}
+            </div>
           </div>
-          {(selectedDates.start || selectedDates.end) && (
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => {
-                clearDates()
-              }}
-            >
-              Effacer
-            </Button>
-          )}
         </PopoverContent>
       </Popover>
     </div>

@@ -10,8 +10,8 @@ export default function DynamicDateLabel({ startDate, dueDate }: DateLabelProps)
     if (startDate && dueDate) return 'Dates'
     if (dueDate) return 'Date limite'
     if (startDate) return 'Date de début'
-    return 'Date' // Fallback label
+    return 'Date'
   }
 
-  return <Label>{getLabel()}</Label>
+  return <Label className="w-full">{getLabel()}</Label>
 }
