@@ -44,6 +44,10 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
   }
 
   useEffect(() => {
+    setBoardData(board)
+  }, [board])
+
+  useEffect(() => {
     const element = scrollableRef.current
     invariant(element)
     return combine(

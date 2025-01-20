@@ -19,6 +19,7 @@ export default function CreateTask({ columnId }: CreateTaskButtonProps) {
   function submit(event: { preventDefault: () => void }) {
     event.preventDefault()
     post('/create-task', {
+      preserveScroll: true,
       onSuccess: () => {
         setIsFormVisible(false)
         reset()
