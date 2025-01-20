@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import { DateRange } from 'react-day-picker'
@@ -20,7 +20,7 @@ type DatePickerProps = {
 }
 
 export default function DatePicker({ taskId, startDate, dueDate }: DatePickerProps) {
-  const [selectedDates, setSelectedDates] = React.useState<{
+  const [selectedDates, setSelectedDates] = useState<{
     start: Date | undefined
     end: Date | undefined
   }>({
@@ -39,8 +39,7 @@ export default function DatePicker({ taskId, startDate, dueDate }: DatePickerPro
     if (dueDate) return 'dueDate'
     return 'dueDate'
   }
-
-  const [mode, setMode] = React.useState<DatePickerMode>(getInitialMode())
+  const [mode, setMode] = useState<DatePickerMode>(getInitialMode())
 
   const handleDateSelection = (date: Date | undefined) => {
     switch (mode) {
@@ -83,12 +82,22 @@ export default function DatePicker({ taskId, startDate, dueDate }: DatePickerPro
     return 'Sélectionner une date'
   }
 
+  const [shouldSubmitAfterClear, setShouldSubmitAfterClear] = useState(false)
+
+  useEffect(() => {
+    if (shouldSubmitAfterClear) {
+      handleSubmit()
+      setShouldSubmitAfterClear(false)
+    }
+  }, [data.startDate, data.dueDate, shouldSubmitAfterClear])
+
   const clearDates = () => {
     setSelectedDates({ start: undefined, end: undefined })
     setData({
       startDate: null,
       dueDate: null,
     })
+    setShouldSubmitAfterClear(true)
   }
 
   const handleSubmit = () => {
@@ -96,6 +105,8 @@ export default function DatePicker({ taskId, startDate, dueDate }: DatePickerPro
       preserveScroll: true,
     })
   }
+
+  useEffect(() => {})
 
   return (
     <div className="flex items-center gap-2">
