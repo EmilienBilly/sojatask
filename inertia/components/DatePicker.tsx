@@ -89,7 +89,7 @@ export default function DatePicker({ taskId, startDate, dueDate }: DatePickerPro
       handleSubmit()
       setShouldSubmitAfterClear(false)
     }
-  }, [data.startDate, data.dueDate, shouldSubmitAfterClear])
+  }, [shouldSubmitAfterClear])
 
   const clearDates = () => {
     setSelectedDates({ start: undefined, end: undefined })
@@ -105,8 +105,6 @@ export default function DatePicker({ taskId, startDate, dueDate }: DatePickerPro
       preserveScroll: true,
     })
   }
-
-  useEffect(() => {})
 
   return (
     <div className="flex items-center gap-2">
