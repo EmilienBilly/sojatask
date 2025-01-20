@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useForm } from '@inertiajs/react'
+import { router, useForm } from '@inertiajs/react'
 import { Plus, X } from 'lucide-react'
 import { Input } from '#shadcn/input'
 import { Button } from '#shadcn/button'
@@ -22,6 +22,7 @@ export default function CreateTask({ columnId }: CreateTaskButtonProps) {
       onSuccess: () => {
         setIsFormVisible(false)
         reset()
+        router.reload()
       },
     })
   }
