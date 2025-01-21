@@ -358,7 +358,7 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
   return (
     <>
       <BoardHeader board={boardData} />
-      <div ref={scrollableRef} className="flex gap-4 flex-row p-4 overflow-x-auto">
+      <div ref={scrollableRef} className="flex gap-8 flex-row p-4 overflow-x-auto">
         {boardData.columns?.map((column) => <BoardColumn key={column.id} column={column} />)}
         <CreateColumn board={boardData} />
       </div>
