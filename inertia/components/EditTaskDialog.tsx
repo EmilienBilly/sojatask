@@ -35,8 +35,8 @@ export default function EditTaskDialog({ task, open, onOpenChange }: EditTaskDia
           <div className="flex items-center gap-2">
             <DatePicker
               taskId={task.id}
-              startDate={data.startDate ? new Date(data.startDate) : undefined}
-              dueDate={data.dueDate ? new Date(data.dueDate) : undefined}
+              startDate={task.startDate ? new Date(task.startDate) : undefined}
+              dueDate={task.dueDate ? new Date(task.dueDate) : undefined}
             />
           </div>
           <div className="grid gap-2">
