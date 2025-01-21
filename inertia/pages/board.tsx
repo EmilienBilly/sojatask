@@ -1,5 +1,4 @@
 import { InferPageProps } from '@adonisjs/inertia/types'
-import type { Board } from '../types/board'
 import BoardsController from '#controllers/boards/boards_controller'
 import { useEffect, useRef, useState } from 'react'
 import BoardHeader from '#inertia/BoardHeader'
@@ -12,7 +11,6 @@ import { extractClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/clo
 import { reorder } from '@atlaskit/pragmatic-drag-and-drop/reorder'
 import {
   blockBoardPanningAttr,
-  Column,
   isCardData,
   isCardDropTargetData,
   isColumnData,
@@ -25,17 +23,19 @@ import invariant from 'tiny-invariant'
 import { CleanupFn } from '@atlaskit/pragmatic-drag-and-drop/dist/types/internal-types'
 import { bindAll } from 'bind-event-listener'
 import { router } from '@inertiajs/react'
+import BoardDto from '#dtos/board'
+import ColumnDto from '#dtos/column'
 
 export default function Board({ board }: InferPageProps<BoardsController, 'show'>) {
   const [boardData, setBoardData] = useState(board)
   const scrollableRef = useRef<HTMLDivElement | null>(null)
 
-  function saveColumnOrder(updatedBoard: Board) {
+  function saveColumnOrder(updatedBoard: BoardDto) {
     const ids = updatedBoard.columns.map((column) => column.id)
     router.patch(`/boards/${updatedBoard.id}/columns/order`, { ids })
   }
 
-  function saveTaskOrder(updatedBoard: Board) {
+  function saveTaskOrder(updatedBoard: BoardDto) {
     const columns = updatedBoard.columns.map((column) => ({
       id: column.id,
       tasks: column.tasks.map((task) => task.id),
@@ -68,7 +68,7 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
           const homeColumnIndex = boardData.columns.findIndex(
             (column) => column.id === draggingElement.columnId
           )
-          const homeColumn: Column | undefined = boardData.columns[homeColumnIndex]
+          const homeColumn: ColumnDto | undefined = boardData.columns[homeColumnIndex]
 
           if (!homeColumn) {
             return
@@ -109,7 +109,7 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
                 closestEdgeOfTarget: closestEdge,
               })
 
-              const updated: Column = {
+              const updated: ColumnDto = {
                 ...homeColumn,
                 tasks: reordered,
               }
@@ -180,7 +180,7 @@ export default function Board({ board }: InferPageProps<BoardsController, 'show'
                 finishIndex: homeColumn.tasks.length - 1,
               })
 
-              const updated: Column = {
+              const updated: ColumnDto = {
                 ...homeColumn,
                 tasks: reordered,
               }
