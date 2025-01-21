@@ -1,36 +1,19 @@
+import ColumnDto from '#dtos/column'
+import TaskDto from '#dtos/task'
+
 const taskCardKey = Symbol('task')
-
-export type Task = {
-  id: number
-  title: string
-  description: string
-  archived: number
-  createdBy: number
-  columnId: number
-  createdAt: string
-  updatedAt: string
-  dueDate: string | null
-  order: number
-}
-
-export type Column = {
-  id: number
-  title: string
-  boardId: number
-  tasks: Task[]
-}
 
 export type Board = {
   id: number
   title: string
   description: string
   workspaceId: number
-  columns: Column[]
+  columns: ColumnDto[]
 }
 
 export type TaskData = {
   [taskCardKey]: true
-  task: Task
+  task: TaskDto
   columnId: number
   rect: DOMRect
 }
@@ -64,7 +47,7 @@ const cardDropTargetKey = Symbol('card-drop-target')
 
 export type TaskDropTargetData = {
   [cardDropTargetKey]: true
-  task: Task
+  task: TaskDto
   columnId: number
 }
 
@@ -90,7 +73,7 @@ export function getCardDropTargetData({
 const columnKey = Symbol('column')
 export type ColumnData = {
   [columnKey]: true
-  column: Column
+  column: ColumnDto
 }
 
 export function getColumnData({ column }: Omit<ColumnData, typeof columnKey>): ColumnData {

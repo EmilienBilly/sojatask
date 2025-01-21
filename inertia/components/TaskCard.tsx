@@ -3,7 +3,6 @@ import EditTaskDialog from '#inertia/EditTaskDialog'
 import { MutableRefObject, useEffect, useRef, useState } from 'react'
 import { GripVertical, Pencil } from 'lucide-react'
 import { Button } from '#shadcn/button'
-import { Task } from '../types/task'
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 import invariant from 'tiny-invariant'
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine'
@@ -22,9 +21,10 @@ import {
 import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview'
 import { preserveOffsetOnSource } from '@atlaskit/pragmatic-drag-and-drop/element/preserve-offset-on-source'
 import { createPortal } from 'react-dom'
+import TaskDto from '#dtos/task'
 
 type TaskCardProps = {
-  task: Task
+  task: TaskDto
   columnId: number
 }
 
@@ -66,7 +66,7 @@ export function TaskCardDisplay({
   state,
   taskCardref,
 }: {
-  task: Task
+  task: TaskDto
   state: TCardState
   taskCardref?: MutableRefObject<HTMLDivElement | null>
 }) {
