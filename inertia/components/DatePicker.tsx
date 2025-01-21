@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '#
 import { useForm } from '@inertiajs/react'
 import DynamicDateLabel from '#inertia/DynamicDateLabel'
 import { PopoverClose } from '@radix-ui/react-popover'
+import TaskDateStatus from '#inertia/TaskDateStatus'
 
 type DatePickerMode = 'dueDate' | 'startDate' | 'range'
 
@@ -120,6 +121,7 @@ export default function DatePicker({ taskId, startDate, dueDate }: DatePickerPro
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
             {getButtonText()}
+            <TaskDateStatus dueDate={selectedDates.end} />
           </Button>
         </PopoverTrigger>
         <PopoverContent
@@ -145,7 +147,6 @@ export default function DatePicker({ taskId, startDate, dueDate }: DatePickerPro
                 <SelectItem value="range">Plage de dates</SelectItem>
               </SelectContent>
             </Select>
-
             {mode === 'range' ? (
               <Calendar
                 mode="range"
@@ -165,7 +166,6 @@ export default function DatePicker({ taskId, startDate, dueDate }: DatePickerPro
                 initialFocus
               />
             )}
-
             <div className="flex flex-col gap-2">
               <PopoverClose asChild>
                 <Button className="flex-1" onClick={handleSubmit} disabled={processing}>
