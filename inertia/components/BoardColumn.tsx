@@ -22,6 +22,7 @@ import { preserveOffsetOnSource } from '@atlaskit/pragmatic-drag-and-drop/elemen
 import { autoScrollForElements } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/element'
 import { unsafeOverflowAutoScrollForElements } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/unsafe-overflow/element'
 import ColumnDto from '#dtos/column'
+import { isSafari } from '#inertia/utils/isSafari'
 
 type TColumnState =
   | {
@@ -43,7 +44,7 @@ const stateStyles: { [Key in TColumnState['type']]: string } = {
   'idle': 'cursor-grab',
   'is-card-over': 'outline outline-2 outline-neutral-50',
   'is-dragging': 'opacity-40',
-  'is-column-over': 'bg-slate-200',
+  'is-column-over': 'bg-slate-400',
 }
 
 const idle = { type: 'idle' } satisfies TColumnState
@@ -113,12 +114,10 @@ export default function BoardColumn({ column }: { column: ColumnDto }) {
               invariant(preview instanceof HTMLElement)
               preview.style.width = `${rect.width}px`
               preview.style.height = `${rect.height}px`
-
-              // // rotation of native drag previews does not work in safari
-              // if (!isSafari()) {
-              //   preview.style.transform = 'rotate(4deg)'
-              // }
-
+              preview.style.opacity = '1'
+              if (!isSafari()) {
+                preview.style.transform = 'rotate(4deg)'
+              }
               container.appendChild(preview)
             },
           })

@@ -21,7 +21,6 @@ import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/el
 import { preserveOffsetOnSource } from '@atlaskit/pragmatic-drag-and-drop/element/preserve-offset-on-source'
 import { createPortal } from 'react-dom'
 import TaskDto from '#dtos/task'
-import { isSafari } from '#inertia/utils/isSafari'
 
 type TaskCardProps = {
   task: TaskDto
@@ -47,22 +46,21 @@ type TCardState =
       type: 'preview'
       container: HTMLElement
       dragging: DOMRect
+      dimensions: {
+        width: number
+        height: number
+      }
     }
 
 const idle: TCardState = { type: 'idle' }
 
 const innerStyles: { [Key in TCardState['type']]?: string } = {
-  'idle': 'hover:outline outline-2 outline-neutral-50',
-  'is-dragging': 'opacity-100',
-  'preview': 'bg-amber-500',
+  'idle': 'hover:outline outline-2 outline-neutral-0',
+  'is-dragging': 'opacity-40',
+  'preview': 'rotate-6',
 }
 
 const outerStyles: { [Key in TCardState['type']]?: string } = {
-  // We no longer render the draggable item after we have left it
-  // as it's space will be taken up by a shadow on adjacent items.
-  // Using `display:none` rather than returning `null` so we can always
-  // return refs from this component.
-  // Keeping the refs allows us to continue to receive events during the drag.
   'is-dragging-and-left-self': 'hidden',
 }
 
@@ -83,28 +81,27 @@ export function TaskCardDisplay({
 }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
+  const cardStyle =
+    state.type === 'preview'
+      ? {
+          width: state.dimensions.width,
+          height: state.dimensions.height,
+        }
+      : {}
+
   return (
     <div
       ref={outerRef}
-      className={`flex flex-shrink-0 flex-col gap-2 px-3 py-1 ${outerStyles[state.type]}`}
+      className={`flex flex-shrink-0 flex-col gap-2 px-3 py-1 ${outerStyles[state.type] || ''}`}
+      style={cardStyle}
     >
-      {/* Put a shadow before the item if closer to the top edge */}
       {state.type === 'is-over' && state.closestEdge === 'top' ? (
         <CardShadow dragging={state.dragging} />
       ) : null}
       <Card
         ref={innerRef}
         onClick={() => setIsDialogOpen(!isDialogOpen)}
-        className={`p-2 hover:bg-hovered cursor-pointer group inline-block relative ${innerStyles[state.type]}`}
-        style={
-          state.type === 'preview'
-            ? {
-                width: state.dragging.width,
-                height: state.dragging.height,
-                transform: !isSafari() ? 'rotate(4deg)' : undefined,
-              }
-            : undefined
-        }
+        className={`p-2 hover:bg-hovered cursor-pointer group inline-block relative ${innerStyles[state.type] || ''}`}
       >
         <CardContent className="flex justify-between px-3 pt-3 pb-6 text-left">
           {task.title}
@@ -115,7 +112,6 @@ export function TaskCardDisplay({
           />
         </CardContent>
       </Card>
-      {/* Put a shadow after the item if closer to the bottom edge */}
       {state.type === 'is-over' && state.closestEdge === 'bottom' ? (
         <CardShadow dragging={state.dragging} />
       ) : null}
@@ -142,6 +138,9 @@ export default function TaskCard({ columnId, task }: TaskCardProps) {
         onGenerateDragPreview({ nativeSetDragImage, location, source }) {
           const data = source.data
           invariant(isCardData(data))
+
+          const rect = inner.getBoundingClientRect()
+
           setCustomNativeDragPreview({
             nativeSetDragImage,
             getOffset: preserveOffsetOnSource({
@@ -149,11 +148,14 @@ export default function TaskCard({ columnId, task }: TaskCardProps) {
               input: location.current.input,
             }),
             render({ container }) {
-              // Demonstrating using a react portal to generate a preview
               setState({
                 type: 'preview',
                 container,
-                dragging: inner.getBoundingClientRect(),
+                dragging: rect,
+                dimensions: {
+                  width: rect.width,
+                  height: rect.height,
+                },
               })
             },
           })
@@ -198,7 +200,6 @@ export default function TaskCard({ columnId, task }: TaskCardProps) {
           if (!closestEdge) {
             return
           }
-          // optimization - Don't update react state if we don't need to.
           const proposed: TCardState = { type: 'is-over', dragging: source.data.rect, closestEdge }
           setState((current) => {
             if (isShallowEqual(proposed, current)) {
