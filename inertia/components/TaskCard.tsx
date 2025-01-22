@@ -1,12 +1,12 @@
 import { Card, CardContent } from '#shadcn/card'
 import TaskEditDialog from '#inertia/TaskEditDialog'
 import { MutableRefObject, useRef, useState } from 'react'
-import { Clock, Pencil } from 'lucide-react'
+import { Pencil } from 'lucide-react'
 import { useTaskCardDnD } from '../hooks/useTaskCardDnD' // Nouveau hook
 import TaskDto from '#dtos/task'
 import { createPortal } from 'react-dom'
 import { Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/types'
-import { format } from 'date-fns'
+import { TaskCardDate } from '#inertia/TaskCardDate'
 
 type TaskCardProps = {
   task: TaskDto
@@ -49,15 +49,6 @@ function TaskCardContent({
 }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-  const getDate = () => {
-    const formatDate = (date: string | null) => (date ? format(new Date(date), 'dd MMM.') : null)
-
-    const startText = formatDate(task.startDate)
-    const endText = formatDate(task.dueDate)
-
-    return startText && endText ? `${startText} - ${endText}` : startText || endText
-  }
-
   return (
     <>
       <Card
@@ -73,12 +64,7 @@ function TaskCardContent({
               className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 m-0"
             />
           </div>
-          {getDate() ? (
-            <div className="flex items-center gap-1 text-xs">
-              <Clock size={12} />
-              <span>{getDate()}</span>
-            </div>
-          ) : null}
+          <TaskCardDate dueDate={task.dueDate} startDate={task.startDate} />
         </CardContent>
       </Card>
       <TaskEditDialog open={isDialogOpen} task={task} onOpenChange={setIsDialogOpen} />
