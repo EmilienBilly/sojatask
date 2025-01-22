@@ -1,6 +1,5 @@
 import { Link } from '@inertiajs/react'
 import styled from 'styled-components'
-import DropdownButton from '#inertia/DropdownButton'
 import { Flex } from './utils/Flex'
 
 export default function Navbar() {
@@ -9,7 +8,6 @@ export default function Navbar() {
       <>
         <Flex $gap="10px" $center>
           <HomeLink href="/">SojaTask</HomeLink>
-          <DropdownButton />
         </Flex>
       </>
     </Nav>
