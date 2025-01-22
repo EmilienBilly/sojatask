@@ -50,7 +50,7 @@ function TaskCardContent({
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const getDate = () => {
-    const formatDate = (date: string | null) => (date ? format(new Date(date), 'dd/MM/yyyy') : null)
+    const formatDate = (date: string | null) => (date ? format(new Date(date), 'dd MMM.') : null)
 
     const startText = formatDate(task.startDate)
     const endText = formatDate(task.dueDate)
