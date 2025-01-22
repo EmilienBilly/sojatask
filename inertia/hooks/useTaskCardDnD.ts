@@ -63,7 +63,6 @@ export function useTaskCardDnD({ task, columnId, outerRef, innerRef }: UseTaskCa
               input: location.current.input,
             }),
             render({ container }) {
-              console.log(rect)
               setState({
                 type: 'preview',
                 container,

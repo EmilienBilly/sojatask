@@ -1,11 +1,12 @@
 import { Card, CardContent } from '#shadcn/card'
 import TaskEditDialog from '#inertia/TaskEditDialog'
 import { MutableRefObject, useRef, useState } from 'react'
-import { Pencil } from 'lucide-react'
+import { Clock, Pencil } from 'lucide-react'
 import { useTaskCardDnD } from '../hooks/useTaskCardDnD' // Nouveau hook
 import TaskDto from '#dtos/task'
 import { createPortal } from 'react-dom'
 import { Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/types'
+import { format } from 'date-fns'
 
 type TaskCardProps = {
   task: TaskDto
@@ -24,7 +25,7 @@ type TCardState =
     }
 
 const innerStyles: { [Key in TCardState['type']]?: string } = {
-  'idle': 'hover:outline outline-2 outline-neutral-0',
+  'idle': 'hover:outline outline-1 outline-border',
   'is-dragging': 'opacity-40',
   'preview': 'rotate-6',
 }
@@ -48,6 +49,15 @@ function TaskCardContent({
 }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
+  const getDate = () => {
+    const formatDate = (date: string | null) => (date ? format(new Date(date), 'dd/MM/yyyy') : null)
+
+    const startText = formatDate(task.startDate)
+    const endText = formatDate(task.dueDate)
+
+    return startText && endText ? `${startText} - ${endText}` : startText || endText
+  }
+
   return (
     <>
       <Card
@@ -55,13 +65,20 @@ function TaskCardContent({
         onClick={() => setIsDialogOpen(!isDialogOpen)}
         className={`p-2 hover:bg-hovered cursor-pointer group inline-block relative ${innerStyles[state.type] || ''}`}
       >
-        <CardContent className="flex justify-between px-3 pt-3 pb-6 text-left">
-          {task.title}
-          <Pencil
-            size={16}
-            strokeWidth={2}
-            className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 m-0"
-          />
+        <CardContent className="flex flex-col gap-8 p-2 text-left">
+          <div className="flex justify-between">
+            <span className="text-sm">{task.title}</span>
+            <Pencil
+              size={16}
+              className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 m-0"
+            />
+          </div>
+          {getDate() ? (
+            <div className="flex items-center gap-1 text-xs">
+              <Clock size={12} />
+              <span>{getDate()}</span>
+            </div>
+          ) : null}
         </CardContent>
       </Card>
       <TaskEditDialog open={isDialogOpen} task={task} onOpenChange={setIsDialogOpen} />
