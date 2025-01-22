@@ -12,7 +12,7 @@ type EditTaskDialogProps = {
   onOpenChange: (open: boolean) => void
 }
 
-export default function EditTaskDialog({ task, open, onOpenChange }: EditTaskDialogProps) {
+export default function TaskEditDialog({ task, open, onOpenChange }: EditTaskDialogProps) {
   const { data, setData, put, processing } = useForm({
     title: task.title || '',
     description: task.description || '',

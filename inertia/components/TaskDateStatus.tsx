@@ -1,20 +1,20 @@
 type TaskDateStatusProps = {
-  dueDate?: string | Date // Peut être une date ou une chaîne ISO
+  dueDate?: string | Date | null // Peut être une date ou une chaîne ISO
   currentDate?: Date // Permet de passer une date personnalisée pour les tests
 }
 
 export default function TaskDateStatus({ dueDate, currentDate = new Date() }: TaskDateStatusProps) {
-  if (!dueDate) {
-    // Si dueDate est vide ou non défini, on ne rend rien
-    return null
-  }
-
   const parsedDueDate = dueDate ? new Date(dueDate) : undefined
 
   const isOverdue =
     parsedDueDate &&
     currentDate > parsedDueDate &&
     currentDate.toDateString() !== parsedDueDate.toDateString()
+
+  if (!dueDate || !isOverdue) {
+    // Si dueDate est vide ou non défini, on ne rend rien
+    return null
+  }
 
   return (
     <span
