@@ -92,7 +92,7 @@ export function TaskCardDisplay({
   return (
     <div
       ref={outerRef}
-      className={`flex flex-shrink-0 flex-col gap-2 px-3 py-1 ${outerStyles[state.type] || ''}`}
+      className={`flex flex-shrink-0 flex-col gap-2 ${outerStyles[state.type] || ''}`}
       style={cardStyle}
     >
       {state.type === 'is-over' && state.closestEdge === 'top' ? (
