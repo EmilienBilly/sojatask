@@ -8,7 +8,7 @@ type TaskCardDateProps = {
 }
 
 export function TaskCardDate({ startDate, dueDate, currentDate = new Date() }: TaskCardDateProps) {
-  if (!dueDate) {
+  if (!dueDate && !startDate) {
     return null
   }
 
