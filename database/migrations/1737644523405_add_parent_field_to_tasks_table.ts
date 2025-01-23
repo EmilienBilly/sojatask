@@ -1,7 +1,7 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'add_parent_field_to_tasks'
+  protected tableName = 'task_tasks'
 
   async up() {
     this.schema.alterTable(this.tableName, (table) => {
