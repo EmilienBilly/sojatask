@@ -34,7 +34,7 @@ export function TaskCardDate({ startDate, dueDate, currentDate = new Date() }: T
       className={`flex items-center gap-1 w-fit p-[4px] rounded-sm ${isOverdue ? 'bg-red-200' : ''}`}
     >
       <Clock size={12} className={`${isOverdue ? 'text-red-600' : 'text-gray-600'}`} />
-      <span className={`text-sm px-[2px] ${isOverdue ? 'text-red-600' : 'text-gray-600'}`}>
+      <span className={`text-xs px-[2px] ${isOverdue ? 'text-red-600' : 'text-gray-600'}`}>
         {dateRangeText}
       </span>
     </div>
