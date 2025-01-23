@@ -202,7 +202,7 @@ export default function BoardColumn({ column }: { column: ColumnDto }) {
     <div ref={outerFullHeightRef}>
       <Card
         ref={innerRef}
-        className={`h-[720px] max-h-[720px] w-[350px] max-w-full bg-primary-foreground flex flex-col flex-shrink-0 snap-center ${stateStyles[state.type]}`}
+        className={`h-[720px] max-h-[720px] w-[300px] max-w-full bg-primary-foreground flex flex-col flex-shrink-0 snap-center ${stateStyles[state.type]}`}
       >
         <CardHeader
           ref={headerRef}

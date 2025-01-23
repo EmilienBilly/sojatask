@@ -1,7 +1,7 @@
 import { Card, CardContent } from '#shadcn/card'
 import TaskEditDialog from '#inertia/TaskEditDialog'
 import { MutableRefObject, useRef } from 'react'
-import { Pencil } from 'lucide-react'
+import { Pencil, Text } from 'lucide-react'
 import { useTaskCardDnD } from '../hooks/useTaskCardDnD' // Nouveau hook
 import TaskDto from '#dtos/task'
 import { createPortal } from 'react-dom'
@@ -55,17 +55,24 @@ function TaskCardContent({
       <Card
         ref={innerRef}
         onClick={toggleTaskEditDialog}
-        className={`p-2 hover:bg-hovered cursor-pointer group inline-block relative ${innerStyles[state.type] || ''}`}
+        className={`hover:bg-hovered cursor-pointer group relative ${innerStyles[state.type] || ''}`}
       >
-        <CardContent className="flex flex-col gap-8 p-2 text-left">
-          <div className="flex justify-between">
+        <CardContent className="flex flex-col pt-2 px-3 pb-1 text-left">
+          <div className="flex justify-between mb-1">
             <span className="text-sm">{task.title}</span>
             <Pencil
               size={16}
               className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 m-0"
             />
           </div>
-          <TaskCardDate dueDate={task.dueDate} startDate={task.startDate} />
+          <div className="flex items-center gap-2">
+            <TaskCardDate dueDate={task.dueDate} startDate={task.startDate} />
+            {task.description && (
+              <span className="flex items-center gap-1 w-fit p-1 mb-1">
+                <Text size={14} />
+              </span>
+            )}
+          </div>
         </CardContent>
       </Card>
       <TaskEditDialog open={isTaskEditDialogOpen} task={task} onOpenChange={toggleTaskEditDialog} />

@@ -27,16 +27,23 @@ export function TaskCardDate({ startDate, dueDate, currentDate = new Date() }: T
     currentDate > parsedDueDate &&
     currentDate.toDateString() !== parsedDueDate.toDateString()
 
-  const dateRangeText = startText && endText ? `${startText} - ${endText}` : startText || endText
+  const dateRangeText =
+    startText && endText
+      ? `${startText} - ${endText}`
+      : startText
+        ? `Commencé le : ${startText}`
+        : endText
 
   return (
-    <div
-      className={`flex items-center gap-1 w-fit p-[4px] rounded-sm ${isOverdue ? 'bg-red-200' : ''}`}
+    <span
+      className={`flex items-center gap-1 w-fit p-1 mb-1 rounded-sm ${isOverdue ? 'bg-red-200' : ''}`}
     >
-      <Clock size={12} className={`${isOverdue ? 'text-red-600' : 'text-gray-600'}`} />
-      <span className={`text-xs px-[2px] ${isOverdue ? 'text-red-600' : 'text-gray-600'}`}>
+      <span>
+        <Clock size={14} className={`${isOverdue ? 'text-red-700' : 'text-gray-600'}`} />
+      </span>
+      <span className={`text-xs px-[2px] ${isOverdue ? 'text-red-700' : 'text-gray-600'}`}>
         {dateRangeText}
       </span>
-    </div>
+    </span>
   )
 }
