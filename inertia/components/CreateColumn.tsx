@@ -1,18 +1,19 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useForm } from '@inertiajs/react'
 import { Button } from '#shadcn/button'
-import { BoardType } from '../types/board'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '#shadcn/card'
 import { Input } from '#shadcn/input'
 import { X } from 'lucide-react'
 import useClickOutside from '../hooks/useClickOutside'
+import BoardDto from '#dtos/board'
+import { useToggle } from '../hooks/useToggle'
 
 type CreateColumnProps = {
-  board: BoardType
+  board: BoardDto
 }
 
 export default function CreateColumn({ board }: CreateColumnProps) {
-  const [isFormVisible, setIsFormVisible] = useState(false)
+  const [isOpen, toggle] = useToggle()
 
   const { data, setData, post, processing, reset } = useForm({
     title: '',
@@ -23,7 +24,7 @@ export default function CreateColumn({ board }: CreateColumnProps) {
     event.preventDefault()
     post(`/boards/${board.id}/columns`, {
       onSuccess: () => {
-        setIsFormVisible(false)
+        toggle()
         reset()
       },
     })
@@ -31,12 +32,12 @@ export default function CreateColumn({ board }: CreateColumnProps) {
 
   const cardRef = useRef<HTMLDivElement>(null)
   useClickOutside(cardRef, () => {
-    setIsFormVisible(false)
+    toggle()
   })
 
   return (
     <>
-      {isFormVisible ? (
+      {isOpen ? (
         <Card ref={cardRef} className="w-72">
           <CardHeader>
             <CardTitle>Nouvelle liste</CardTitle>
@@ -55,14 +56,14 @@ export default function CreateColumn({ board }: CreateColumnProps) {
               <Button type="submit" disabled={processing}>
                 Ajouter
               </Button>
-              <Button variant="ghost" onClick={() => setIsFormVisible(false)}>
+              <Button variant="ghost" onClick={toggle}>
                 <X />
               </Button>
             </CardFooter>
           </form>
         </Card>
       ) : (
-        <Button className="w-72" onClick={() => setIsFormVisible(true)}>
+        <Button className="w-72" onClick={toggle}>
           Ajouter une liste
         </Button>
       )}

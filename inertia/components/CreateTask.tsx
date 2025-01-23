@@ -1,19 +1,26 @@
-import { useState } from 'react'
 import { router, useForm } from '@inertiajs/react'
 import { Plus, X } from 'lucide-react'
 import { Input } from '#shadcn/input'
 import { Button } from '#shadcn/button'
 import { Card, CardContent, CardFooter } from '#shadcn/card'
+import { useToggle } from '../hooks/useToggle'
+import { useRef } from 'react'
+import useClickOutside from '../hooks/useClickOutside'
 
 type CreateTaskButtonProps = {
   columnId: number
 }
 export default function CreateTask({ columnId }: CreateTaskButtonProps) {
-  const [isFormVisible, setIsFormVisible] = useState(false)
+  const [isFormVisible, toggleForm] = useToggle()
 
   const { data, setData, post, processing, reset } = useForm({
     title: '',
     columnId: columnId,
+  })
+
+  const cardRef = useRef<HTMLDivElement>(null)
+  useClickOutside(cardRef, () => {
+    toggleForm()
   })
 
   function submit(event: { preventDefault: () => void }) {
@@ -21,7 +28,7 @@ export default function CreateTask({ columnId }: CreateTaskButtonProps) {
     post('/create-task', {
       preserveScroll: true,
       onSuccess: () => {
-        setIsFormVisible(false)
+        toggleForm()
         reset()
         router.reload()
       },
@@ -31,7 +38,7 @@ export default function CreateTask({ columnId }: CreateTaskButtonProps) {
   return (
     <>
       {isFormVisible ? (
-        <Card>
+        <Card ref={cardRef}>
           <form onSubmit={submit}>
             <CardContent className="p-2">
               <Input
@@ -46,14 +53,14 @@ export default function CreateTask({ columnId }: CreateTaskButtonProps) {
               <Button type="submit" disabled={processing}>
                 Ajouter
               </Button>
-              <Button variant="ghost" onClick={() => setIsFormVisible(false)}>
+              <Button variant="ghost" onClick={toggleForm}>
                 <X />
               </Button>
             </CardFooter>
           </form>
         </Card>
       ) : (
-        <Button variant="outline" className="" onClick={() => setIsFormVisible(true)}>
+        <Button variant="outline" className="" onClick={toggleForm}>
           <Plus />
           Nouvelle tâche
         </Button>
