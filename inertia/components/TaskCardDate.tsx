@@ -8,6 +8,10 @@ type TaskCardDateProps = {
 }
 
 export function TaskCardDate({ startDate, dueDate, currentDate = new Date() }: TaskCardDateProps) {
+  if (!dueDate) {
+    return null
+  }
+
   const parseDate = (date: string | Date | null) => (date ? new Date(date) : undefined)
 
   const parsedStartDate = parseDate(startDate)
