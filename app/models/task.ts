@@ -37,6 +37,9 @@ export default class Task extends BaseModel {
   @column()
   declare order: number
 
+  @column()
+  declare parentId: number | null
+
   @beforeCreate()
   static async setOrder(newTask: Task) {
     const maxOrderColumn = await Task.query()
