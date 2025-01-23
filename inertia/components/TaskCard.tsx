@@ -1,12 +1,13 @@
 import { Card, CardContent } from '#shadcn/card'
 import TaskEditDialog from '#inertia/TaskEditDialog'
-import { MutableRefObject, useRef, useState } from 'react'
+import { MutableRefObject, useRef } from 'react'
 import { Pencil } from 'lucide-react'
 import { useTaskCardDnD } from '../hooks/useTaskCardDnD' // Nouveau hook
 import TaskDto from '#dtos/task'
 import { createPortal } from 'react-dom'
 import { Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/types'
 import { TaskCardDate } from '#inertia/TaskCardDate'
+import { useToggle } from '../hooks/useToggle'
 
 type TaskCardProps = {
   task: TaskDto
@@ -47,13 +48,13 @@ function TaskCardContent({
   state: TCardState
   innerRef: MutableRefObject<HTMLDivElement | null>
 }) {
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isTaskEditDialogOpen, toggleTaskEditDialog] = useToggle()
 
   return (
     <>
       <Card
         ref={innerRef}
-        onClick={() => setIsDialogOpen(!isDialogOpen)}
+        onClick={toggleTaskEditDialog}
         className={`p-2 hover:bg-hovered cursor-pointer group inline-block relative ${innerStyles[state.type] || ''}`}
       >
         <CardContent className="flex flex-col gap-8 p-2 text-left">
@@ -67,7 +68,7 @@ function TaskCardContent({
           <TaskCardDate dueDate={task.dueDate} startDate={task.startDate} />
         </CardContent>
       </Card>
-      <TaskEditDialog open={isDialogOpen} task={task} onOpenChange={setIsDialogOpen} />
+      <TaskEditDialog open={isTaskEditDialogOpen} task={task} onOpenChange={toggleTaskEditDialog} />
     </>
   )
 }
