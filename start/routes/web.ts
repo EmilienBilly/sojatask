@@ -26,7 +26,7 @@ router
   .group(() => {
     router.get('boards/create', [CreateBoardController, 'render']).as('boards.create')
     router.post('create_board', [CreateBoardController, 'handle'])
-    router.get('/boards/:boardId', [BoardsController, 'show'])
+    router.get('/boards/:boardId/:taskId?', [BoardsController, 'show'])
     router.post('/boards/:boardId/columns/', [CreateColumnController])
     router.patch('/boards/:boardId/tasks/order', [TasksController, 'order']).as('tasks.order')
     router.patch('/boards/:boardId/columns/order', [ColumnsController, 'order']).as('columns.order')

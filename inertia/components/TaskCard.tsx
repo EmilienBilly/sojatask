@@ -8,10 +8,12 @@ import { createPortal } from 'react-dom'
 import { Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/types'
 import { TaskCardDate } from '#inertia/TaskCardDate'
 import { useToggle } from '../hooks/useToggle'
+import { Link } from '@inertiajs/react'
 
 type TaskCardProps = {
   task: TaskDto
   columnId: number
+  boardId: number
 }
 
 type TCardState =
@@ -43,10 +45,12 @@ function TaskCardContent({
   task,
   state,
   innerRef,
+  boardId,
 }: {
   task: TaskDto
   state: TCardState
   innerRef: MutableRefObject<HTMLDivElement | null>
+  boardId: number
 }) {
   const [isTaskEditDialogOpen, toggleTaskEditDialog] = useToggle()
 
@@ -54,28 +58,43 @@ function TaskCardContent({
     <>
       <Card
         ref={innerRef}
-        onClick={toggleTaskEditDialog}
         className={`hover:bg-hovered cursor-pointer group relative ${innerStyles[state.type] || ''}`}
       >
-        <CardContent className="flex flex-col pt-2 px-3 pb-1 text-left">
-          <div className="flex justify-between mb-1">
-            <span className="text-sm">{task.title}</span>
-            <Pencil
-              size={16}
-              className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 m-0"
-            />
-          </div>
-          <div className="flex items-center gap-2">
-            <TaskCardDate dueDate={task.dueDate} startDate={task.startDate} />
-            {task.description && (
-              <span className="flex items-center gap-1 w-fit p-1 mb-1">
-                <Text size={14} />
-              </span>
-            )}
-          </div>
-        </CardContent>
+        <Link
+          href={`/boards/${boardId}/${task.id}`}
+          preserveState
+          only={['task']}
+          className="block w-full h-full"
+          onClick={() => {
+            toggleTaskEditDialog()
+          }}
+        >
+          <CardContent className="flex flex-col pt-2 px-3 pb-1 text-left">
+            <div className="flex justify-between mb-1">
+              <span className="text-sm">{task.title}</span>
+              <Pencil
+                size={16}
+                className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 m-0"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <TaskCardDate dueDate={task.dueDate} startDate={task.startDate} />
+              {task.description && (
+                <span className="flex items-center gap-1 w-fit p-1 mb-1">
+                  <Text size={14} />
+                </span>
+              )}
+            </div>
+          </CardContent>
+        </Link>
       </Card>
-      <TaskEditDialog open={isTaskEditDialogOpen} task={task} onOpenChange={toggleTaskEditDialog} />
+      {isTaskEditDialogOpen && (
+        <TaskEditDialog
+          open={isTaskEditDialogOpen}
+          task={task}
+          onOpenChange={toggleTaskEditDialog}
+        />
+      )}
     </>
   )
 }
@@ -85,11 +104,13 @@ function TaskCardDisplay({
   state,
   outerRef,
   innerRef,
+  boardId,
 }: {
   task: TaskDto
   state: TCardState
   outerRef?: MutableRefObject<HTMLDivElement | null>
   innerRef?: MutableRefObject<HTMLDivElement | null>
+  boardId: number
 }) {
   return (
     <div
@@ -99,7 +120,7 @@ function TaskCardDisplay({
       {state.type === 'is-over' && state.closestEdge === 'top' && (
         <CardShadow dragging={state.dragging} />
       )}
-      <TaskCardContent task={task} state={state} innerRef={innerRef!} />
+      <TaskCardContent task={task} state={state} innerRef={innerRef!} boardId={boardId} />
       {state.type === 'is-over' && state.closestEdge === 'bottom' && (
         <CardShadow dragging={state.dragging} />
       )}
@@ -107,16 +128,25 @@ function TaskCardDisplay({
   )
 }
 
-export default function TaskCard({ columnId, task }: TaskCardProps) {
+export default function TaskCard({ columnId, task, boardId }: TaskCardProps) {
   const outerRef = useRef<HTMLDivElement | null>(null)
   const innerRef = useRef<HTMLDivElement | null>(null)
   const { state, portalContainer } = useTaskCardDnD({ task, columnId, outerRef, innerRef })
 
   return (
     <>
-      <TaskCardDisplay outerRef={outerRef} innerRef={innerRef} state={state} task={task} />
+      <TaskCardDisplay
+        outerRef={outerRef}
+        innerRef={innerRef}
+        state={state}
+        task={task}
+        boardId={boardId}
+      />
       {state.type === 'preview' && portalContainer
-        ? createPortal(<TaskCardDisplay state={state} task={task} />, portalContainer)
+        ? createPortal(
+            <TaskCardDisplay state={state} task={task} boardId={boardId} />,
+            portalContainer
+          )
         : null}
     </>
   )

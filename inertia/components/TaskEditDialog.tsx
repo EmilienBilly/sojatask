@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '#shadcn/dialog'
 import { Label } from '#shadcn/label'
 import { Input } from '#shadcn/input'
-import { useForm } from '@inertiajs/react'
+import { useForm, usePage } from '@inertiajs/react'
 import TaskDto from '#dtos/task'
 import { Button } from '#shadcn/button'
 import DatePicker from '#inertia/DatePicker'
@@ -19,6 +19,7 @@ export default function TaskEditDialog({ task, open, onOpenChange }: EditTaskDia
     dueDate: task.dueDate || null,
     startDate: task.startDate || null,
   })
+  console.log(usePage().props.task)
 
   function submit(event: { preventDefault: () => void }) {
     event.preventDefault()

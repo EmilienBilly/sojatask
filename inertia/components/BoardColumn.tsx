@@ -54,11 +54,19 @@ const idle = { type: 'idle' } satisfies TColumnState
  *
  * Created so that state changes to the column don't require all cards to be rendered
  */
-const TaskCardList = memo(function CardList({ column }: { column: ColumnDto }) {
-  return column.tasks.map((task) => <TaskCard key={task.id} task={task} columnId={column.id} />)
+const TaskCardList = memo(function CardList({
+  column,
+  boardId,
+}: {
+  column: ColumnDto
+  boardId: number
+}) {
+  return column.tasks.map((task) => (
+    <TaskCard key={task.id} task={task} columnId={column.id} boardId={boardId} />
+  ))
 })
 
-export default function BoardColumn({ column }: { column: ColumnDto }) {
+export default function BoardColumn({ column, boardId }: { column: ColumnDto; boardId: number }) {
   const scrollableRef = useRef<HTMLDivElement | null>(null)
   const outerFullHeightRef = useRef<HTMLDivElement | null>(null)
   const headerRef = useRef<HTMLDivElement | null>(null)
@@ -214,7 +222,7 @@ export default function BoardColumn({ column }: { column: ColumnDto }) {
           ref={scrollableRef}
           className="flex flex-grow flex-col gap-2 p-2 overflow-y-auto"
         >
-          <TaskCardList column={column} />
+          <TaskCardList column={column} boardId={boardId} />
           {state.type === 'is-card-over' && !state.isOverChildCard ? (
             <div className="flex-shrink-0 px-3 py-1">
               <CardShadow dragging={state.dragging} />
