@@ -66,7 +66,9 @@ export default function AppSidebar({
                       activeWorkspace.boards.map((board) => (
                         <SidebarMenuItem key={board.title}>
                           <SidebarMenuButton asChild>
-                            <Link href={`/boards/${board.id}`}>{board.title}</Link>
+                            <Link href={`/boards/${board.id}`} prefetch>
+                              {board.title}
+                            </Link>
                           </SidebarMenuButton>
                         </SidebarMenuItem>
                       ))

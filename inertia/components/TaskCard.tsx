@@ -62,6 +62,7 @@ function TaskCardContent({
       >
         <Link
           href={`/boards/${boardId}/${task.id}`}
+          prefetch
           preserveState
           only={['task']}
           className="block w-full h-full"
