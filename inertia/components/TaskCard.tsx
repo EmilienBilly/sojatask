@@ -7,8 +7,7 @@ import TaskDto from '#dtos/task'
 import { createPortal } from 'react-dom'
 import { Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/types'
 import { TaskCardDate } from '#inertia/TaskCardDate'
-import { useToggle } from '../hooks/useToggle'
-import { Link } from '@inertiajs/react'
+import { Link, router, usePage } from '@inertiajs/react'
 
 type TaskCardProps = {
   task: TaskDto
@@ -52,7 +51,8 @@ function TaskCardContent({
   innerRef: MutableRefObject<HTMLDivElement | null>
   boardId: number
 }) {
-  const [isTaskEditDialogOpen, toggleTaskEditDialog] = useToggle()
+  const taskFromInertiaProps = usePage().props.task as TaskDto
+  const isTaskEditDialogOpen = taskFromInertiaProps?.id === task.id
 
   return (
     <>
@@ -65,9 +65,6 @@ function TaskCardContent({
           preserveState
           only={['task']}
           className="block w-full h-full"
-          onClick={() => {
-            toggleTaskEditDialog()
-          }}
         >
           <CardContent className="flex flex-col pt-2 px-3 pb-1 text-left">
             <div className="flex justify-between mb-1">
@@ -88,13 +85,16 @@ function TaskCardContent({
           </CardContent>
         </Link>
       </Card>
-      {isTaskEditDialogOpen && (
-        <TaskEditDialog
-          open={isTaskEditDialogOpen}
-          task={task}
-          onOpenChange={toggleTaskEditDialog}
-        />
-      )}
+      <TaskEditDialog
+        open={isTaskEditDialogOpen}
+        task={task}
+        onOpenChange={(open) => {
+          if (!open) {
+            // Navigate to the board route without the task parameter
+            router.get(`/boards/${boardId}`)
+          }
+        }}
+      />
     </>
   )
 }
