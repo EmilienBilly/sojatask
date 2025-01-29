@@ -60,19 +60,19 @@
     "tailwindcss": "^3.4.15",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2",
-    "vite": "^5.4.11"
+    "vite": "^6.0.11"
   },
   "dependencies": {
     "@adocasts.com/dto": "^0.0.9",
     "@adonisjs/auth": "^9.2.4",
     "@adonisjs/core": "^6.15.1",
     "@adonisjs/cors": "^2.2.1",
-    "@adonisjs/inertia": "1.1.0",
+    "@adonisjs/inertia": "^3.1.0",
     "@adonisjs/lucid": "^21.4.0",
     "@adonisjs/session": "^7.5.0",
     "@adonisjs/shield": "^8.1.1",
     "@adonisjs/static": "^1.1.1",
-    "@adonisjs/vite": "^3.0.0",
+    "@adonisjs/vite": "^4.0.0",
     "@atlaskit/pragmatic-drag-and-drop": "^1.4.0",
     "@atlaskit/pragmatic-drag-and-drop-auto-scroll": "^2.1.0",
     "@atlaskit/pragmatic-drag-and-drop-hitbox": "^1.0.3",
