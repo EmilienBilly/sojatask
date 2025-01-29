@@ -7,7 +7,7 @@ import TaskDto from '#dtos/task'
 import { createPortal } from 'react-dom'
 import { Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/types'
 import { TaskCardDate } from '#inertia/TaskCardDate'
-import { Link, router, usePage } from '@inertiajs/react'
+import { router, usePage } from '@inertiajs/react'
 
 type TaskCardProps = {
   task: TaskDto
@@ -58,33 +58,28 @@ function TaskCardContent({
     <>
       <Card
         ref={innerRef}
+        onClick={() => {
+          router.visit(`/boards/${boardId}/${task.id}`, { only: ['task'] })
+        }}
         className={`hover:bg-hovered cursor-pointer group relative ${innerStyles[state.type] || ''}`}
       >
-        <Link
-          href={`/boards/${boardId}/${task.id}`}
-          prefetch
-          preserveState
-          only={['task']}
-          className="block w-full h-full"
-        >
-          <CardContent className="flex flex-col pt-2 px-3 pb-1 text-left">
-            <div className="flex justify-between mb-1">
-              <span className="text-sm">{task.title}</span>
-              <Pencil
-                size={16}
-                className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 m-0"
-              />
-            </div>
-            <div className="flex items-center gap-2">
-              <TaskCardDate dueDate={task.dueDate} startDate={task.startDate} />
-              {task.description && (
-                <span className="flex items-center gap-1 w-fit p-1 mb-1">
-                  <Text size={14} />
-                </span>
-              )}
-            </div>
-          </CardContent>
-        </Link>
+        <CardContent className="flex flex-col pt-2 px-3 pb-1 text-left">
+          <div className="flex justify-between mb-1">
+            <span className="text-sm">{task.title}</span>
+            <Pencil
+              size={16}
+              className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 m-0"
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <TaskCardDate dueDate={task.dueDate} startDate={task.startDate} />
+            {task.description && (
+              <span className="flex items-center gap-1 w-fit p-1 mb-1">
+                <Text size={14} />
+              </span>
+            )}
+          </div>
+        </CardContent>
       </Card>
       <TaskEditDialog
         open={isTaskEditDialogOpen}
