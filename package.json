@@ -125,39 +125,24 @@
     "overrides": [
       {
         "files": [
-          "./inertia/components/utils/*.ts",
-          "./inertia/components/utils/*.tsx"
+          "./inertia/components/ui/*.ts",
+          "./inertia/components/ui/*.tsx"
         ],
         "rules": {
           "unicorn/filename-case": [
             "error",
             {
-              "case": "camelCase"
+              "case": "kebabCase"
             }
           ]
         }
       },
       {
         "files": [
-          "./inertia/**/*.ts",
-          "./inertia/**/*.tsx"
+          "./inertia/components/**/*.ts",
+          "./inertia/components/**/*.tsx"
         ],
-        "rules": {
-          "unicorn/filename-case": [
-            "error",
-            {
-              "case": "camelCase"
-            }
-          ]
-        }
-      },
-      {
-        "files": [
-          "./inertia/components/*.ts",
-          "./inertia/components/*.tsx",
-          "./inertia/layouts/**/*.ts",
-          "./inertia/layouts/**/*.tsx"
-        ],
+        "excludedFiles": "./inertia/components/ui/*.ts",
         "rules": {
           "unicorn/filename-case": [
             "error",
