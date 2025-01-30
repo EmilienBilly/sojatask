@@ -5,6 +5,7 @@ import { useForm, usePage } from '@inertiajs/react'
 import TaskDto from '#dtos/task'
 import { Button } from '#shadcn/button'
 import DatePicker from '#inertia/DatePicker'
+import { SubTaskList } from '#inertia/SubTask/SubTaskList'
 
 type EditTaskDialogProps = {
   task: TaskDto
@@ -49,6 +50,7 @@ export default function TaskEditDialog({ task, open, onOpenChange }: EditTaskDia
               onChange={(e) => setData('description', e.target.value)}
             />
           </div>
+          <SubTaskList />
           <Button type="submit" disabled={processing}>
             Enregistrer
           </Button>

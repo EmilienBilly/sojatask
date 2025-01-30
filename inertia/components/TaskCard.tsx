@@ -67,7 +67,7 @@ function TaskCardContent({
           <div className="flex justify-between mb-1">
             <span className="text-sm">{task.title}</span>
             <Pencil
-              size={16}
+              size={14}
               className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 m-0"
             />
           </div>
