@@ -1,10 +1,25 @@
+import { Table, TableBody, TableCell, TableHeader, TableRow } from '#shadcn/table'
+
 export function SubTaskList() {
   return (
     <>
-      <h2>Sous-Taches</h2>
-      <li>coucou</li>
-      <li>oui</li>
-      <li>non</li>
+      <Table>
+        <TableHeader>Sous-tâches</TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>OUI</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>OUI</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>OUI</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>OUI</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
     </>
   )
 }
