@@ -140,7 +140,9 @@
       {
         "files": [
           "./inertia/components/*.ts",
-          "./inertia/components/*.tsx"
+          "./inertia/components/*.tsx",
+          "./inertia/components/**/*.ts",
+          "./inertia/components/**/*.tsx"
         ],
         "rules": {
           "unicorn/filename-case": [
