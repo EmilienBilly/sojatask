@@ -37,3 +37,9 @@ export const taskValidator = vine.compile(
       .optional(),
   })
 )
+
+export const createSubtaskValidator = vine.compile(
+  vine.object({
+    title: vine.string(),
+  })
+)
