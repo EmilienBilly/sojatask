@@ -30,6 +30,7 @@ export default class TaskController {
   }
 
   async createSubtask({ params, request, response }: HttpContext) {
+    console.log('createSubtask')
     const data = await request.validateUsing(createSubtaskValidator)
     await CreateSubtask.handle({
       parentId: params.id,
