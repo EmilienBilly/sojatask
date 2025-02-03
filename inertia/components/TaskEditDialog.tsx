@@ -1,12 +1,13 @@
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '#shadcn/dialog'
 import { Label } from '#shadcn/label'
 import { Input } from '#shadcn/input'
-import { useForm, usePage } from '@inertiajs/react'
+import { useForm } from '@inertiajs/react'
 import TaskDto from '#dtos/task'
 import { Button } from '#shadcn/button'
 import DatePicker from '#inertia/DatePicker'
 import { SubTaskList } from '#inertia/SubTask/SubTaskList'
 import { AddSubTask } from '#inertia/SubTask/AddSubTask'
+import { FormEvent } from 'react'
 
 type EditTaskDialogProps = {
   task: TaskDto
@@ -21,11 +22,30 @@ export default function TaskEditDialog({ task, open, onOpenChange }: EditTaskDia
     dueDate: task.dueDate || null,
     startDate: task.startDate || null,
   })
-  console.log(usePage().props.task)
 
   function submit(event: { preventDefault: () => void }) {
     event.preventDefault()
     put(`/tasks/${task.id}`)
+  }
+
+  const subtaskForm = useForm({
+    title: '',
+  })
+
+  function handleAddSubtask(e: FormEvent) {
+    e.preventDefault()
+    // Centralize the subtask creation logic here
+    subtaskForm.post(`/tasks/${task.id}/subtasks`, {
+      onSuccess: () => {
+        // Reset the form
+        subtaskForm.reset()
+        // Potentially refresh subtask list or perform other actions
+      },
+      onError: (errors) => {
+        // Handle any validation errors
+        console.error('Subtask creation errors:', errors)
+      },
+    })
   }
 
   return (
@@ -52,14 +72,12 @@ export default function TaskEditDialog({ task, open, onOpenChange }: EditTaskDia
             />
           </div>
           <SubTaskList />
+          <AddSubTask form={subtaskForm} onSubmit={handleAddSubtask} />
           <Button type="submit" disabled={processing}>
             Enregistrer
           </Button>
         </form>
-        <DialogFooter>
-          <AddSubTask />
-        </DialogFooter>
-        -
+        <DialogFooter></DialogFooter>
       </DialogContent>
     </Dialog>
   )
