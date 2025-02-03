@@ -32,7 +32,7 @@
     "#tests/*": "./tests/*.js",
     "#start/*": "./start/*.js",
     "#config/*": "./config/*.js",
-    "#shadcn/*": "./inertia/components/ui/*.js",
+    "#shadcn/*": "./inertia/ui/*.js",
     "#inertia/*": "./inertia/components/*.js",
     "#lib/*": "./inertia/lib/*.js"
   },
@@ -125,8 +125,8 @@
     "overrides": [
       {
         "files": [
-          "./inertia/components/ui/*.ts",
-          "./inertia/components/ui/*.tsx"
+          "./inertia/ui/*.ts",
+          "./inertia/ui/*.tsx"
         ],
         "rules": {
           "unicorn/filename-case": [
@@ -139,10 +139,9 @@
       },
       {
         "files": [
-          "./inertia/components/**/*.ts",
-          "./inertia/components/**/*.tsx"
+          "./inertia/components/*.ts",
+          "./inertia/components/*.tsx"
         ],
-        "excludedFiles": "./inertia/components/ui/*.ts",
         "rules": {
           "unicorn/filename-case": [
             "error",
@@ -154,5 +153,8 @@
       }
     ]
   },
+  "eslintIgnore": [
+    "inertia/ui/*"
+  ],
   "prettier": "@adonisjs/prettier-config"
 }

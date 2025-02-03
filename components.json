@@ -12,8 +12,8 @@
   },
   "aliases": {
     "components": "#inertia/components",
-    "ui": "#inertia/components/ui",
-    "utils": "#inertia/utils",
+    "ui": "#inertia/ui",
+    "utils": "#lib/utils",
     "lib": "#inertia/lib",
     "hooks": "#inertia/hooks"
   },
