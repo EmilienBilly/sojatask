@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, column } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 
 export default class Task extends BaseModel {
   static table = 'task_tasks'
@@ -39,6 +40,12 @@ export default class Task extends BaseModel {
 
   @column()
   declare parentId: number | null
+
+  @belongsTo(() => Task, { foreignKey: 'parentId' })
+  declare parent: BelongsTo<typeof Task>
+
+  @hasMany(() => Task, { foreignKey: 'parentId' })
+  declare subtasks: HasMany<typeof Task>
 
   @beforeCreate()
   static async setOrder(newTask: Task) {
