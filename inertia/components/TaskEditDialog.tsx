@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '#shadcn/dialog'
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '#shadcn/dialog'
 import { Label } from '#shadcn/label'
 import { Input } from '#shadcn/input'
 import { useForm, usePage } from '@inertiajs/react'
@@ -6,6 +6,7 @@ import TaskDto from '#dtos/task'
 import { Button } from '#shadcn/button'
 import DatePicker from '#inertia/DatePicker'
 import { SubTaskList } from '#inertia/SubTask/SubTaskList'
+import { AddSubTask } from '#inertia/SubTask/AddSubTask'
 
 type EditTaskDialogProps = {
   task: TaskDto
@@ -55,6 +56,10 @@ export default function TaskEditDialog({ task, open, onOpenChange }: EditTaskDia
             Enregistrer
           </Button>
         </form>
+        <DialogFooter>
+          <AddSubTask />
+        </DialogFooter>
+        -
       </DialogContent>
     </Dialog>
   )
