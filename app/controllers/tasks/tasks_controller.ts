@@ -7,6 +7,7 @@ import {
 import UpdateTaskOrder from '#actions/tasks/update_task_order'
 import UpdateTask from '#actions/tasks/update_task'
 import CreateSubtask from '#actions/tasks/create_subtask'
+import DestroyTask from '#actions/tasks/destroy_task'
 
 export default class TaskController {
   async order({ params, request, response }: HttpContext) {
@@ -16,6 +17,14 @@ export default class TaskController {
       boardId: params.boardId,
       data,
     })
+    return response.redirect().back()
+  }
+
+  async destroy({ params, response }: HttpContext) {
+    await DestroyTask.handle({
+      id: params.id,
+    })
+
     return response.redirect().back()
   }
 
