@@ -1,7 +1,6 @@
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '#shadcn/dialog'
 import { Label } from '#shadcn/label'
 import { Input } from '#shadcn/input'
-import { Button } from '#shadcn/button'
 import DatePicker from '#inertia/DatePicker'
 import { SubTaskList } from '#inertia/SubTask/SubTaskList'
 import { AddSubTask } from '#inertia/SubTask/AddSubTask'
@@ -33,9 +32,8 @@ export default function TaskEditDialog({ open, onOpenChange }: TaskEditDialogPro
             <Label htmlFor="description">Description</Label>
             <Input id="description" type="text" value={task.description} />
           </div>
-          <SubTaskList subtasks={task.subtasks} />
+          {task.subtasks.length > 0 && <SubTaskList subtasks={task.subtasks} />}
           <AddSubTask taskId={task.id} />
-          <Button type="submit">Enregistrer</Button>
         </div>
         <DialogFooter></DialogFooter>
       </DialogContent>
