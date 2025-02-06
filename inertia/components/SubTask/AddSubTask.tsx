@@ -1,35 +1,42 @@
-// AddSubTask.tsx
-import { FormEvent, useState } from 'react'
+import { useState } from 'react'
 import { Input } from '#shadcn/input'
 import { Button } from '#shadcn/button'
 import { useForm } from '@inertiajs/react'
 
 type AddSubTaskProps = {
-  form: ReturnType<typeof useForm>
-  onSubmit: (e: FormEvent) => void
+  taskId: number
 }
 
-export function AddSubTask({ form, onSubmit }: AddSubTaskProps) {
+export function AddSubTask({ taskId }: AddSubTaskProps) {
   const [isAdding, setIsAdding] = useState(false)
 
   function handleCancel() {
     setIsAdding(false)
   }
 
+  const { data, setData, post, processing } = useForm({
+    title: '',
+  })
+
+  function submit(event: { preventDefault: () => void }) {
+    event.preventDefault()
+    post(`/tasks/${taskId}/subtasks`)
+  }
+
   return (
     <div className="flex flex-col gap-2">
       {isAdding ? (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={submit}>
           <div className="flex flex-col gap-2">
             <Input
               type="text"
-              value={form.data.title}
-              onChange={(e) => form.setData('title', e.target.value)}
+              value={data.title}
+              onChange={(e) => setData('title', e.target.value)}
               placeholder="Titre de la sous-tâche"
               required
             />
             <div className="flex gap-2">
-              <Button type="submit" disabled={form.processing}>
+              <Button type="submit" disabled={processing}>
                 Ajouter
               </Button>
               <Button onClick={handleCancel} variant="outline">
