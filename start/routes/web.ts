@@ -35,6 +35,7 @@ router
     // Tasks
     router.post('create-task', [CreateTaskController])
     router.put('/tasks/:id', [TasksController, 'update']).as('tasks.update')
+    router.delete('/tasks/:id', [TasksController, 'destroy']).as('tasks.destroy')
     router.post('/tasks/:id/subtasks', [TasksController, 'createSubtask']).as('tasks.createSubtask')
   })
   .use([middleware.auth(), middleware.workspace()])

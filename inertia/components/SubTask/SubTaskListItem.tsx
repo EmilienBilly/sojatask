@@ -8,9 +8,14 @@ import {
 import { Ellipsis } from 'lucide-react'
 import TaskDto from '#dtos/task'
 import { useToggle } from '../../hooks/useToggle'
+import { router } from '@inertiajs/react'
 
 export function SubTaskListItem({ subtask }: { subtask: TaskDto }) {
   const [isOpen, toggle] = useToggle()
+
+  function handleDelete() {
+    router.delete(`/tasks/${subtask.id}`)
+  }
 
   return (
     <div
@@ -32,7 +37,7 @@ export function SubTaskListItem({ subtask }: { subtask: TaskDto }) {
             />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>Supprimer</DropdownMenuItem>
+            <DropdownMenuItem onSelect={handleDelete}>Supprimer</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
