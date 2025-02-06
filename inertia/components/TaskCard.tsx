@@ -81,16 +81,17 @@ function TaskCardContent({
           </div>
         </CardContent>
       </Card>
-      <TaskEditDialog
-        open={isTaskEditDialogOpen}
-        task={task}
-        onOpenChange={(open) => {
-          if (!open) {
-            // Navigate to the board route without the task parameter
-            router.get(`/boards/${boardId}`)
-          }
-        }}
-      />
+      {isTaskEditDialogOpen && (
+        <TaskEditDialog
+          open={isTaskEditDialogOpen}
+          onOpenChange={(open) => {
+            if (!open) {
+              // Navigate to the board route without the task parameter
+              router.get(`/boards/${boardId}`)
+            }
+          }}
+        />
+      )}
     </>
   )
 }

@@ -14,6 +14,7 @@ export default class TaskDto extends BaseModelDto {
   declare columnId: number
   declare order: number
   declare parentId: number | null
+  declare subtasks: TaskDto[]
 
   constructor(task?: Task) {
     super()
@@ -31,5 +32,6 @@ export default class TaskDto extends BaseModelDto {
     this.columnId = task.columnId
     this.order = task.order
     this.parentId = task.parentId ?? null
+    this.subtasks = TaskDto.fromArray(task.subtasks)
   }
 }
