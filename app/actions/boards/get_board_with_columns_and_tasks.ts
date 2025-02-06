@@ -7,6 +7,7 @@ export default class GetBoardWithColumnsAndTasks {
       .preload('columns', (query) => {
         query.orderBy('order', 'asc')
         query.preload('tasks', (queryTasks) => {
+          queryTasks.whereNull('parent_id')
           queryTasks.orderBy('order', 'asc')
           queryTasks.preload('subtasks', (querySubtasks) => {
             querySubtasks.orderBy('order', 'asc')
