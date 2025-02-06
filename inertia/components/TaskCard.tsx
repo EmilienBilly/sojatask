@@ -1,7 +1,7 @@
 import { Card, CardContent } from '#shadcn/card'
 import TaskEditDialog from '#inertia/TaskEditDialog'
 import { MutableRefObject, useRef } from 'react'
-import { Pencil, Text } from 'lucide-react'
+import { LayoutList, Pencil, Text } from 'lucide-react'
 import { useTaskCardDnD } from '../hooks/useTaskCardDnD' // Nouveau hook
 import TaskDto from '#dtos/task'
 import { createPortal } from 'react-dom'
@@ -76,6 +76,11 @@ function TaskCardContent({
             {task.description && (
               <span className="flex items-center gap-1 w-fit p-1 mb-1">
                 <Text size={14} />
+              </span>
+            )}
+            {task.subtasks.length > 0 && (
+              <span className="flex items-center gap-1 w-fit p-1 mb-1">
+                <LayoutList size={14} />
               </span>
             )}
           </div>
