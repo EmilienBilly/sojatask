@@ -1,5 +1,12 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
+import {
+  BaseModel,
+  beforeCreate,
+  beforeDelete,
+  belongsTo,
+  column,
+  hasMany,
+} from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 
 export default class Task extends BaseModel {
@@ -55,5 +62,10 @@ export default class Task extends BaseModel {
       .first()
 
     newTask.order = (maxOrderColumn?.order ?? -1) + 1
+  }
+
+  @beforeDelete()
+  static async deleteSubtasks(task: Task) {
+    await task.related('subtasks').query().delete()
   }
 }
