@@ -1,19 +1,17 @@
-import { Table, TableBody, TableCell, TableHeader, TableRow } from '#shadcn/table'
 import TaskDto from '#dtos/task'
+import { SubTaskListItem } from '#inertia/SubTask/SubTaskListItem'
 
 export function SubTaskList({ subtasks }: { subtasks: TaskDto[] }) {
   return (
     <>
-      <Table>
-        <TableHeader>Sous-tâches</TableHeader>
-        <TableBody>
-          {subtasks.map((subtask) => (
-            <TableRow key={subtask.id}>
-              <TableCell>{subtask.title}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <span className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+        Sous-tâches
+      </span>
+      <div className="grid">
+        {subtasks.map((subtask) => (
+          <SubTaskListItem key={subtask.id} subtask={subtask} />
+        ))}
+      </div>
     </>
   )
 }
