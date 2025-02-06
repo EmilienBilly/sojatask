@@ -2,7 +2,6 @@ import { Table, TableBody, TableCell, TableHeader, TableRow } from '#shadcn/tabl
 import TaskDto from '#dtos/task'
 
 export function SubTaskList({ subtasks }: { subtasks: TaskDto[] }) {
-  console.log(subtasks)
   return (
     <>
       <Table>

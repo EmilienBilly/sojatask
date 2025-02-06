@@ -1,33 +1,47 @@
-import { useState } from 'react'
 import { Input } from '#shadcn/input'
 import { Button } from '#shadcn/button'
 import { useForm } from '@inertiajs/react'
+import { Plus } from 'lucide-react'
+import { useToggle } from '../../hooks/useToggle'
+import { useRef } from 'react'
+import useClickOutside from '../../hooks/useClickOutside'
 
 type AddSubTaskProps = {
   taskId: number
 }
 
 export function AddSubTask({ taskId }: AddSubTaskProps) {
-  const [isAdding, setIsAdding] = useState(false)
+  const [isAdding, toggle] = useToggle()
 
-  function handleCancel() {
-    setIsAdding(false)
-  }
+  const ref = useRef<HTMLDivElement>(null)
+  useClickOutside(ref, () => {
+    toggle()
+  })
 
-  const { data, setData, post, processing } = useForm({
+  const { data, setData, post, processing, reset } = useForm({
     title: '',
   })
 
+  function handleCancel() {
+    toggle()
+    setData('title', '')
+  }
+
   function submit(event: { preventDefault: () => void }) {
     event.preventDefault()
-    post(`/tasks/${taskId}/subtasks`)
+    post(`/tasks/${taskId}/subtasks`, {
+      onSuccess: () => {
+        toggle()
+        reset()
+      },
+    })
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 w-auto">
       {isAdding ? (
         <form onSubmit={submit}>
-          <div className="flex flex-col gap-2">
+          <div ref={ref} className="flex flex-col gap-2">
             <Input
               type="text"
               value={data.title}
@@ -46,7 +60,9 @@ export function AddSubTask({ taskId }: AddSubTaskProps) {
           </div>
         </form>
       ) : (
-        <Button onClick={() => setIsAdding(true)}>Ajouter une sous-tâche</Button>
+        <Button variant="outline" size="sm" onClick={() => toggle()} className="self-start">
+          <Plus /> Ajouter une sous-tâche
+        </Button>
       )}
     </div>
   )
