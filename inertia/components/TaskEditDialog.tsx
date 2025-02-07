@@ -30,7 +30,7 @@ export default function TaskEditDialog({ open, onOpenChange }: TaskEditDialogPro
           </div>
           <div className="grid gap-2">
             <Label htmlFor="description">Description</Label>
-            <Input id="description" type="text" value={task.description} />
+            <Input id="description" type="text" value={task.description ?? ''} />
           </div>
           {task.subtasks.length > 0 && <SubTaskList subtasks={task.subtasks} />}
           <AddSubTask taskId={task.id} />
