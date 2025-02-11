@@ -214,7 +214,7 @@ export default function BoardColumn({ column, boardId }: { column: ColumnDto; bo
       >
         <CardHeader
           ref={headerRef}
-          className="p-4 font-semibold border-b-2 text-left flex flex-row space-between items-center"
+          className="p-4 font-semibold text-left flex flex-row space-between items-center"
         >
           {column.title}
         </CardHeader>
@@ -228,8 +228,10 @@ export default function BoardColumn({ column, boardId }: { column: ColumnDto; bo
               <CardShadow dragging={state.dragging} />
             </div>
           ) : null}
-          <CreateTask columnId={column.id} />
         </CardContent>
+        <div className="p-2">
+          <CreateTask columnId={column.id} />
+        </div>
       </Card>
     </div>
   )
