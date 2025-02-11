@@ -1,4 +1,3 @@
-import { Checkbox } from '#shadcn/checkbox'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +10,7 @@ import { useToggle } from '../../hooks/useToggle'
 import { router } from '@inertiajs/react'
 import { ConfirmDialog } from '../ConfirmDialog'
 import { useState } from 'react'
+import { TaskCheckbox } from '#inertia/TaskCheckbox'
 
 export function SubTaskListItem({ subtask }: { subtask: TaskDto }) {
   const [isOpen, toggle] = useToggle()
@@ -29,8 +29,10 @@ export function SubTaskListItem({ subtask }: { subtask: TaskDto }) {
         }`}
       >
         <div className="flex items-center gap-2">
-          <Checkbox />
-          <span>{subtask.title}</span>
+          <TaskCheckbox taskId={subtask.id} completed={subtask.completed} className="h-4 w-4" />
+          <span className={subtask.completed ? 'line-through text-gray-500' : ''}>
+            {subtask.title}
+          </span>
         </div>
         <div className="flex">
           <DropdownMenu onOpenChange={toggle}>
