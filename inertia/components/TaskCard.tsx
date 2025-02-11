@@ -1,13 +1,14 @@
 import { Card, CardContent } from '#shadcn/card'
 import TaskEditDialog from '#inertia/TaskEditDialog'
 import { MutableRefObject, useRef } from 'react'
-import { LayoutList, Pencil, Text } from 'lucide-react'
-import { useTaskCardDnD } from '../hooks/useTaskCardDnD' // Nouveau hook
+import { Pencil } from 'lucide-react'
+import { useTaskCardDnD } from '../hooks/useTaskCardDnD'
 import TaskDto from '#dtos/task'
 import { createPortal } from 'react-dom'
 import { Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/types'
 import { TaskCardDate } from '#inertia/TaskCardDate'
 import { router, usePage } from '@inertiajs/react'
+import { TaskDetailsIcons } from '#inertia/TaskDetailsIcons'
 
 type TaskCardProps = {
   task: TaskDto
@@ -54,13 +55,19 @@ function TaskCardContent({
   const taskFromInertiaProps = usePage().props.task as TaskDto
   const isTaskEditDialogOpen = taskFromInertiaProps?.id === task.id
 
+  const handleDialogClose = () => {
+    router.get(`/boards/${boardId}`)
+  }
+
+  const handleCardClick = () => {
+    router.visit(`/boards/${boardId}/${task.id}`, { only: ['task'] })
+  }
+
   return (
     <>
       <Card
         ref={innerRef}
-        onClick={() => {
-          router.visit(`/boards/${boardId}/${task.id}`, { only: ['task'] })
-        }}
+        onClick={handleCardClick}
         className={`hover:bg-hovered cursor-pointer group relative ${innerStyles[state.type] || ''}`}
       >
         <CardContent className="flex flex-col pt-2 px-3 pb-1 text-left">
@@ -73,16 +80,7 @@ function TaskCardContent({
           </div>
           <div className="flex items-center gap-2">
             <TaskCardDate dueDate={task.dueDate} startDate={task.startDate} />
-            {task.description && (
-              <span className="flex items-center gap-1 w-fit p-1 mb-1">
-                <Text size={14} />
-              </span>
-            )}
-            {task.subtasks.length > 0 && (
-              <span className="flex items-center gap-1 w-fit p-1 mb-1">
-                <LayoutList size={14} />
-              </span>
-            )}
+            <TaskDetailsIcons task={task} />
           </div>
         </CardContent>
       </Card>
@@ -91,8 +89,7 @@ function TaskCardContent({
           open={isTaskEditDialogOpen}
           onOpenChange={(open) => {
             if (!open) {
-              // Navigate to the board route without the task parameter
-              router.get(`/boards/${boardId}`)
+              handleDialogClose()
             }
           }}
         />
