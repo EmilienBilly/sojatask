@@ -16,6 +16,7 @@ export default class TaskDto extends BaseModelDto {
   declare parentId: number | null
   declare subtasks: TaskDto[]
   declare completed: boolean
+  declare completedAt: string | null
 
   constructor(task?: Task) {
     super()
@@ -35,5 +36,6 @@ export default class TaskDto extends BaseModelDto {
     this.parentId = task.parentId ?? null
     this.subtasks = TaskDto.fromArray(task.subtasks)
     this.completed = task.completed === 1
+    this.completedAt = task.completedAt?.toISO() ?? null
   }
 }

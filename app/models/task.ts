@@ -6,6 +6,7 @@ import {
   belongsTo,
   column,
   hasMany,
+  beforeSave,
 } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 
@@ -51,6 +52,9 @@ export default class Task extends BaseModel {
   @column()
   declare completed: number
 
+  @column.dateTime()
+  declare completedAt: DateTime | null
+
   @belongsTo(() => Task, { foreignKey: 'parentId' })
   declare parent: BelongsTo<typeof Task>
 
@@ -70,5 +74,14 @@ export default class Task extends BaseModel {
   @beforeDelete()
   static async deleteSubtasks(task: Task) {
     await task.related('subtasks').query().delete()
+  }
+
+  @beforeSave()
+  static async setCompletedAt(task: Task) {
+    if (task.$dirty.completed && task.completed === 1) {
+      task.completedAt = DateTime.now()
+    } else if (task.$dirty.completed && task.completed === 0) {
+      task.completedAt = null
+    }
   }
 }

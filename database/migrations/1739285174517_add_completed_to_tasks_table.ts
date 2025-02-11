@@ -6,12 +6,14 @@ export default class extends BaseSchema {
   async up() {
     this.schema.alterTable(this.tableName, (table) => {
       table.tinyint('completed', 1).notNullable().defaultTo(0)
+      table.dateTime('completed_at').nullable()
     })
   }
 
   async down() {
     this.schema.alterTable(this.tableName, (table) => {
       table.dropColumn('completed')
+      table.dropColumn('completed_at')
     })
   }
 }
