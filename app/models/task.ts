@@ -48,6 +48,9 @@ export default class Task extends BaseModel {
   @column()
   declare parentId: number | null
 
+  @column()
+  declare completed: number
+
   @belongsTo(() => Task, { foreignKey: 'parentId' })
   declare parent: BelongsTo<typeof Task>
 
