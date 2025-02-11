@@ -36,35 +36,37 @@ export default function CreateTask({ columnId }: CreateTaskButtonProps) {
   }
 
   return (
-    <>
+    <div className="flex flex-col gap-2 w-auto">
       {isFormVisible ? (
-        <Card ref={cardRef}>
-          <form onSubmit={submit}>
-            <CardContent className="p-2">
-              <Input
-                type="text"
-                placeholder="Saisissez un nom pour cette tâche"
-                value={data.title}
-                onChange={(e) => setData('title', e.target.value)}
-                required
-              />
-            </CardContent>
-            <CardFooter className="flex justify-between p-2">
+        <form onSubmit={submit}>
+          <div ref={cardRef} className="flex flex-col gap-2">
+            <Input
+              type="text"
+              value={data.title}
+              onChange={(e) => setData('title', e.target.value)}
+              placeholder="Titre de la tâche"
+              required
+            />
+            <div className="flex gap-2">
               <Button type="submit" disabled={processing}>
                 Ajouter
               </Button>
-              <Button variant="ghost" onClick={toggleForm}>
-                <X />
+              <Button onClick={toggleForm} variant="outline">
+                Annuler
               </Button>
-            </CardFooter>
-          </form>
-        </Card>
+            </div>
+          </div>
+        </form>
       ) : (
-        <Button variant="outline" className="" onClick={toggleForm}>
-          <Plus />
-          Nouvelle tâche
+        <Button
+          variant="ghost"
+          onClick={toggleForm}
+          className="w-full justify-start text-muted-foreground"
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          Ajouter une tâche
         </Button>
       )}
-    </>
+    </div>
   )
 }
