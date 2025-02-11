@@ -78,10 +78,6 @@ export default class Task extends BaseModel {
 
   @beforeSave()
   static async setCompletedAt(task: Task) {
-    if (task.$dirty.completed && task.completed === 1) {
-      task.completedAt = DateTime.now()
-    } else if (task.$dirty.completed && task.completed === 0) {
-      task.completedAt = null
-    }
+    task.completedAt = task.completed === 1 ? DateTime.now() : null
   }
 }

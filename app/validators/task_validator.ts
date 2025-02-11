@@ -35,6 +35,7 @@ export const taskValidator = vine.compile(
       .nullable()
       .transform((value) => (value ? DateTime.fromISO(value) : null))
       .optional(),
+    completed: vine.number().optional(),
   })
 )
 
