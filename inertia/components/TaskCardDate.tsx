@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import { CheckCircle, Clock } from 'lucide-react'
+import { Clock } from 'lucide-react'
 
 type TaskCardDateProps = {
   startDate: string | Date | null
