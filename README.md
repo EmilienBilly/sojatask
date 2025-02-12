@@ -1,5 +1,7 @@
 # SojaTask
+
 SojaTask est une application de gestion de tâches collaborative inspirée de Trello. Elle permet aux équipes de :
+
 - Organiser leurs tâches en tableaux et colonnes
 - Suivre l'avancement des tâches avec des dates de début et d'échéance
 - Collaborer au sein d'espaces de travail partagés
