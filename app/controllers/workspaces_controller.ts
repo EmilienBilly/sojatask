@@ -9,7 +9,7 @@ export default class WorkspacesController {
   constructor(protected setActiveWorkspace: SetActiveWorkspace) {}
 
   async create({ inertia }: HttpContext) {
-    return inertia.render('createProject')
+    return inertia.render('createWorkspace')
   }
 
   async store({ request, auth, response }: HttpContext) {
