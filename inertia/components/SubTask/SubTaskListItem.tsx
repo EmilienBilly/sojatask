@@ -29,10 +29,8 @@ export function SubTaskListItem({ subtask }: { subtask: TaskDto }) {
         }`}
       >
         <div className="flex items-center gap-2">
-          <TaskCheckbox taskId={subtask.id} completed={subtask.completed} className="h-4 w-4" />
-          <span className={subtask.completed ? 'line-through text-gray-500' : ''}>
-            {subtask.title}
-          </span>
+          <TaskCheckbox taskId={subtask.id} completed={subtask.completed} />
+          <span>{subtask.title}</span>
         </div>
         <div className="flex">
           <DropdownMenu onOpenChange={toggle}>
