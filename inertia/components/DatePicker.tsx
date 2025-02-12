@@ -21,7 +21,7 @@ type DatePickerProps = {
 }
 
 export default function DatePicker({ taskId, startDate, dueDate }: DatePickerProps) {
-  const { data, setData, put, processing } = useForm({
+  const { data, setData, patch, processing } = useForm({
     startDate: startDate?.toISOString() || null,
     dueDate: dueDate?.toISOString() || null,
   })
@@ -90,7 +90,7 @@ export default function DatePicker({ taskId, startDate, dueDate }: DatePickerPro
   }
 
   const handleSubmit = () => {
-    put(`/tasks/${taskId}`, {
+    patch(`/tasks/${taskId}`, {
       preserveScroll: true,
     })
   }
