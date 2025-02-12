@@ -79,7 +79,11 @@ function TaskCardContent({
             />
           </div>
           <div className="flex items-center gap-2">
-            <TaskCardDate dueDate={task.dueDate} startDate={task.startDate} />
+            <TaskCardDate
+              dueDate={task.dueDate}
+              startDate={task.startDate}
+              completed={task.completed}
+            />
             <TaskDetailsIcons task={task} />
           </div>
         </CardContent>

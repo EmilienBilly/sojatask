@@ -1,13 +1,19 @@
 import { format } from 'date-fns'
-import { Clock } from 'lucide-react'
+import { CheckCircle, Clock } from 'lucide-react'
 
 type TaskCardDateProps = {
   startDate: string | Date | null
   dueDate: string | Date | null
-  currentDate?: Date // Permet de passer une date personnalisée pour les tests
+  completed: boolean
+  currentDate?: Date
 }
 
-export function TaskCardDate({ startDate, dueDate, currentDate = new Date() }: TaskCardDateProps) {
+export function TaskCardDate({
+  startDate,
+  dueDate,
+  completed,
+  currentDate = new Date(),
+}: TaskCardDateProps) {
   if (!dueDate && !startDate) {
     return null
   }
@@ -23,6 +29,7 @@ export function TaskCardDate({ startDate, dueDate, currentDate = new Date() }: T
   const endText = formatDate(parsedDueDate)
 
   const isOverdue =
+    !completed &&
     parsedDueDate &&
     currentDate > parsedDueDate &&
     currentDate.toDateString() !== parsedDueDate.toDateString()
@@ -34,16 +41,15 @@ export function TaskCardDate({ startDate, dueDate, currentDate = new Date() }: T
         ? `Commencé le : ${startText}`
         : endText
 
+  const statusColor = completed ? 'bg-green-200' : isOverdue ? 'bg-red-200' : ''
+  const textColor = completed ? 'text-green-700' : isOverdue ? 'text-red-700' : 'text-gray-600'
+
   return (
-    <span
-      className={`flex items-center gap-1 w-fit p-1 mb-1 rounded-sm ${isOverdue ? 'bg-red-200' : ''}`}
-    >
+    <span className={`flex items-center gap-1 w-fit p-1 rounded-sm ${statusColor}`}>
       <span>
-        <Clock size={14} className={`${isOverdue ? 'text-red-700' : 'text-gray-600'}`} />
+        <Clock size={14} className={textColor} />
       </span>
-      <span className={`text-xs px-[2px] ${isOverdue ? 'text-red-700' : 'text-gray-600'}`}>
-        {dateRangeText}
-      </span>
+      <span className={`text-xs px-[2px] ${textColor}`}>{dateRangeText}</span>
     </span>
   )
 }

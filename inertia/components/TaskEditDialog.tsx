@@ -6,6 +6,7 @@ import { SubTaskList } from '#inertia/SubTask/SubTaskList'
 import { AddSubTask } from '#inertia/SubTask/AddSubTask'
 import { usePage } from '@inertiajs/react'
 import TaskDto from '#dtos/task'
+import { TaskCheckbox } from './TaskCheckbox'
 
 type TaskEditDialogProps = {
   open: boolean
@@ -18,7 +19,10 @@ export default function TaskEditDialog({ open, onOpenChange }: TaskEditDialogPro
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{task.title}</DialogTitle>
+          <div className="flex items-center gap-2">
+            <TaskCheckbox taskId={task.id} completed={task.completed} />
+            <DialogTitle>{task.title}</DialogTitle>
+          </div>
         </DialogHeader>
         <div className="flex flex-col gap-8">
           <div className="flex items-center gap-2">
