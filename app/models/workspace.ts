@@ -22,7 +22,7 @@ export default class Workspace extends BaseModel {
   declare boards: HasMany<typeof Board>
 
   @manyToMany(() => Users, {
-    pivotTable: 'task_users_workspaces',
+    pivotTable: 'task_workspace_users',
   })
   declare users: ManyToMany<typeof Users>
 }

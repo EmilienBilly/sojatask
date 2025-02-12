@@ -5,7 +5,7 @@ import SetActiveWorkspace from '#actions/workspaces/set_active_workspace'
 import { inject } from '@adonisjs/core'
 
 @inject()
-export default class ProjectsController {
+export default class WorkspacesController {
   constructor(protected setActiveWorkspace: SetActiveWorkspace) {}
 
   async create({ inertia }: HttpContext) {
