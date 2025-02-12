@@ -33,7 +33,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare profiles: ManyToMany<typeof Profile>
 
   @manyToMany(() => Workspace, {
-    pivotTable: 'task_users_workspaces',
+    pivotTable: 'task_workspace_users',
   })
   declare workspaces: ManyToMany<typeof Workspace>
 }

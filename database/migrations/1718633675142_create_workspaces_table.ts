@@ -10,8 +10,8 @@ export default class extends BaseSchema {
       table.string('title', 50).notNullable().unique()
       table.text('description').nullable()
       table.integer('created_by').notNullable()
-      table.integer('created_at').notNullable()
-      table.integer('updated_at').nullable()
+      table.timestamp('created_at').notNullable()
+      table.timestamp('updated_at').nullable()
     })
   }
 
