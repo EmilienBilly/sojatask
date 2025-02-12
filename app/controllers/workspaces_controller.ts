@@ -18,6 +18,9 @@ export default class WorkspacesController {
       user: auth.use('web').user!,
       data,
     })
+
+    this.setActiveWorkspace.handle({ id: workspace.id })
+
     return response.redirect(`/`)
   }
 
