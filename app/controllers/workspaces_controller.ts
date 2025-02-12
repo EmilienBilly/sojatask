@@ -1,8 +1,8 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { createWorkspaceValidator } from '#validators/workspace_validator'
-import Workspace from '#models/workspace'
 import SetActiveWorkspace from '#actions/workspaces/set_active_workspace'
 import { inject } from '@adonisjs/core'
+import StoreWorkspace from '#actions/workspaces/store_workspace'
 
 @inject()
 export default class WorkspacesController {
@@ -13,12 +13,11 @@ export default class WorkspacesController {
   }
 
   async store({ request, auth, response }: HttpContext) {
-    const user = auth.user!
-
-    const payload = await request.validateUsing(createWorkspaceValidator)
-    const workspace = await Workspace.create({ ...payload, createdBy: user.id })
-
-    await user.related('workspaces').attach([workspace.id])
+    const data = await request.validateUsing(createWorkspaceValidator)
+    const workspace = await StoreWorkspace.handle({
+      user: auth.use('web').user!,
+      data,
+    })
     return response.redirect(`/`)
   }
 
