@@ -8,6 +8,7 @@ export default class extends BaseSchema {
       table.increments('id')
       table.string('title', 50).notNullable()
       table.integer('board_id').unsigned().notNullable()
+      table.integer('workspace_id').unsigned().notNullable()
       table.integer('order').unsigned()
       table.timestamp('created_at').notNullable()
       table.timestamp('updated_at').nullable()
