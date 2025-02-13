@@ -8,6 +8,10 @@ import StoreWorkspace from '#actions/workspaces/store_workspace'
 export default class WorkspacesController {
   constructor(protected setActiveWorkspace: SetActiveWorkspace) {}
 
+  async show({ inertia }: HttpContext) {
+    return inertia.render('workspace')
+  }
+
   async create({ inertia }: HttpContext) {
     return inertia.render('createWorkspace')
   }

@@ -45,7 +45,14 @@ export default function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupContent></SidebarGroupContent>
+          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <Link href={`/workspaces/${activeWorkspace.id}`}>Modifier le workspace</Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
         </SidebarGroup>
         {workspaces ? (
           <Collapsible defaultOpen className="group/collapsible">
