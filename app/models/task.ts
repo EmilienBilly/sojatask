@@ -9,8 +9,10 @@ import {
   beforeSave,
 } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import { compose } from '@adonisjs/core/helpers'
+import { WithWorkspace } from '#models/mixins/with_workspace'
 
-export default class Task extends BaseModel {
+export default class Task extends compose(BaseModel, WithWorkspace) {
   static table = 'task_tasks'
 
   @column({ isPrimary: true })
