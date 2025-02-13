@@ -16,6 +16,7 @@ export default class extends BaseSchema {
       table.boolean('archived').notNullable().defaultTo(false)
       table.integer('created_by').unsigned().notNullable()
       table.integer('column_id').unsigned().notNullable()
+      table.integer('workspace_id').unsigned().notNullable()
       table.integer('parent_id').unsigned().nullable()
       table.tinyint('completed', 1).notNullable().defaultTo(0)
       table.timestamp('completed_at').nullable()
