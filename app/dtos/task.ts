@@ -1,5 +1,6 @@
 import { BaseModelDto } from '@adocasts.com/dto/base'
 import Task from '#models/task'
+import WorkspaceDto from '#dtos/workspace'
 
 export default class TaskDto extends BaseModelDto {
   declare id: number
@@ -17,6 +18,8 @@ export default class TaskDto extends BaseModelDto {
   declare subtasks: TaskDto[]
   declare completed: boolean
   declare completedAt: string | null
+  declare workspaceId: number
+  declare workspace: WorkspaceDto | null
 
   constructor(task?: Task) {
     super()
@@ -37,5 +40,7 @@ export default class TaskDto extends BaseModelDto {
     this.subtasks = TaskDto.fromArray(task.subtasks)
     this.completed = task.completed === 1
     this.completedAt = task.completedAt?.toISO() ?? null
+    this.workspaceId = task.workspaceId
+    this.workspace = task.workspace && new WorkspaceDto(task.workspace)
   }
 }
