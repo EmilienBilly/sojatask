@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { Briefcase, Check, ChevronsUpDown, Plus } from 'lucide-react'
 
 import {
@@ -11,6 +10,7 @@ import {
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '#shadcn/sidebar'
 import WorkspaceDto from '#dtos/workspace'
 import { Link, router } from '@inertiajs/react'
+import { useState } from 'react'
 
 export function WorkspaceSwitcher({
   workspaces,
@@ -19,7 +19,7 @@ export function WorkspaceSwitcher({
   workspaces: WorkspaceDto[]
   activeWorkspace: WorkspaceDto
 }) {
-  const [selectedWorkspace, setSelectedWorkspace] = React.useState(activeWorkspace)
+  const [selectedWorkspace, setSelectedWorkspace] = useState(activeWorkspace)
 
   function setActiveWorkspace(workspace: WorkspaceDto) {
     setSelectedWorkspace(workspace)

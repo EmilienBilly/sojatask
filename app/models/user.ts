@@ -34,6 +34,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @manyToMany(() => Workspace, {
     pivotTable: 'task_workspace_users',
+    pivotColumns: ['role_id'],
   })
   declare workspaces: ManyToMany<typeof Workspace>
 }
