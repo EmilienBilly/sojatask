@@ -1,8 +1,11 @@
-import { BaseModel, beforeCreate, column, hasMany } from '@adonisjs/lucid/orm'
-import type { HasMany } from '@adonisjs/lucid/types/relations'
+import { BaseModel, beforeCreate, column, hasMany, belongsTo } from '@adonisjs/lucid/orm'
+import type { HasMany, BelongsTo } from '@adonisjs/lucid/types/relations'
 import Task from '#models/task'
+import Board from '#models/board'
+import { WithWorkspace } from '#models/mixins/with_workspace'
+import { compose } from '@adonisjs/core/helpers'
 
-export default class Column extends BaseModel {
+export default class Column extends compose(BaseModel, WithWorkspace) {
   static table = 'task_columns'
   @column({ isPrimary: true })
   declare id: number
@@ -18,6 +21,9 @@ export default class Column extends BaseModel {
 
   @hasMany(() => Task)
   declare tasks: HasMany<typeof Task>
+
+  @belongsTo(() => Board)
+  declare board: BelongsTo<typeof Board>
 
   @beforeCreate()
   static async setOrder(newColumn: Column) {
