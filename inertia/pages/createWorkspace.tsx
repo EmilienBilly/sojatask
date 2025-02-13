@@ -5,6 +5,8 @@ import { Input } from '#shadcn/input'
 import { Textarea } from '#shadcn/textarea'
 import { Button } from '#shadcn/button'
 import { toast } from 'sonner'
+import { ReactNode } from 'react'
+import AuthLayout from '#layouts/AuthLayout'
 
 export default function CreateWorkspace() {
   const { data, setData, post, processing, errors } = useForm({
@@ -57,3 +59,5 @@ export default function CreateWorkspace() {
     </>
   )
 }
+
+CreateWorkspace.layout = (page: ReactNode) => <AuthLayout children={page} />

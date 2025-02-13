@@ -35,6 +35,7 @@
     "#config/*": "./config/*.js",
     "#shadcn/*": "./inertia/ui/*.js",
     "#inertia/*": "./inertia/components/*.js",
+    "#layouts/*": "./inertia/layouts/*.js",
     "#lib/*": "./inertia/lib/*.js"
   },
   "devDependencies": {
