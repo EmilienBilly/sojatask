@@ -49,7 +49,7 @@ export default function AppSidebar({
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <Link href={`/workspaces/${activeWorkspace.id}`}>Modifier le workspace</Link>
+                <Link href={`/workspace/`}>Modifier le workspace</Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>

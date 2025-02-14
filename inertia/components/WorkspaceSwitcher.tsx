@@ -23,7 +23,7 @@ export function WorkspaceSwitcher({
 
   function setActiveWorkspace(workspace: WorkspaceDto) {
     setSelectedWorkspace(workspace)
-    router.get(`/workspaces/${workspace.id}/active`)
+    router.get(`/workspaces/${workspace.id}`)
   }
 
   return (

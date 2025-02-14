@@ -18,9 +18,9 @@ router
     router.get('/', [DashboardController, 'view']).use(middleware.workspace())
     router.get('/workspaces/create', [WorkspacesController, 'create']).as('workspaces.create')
     router.post('/workspaces', [WorkspacesController, 'store']).as('workspaces.store')
-    router.get('/workspaces/:id/active', [WorkspacesController, 'active']).as('workspaces.active')
+    router.get('/workspaces/:id', [WorkspacesController, 'active']).as('workspaces.active')
     router
-      .get('/workspaces/:id/', [WorkspacesController, 'show'])
+      .get('/workspace', [WorkspacesController, 'show'])
       .as('workspaces.show')
       .use(middleware.workspace())
   })
