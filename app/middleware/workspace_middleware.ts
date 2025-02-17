@@ -22,11 +22,6 @@ export default class WorkspaceMiddleware {
       return ctx.response.redirect().toRoute('login')
     }
 
-    // Exclure la logique si déjà sur la page de création de workspace
-    if (ctx.route?.name === 'workspaces.create') {
-      return await next()
-    }
-
     try {
       ctx.workspaceId = ctx.request.cookie(activeCookieName)
 
