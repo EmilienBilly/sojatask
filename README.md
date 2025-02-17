@@ -138,3 +138,91 @@ Pour simplifier la gestion des relations avec les espaces de travail, nous avons
 Pour différencier les tables créées et liées à SojaTask des autres tables dans la base de données, un préfixe `task_` est utilisé. Cela permet de s'assurer que les tables de SojaTask ne se mélangent pas avec celles d'autres applications utilisant la même base de données.
 
 ---
+
+## Gestion des Espaces de Travail
+
+### Classes Principales
+
+#### Diagramme de classe
+
+```mermaid
+classDiagram
+    class WorkspaceMiddleware {
+        +handle(ctx: HttpContext, next: NextFn)
+        -getActiveWorkspace: GetActiveWorkspace
+    }
+
+    class GetActiveWorkspace {
+        +handle(): Workspace
+        -query(): QueryBuilder
+        -ctx: HttpContext
+        -setActiveWorkspace: SetActiveWorkspace
+    }
+
+    class SetActiveWorkspace {
+        +handle( id : Params)
+        -ctx: HttpContext
+    }
+
+    WorkspaceMiddleware --> GetActiveWorkspace : uses
+    GetActiveWorkspace --> SetActiveWorkspace : uses
+```
+
+#### 1. WorkspaceMiddleware
+
+- **Purpose**: Gère le flux des requêtes liées aux espaces de travail, s'assurant que les utilisateurs ont accès à leur espace de travail actif.
+- **Key Methods**:
+  - `async handle(ctx: HttpContext, next: NextFn)`:
+    - Vérifie si l'utilisateur est authentifié. Si non, redirige vers la page de connexion.
+    - Récupère l'ID de l'espace de travail actif à partir des cookies et appelle `getActiveWorkspace.handle()` pour récupérer l'espace de travail actif.
+    - Si aucun espace de travail n'est trouvé, redirige l'utilisateur vers la page de création d'espace de travail.
+    - Charge tous les espaces de travail associés à l'utilisateur et les partage via Inertia pour utilisation dans le frontend.
+
+#### 2. GetActiveWorkspace
+
+- **Purpose**: Récupère l'espace de travail actif pour l'utilisateur authentifié.
+- **Key Methods**:
+  - `async handle()`:
+    - Vérifie s'il y a un ID d'espace de travail actif dans le contexte.
+    - Interroge la base de données pour l'espace de travail correspondant à l'ID actif. Si trouvé, le retourne.
+    - Si aucun espace de travail n'est trouvé, récupère le premier espace de travail disponible.
+    - Si l'ID d'espace de travail actif n'est pas défini ou ne correspond pas à l'espace de travail récupéré, appelle `setActiveWorkspace.handle()` pour définir le nouvel espace de travail actif.
+  - `#query()`: Construit une requête pour récupérer les espaces de travail de l'utilisateur et précharge leurs tableaux associés.
+
+#### 3. SetActiveWorkspace
+
+- **Purpose**: Définit l'espace de travail actif pour l'utilisateur.
+- **Key Methods**:
+  - `async handle({ id }: Params)`:
+    - Met à jour le contexte avec l'ID de l'espace de travail actif et définit un cookie pour persister cette information.
+
+## Flowchart
+
+```mermaid
+flowchart TD
+    A[User Requests Page] --> B[WorkspaceMiddleware]
+    B --> C{Is User Authenticated?}
+    C -- Yes --> D[Get Active Workspace ID from Cookie]
+    D --> E[Call GetActiveWorkspace class]
+    E --> F[Retrieve Workspaces for User]
+    F --> G[Preload Boards for Each Workspace]
+    G --> H{Is Active Workspace Found?}
+    H -- No --> I[Redirect to Create Workspace]
+    H -- Yes --> J[Share Active Workspace and Workspaces via Inertia]
+    J --> K[Proceed to Next Middleware/Route]
+
+    %% Adding SetActiveWorkspace Action
+    K --> L[User Sets Active Workspace]
+    L --> M[Call SetActiveWorkspace class]
+    M --> N[Set workspaceId in Context]
+    N --> O[Set Cookie for Active Workspace]
+    O --> P[Proceed to Next Middleware/Route]
+
+    C -- No --> Q[Redirect to Login]
+```
+
+## Conclusion
+
+Cette documentation décrit la fonctionnalité de gestion des espaces de travail dans l'application AdonisJS, détaillant comment le middleware et les actions interagissent pour offrir une expérience utilisateur fluide lors de la gestion des espaces de travail.
+
+---
