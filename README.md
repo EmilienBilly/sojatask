@@ -224,3 +224,51 @@ flowchart TD
 ```
 ---
 
+## Liste de Contrôle d'Accès (ACL)
+
+### Rôles
+- **Admin** (ID de rôle : 3)
+- **Membre** (ID de rôle : 2)
+- **Invité** (ID de rôle : 1)
+
+---
+
+### Permissions pour les Espaces de Travail
+
+| Permission                    | Admin | Membre | Invité |
+| ----------------------------- | ----- | ------ | ------ |
+| Modifier l'espace de travail  | ✅     | ✅      | ❌      |
+| Supprimer l'espace de travail | ✅     | ❌      | ❌      |
+| Inviter membres               | ✅     | ✅      | ❌      |
+| Modifier le rôle des membres  | ✅     | ❌      | ❌      |
+| Supprimer membres             | ✅     | ❌      | ❌      |
+| Créer des tableaux            | ✅     | ✅      | ❌      |
+
+---
+
+### Permissions pour les Tableaux
+
+| Permission               | Admin | Membre | Invité |
+| ------------------------ | ----- | ------ | ------ |
+| Modifier le tableau      | ✅     | ❌      | ❌      |
+| Supprimer le tableau     | ✅     | ❌      | ❌      |
+| Créer des colonnes       | ✅     | ✅      | ❌      |
+| Réorganiser les colonnes | ✅     | ✅      | ❌      |
+| Créer des tâches         | ✅     | ✅      | ❌      |
+| Réorganiser les tâches   | ✅     | ✅      | ❌      |
+
+
+---
+
+### Permissions pour les Tâches
+
+| Permission                                                   | Admin | Membre | Invité |
+| ------------------------------------------------------------ | ----- | ------ | ------ |
+| Ajouter/Supprimer des tags                                   | ✅<br> | ✅      | ❌      |
+| Créer des sous-tâches                                        | ✅     | ✅      | ❌      |
+| Marquer la tâche comme terminée (si validation non demandée) | ✅     | ✅      | ❌      |
+| Marquer la tâche comme terminée (si validation demandée)     | ✅     | ❌      | ❌      |
+| Assigner la tâche à un membre                                | ✅     | ❌      | ❌      |
+| Supprimer la tâche                                           | ✅     | ❌      | ❌      |
+
+---
