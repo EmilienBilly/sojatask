@@ -196,33 +196,31 @@ classDiagram
   - `async handle({ id }: Params)`:
     - Met à jour le contexte avec l'ID de l'espace de travail actif et définit un cookie pour persister cette information.
 
-## Flowchart
+### Flowchart
 
 ```mermaid
 flowchart TD
-    A[User Requests Page] --> B[WorkspaceMiddleware]
-    B --> C{Is User Authenticated?}
-    C -- Yes --> D[Get Active Workspace ID from Cookie]
-    D --> E[Call GetActiveWorkspace class]
-    E --> F[Retrieve Workspaces for User]
-    F --> G[Preload Boards for Each Workspace]
-    G --> H{Is Active Workspace Found?}
-    H -- No --> I[Redirect to Create Workspace]
-    H -- Yes --> J[Share Active Workspace and Workspaces via Inertia]
-    J --> K[Proceed to Next Middleware/Route]
-
-    %% Adding SetActiveWorkspace Action
-    K --> L[User Sets Active Workspace]
-    L --> M[Call SetActiveWorkspace class]
-    M --> N[Set workspaceId in Context]
-    N --> O[Set Cookie for Active Workspace]
-    O --> P[Proceed to Next Middleware/Route]
-
-    C -- No --> Q[Redirect to Login]
+    OUI[User request a route] -->A[Workspace Middleware]
+    A --> B{User logged in?}
+    B -->|No| D[Redirect to login]
+    B -->|Yes| C[Get workspaceId from cookie]
+    C --> G[GetActiveWorkspace action]
+    G --> H[Get activeId from HttpContext]
+    H --> I{activeId exists?}
+    I -->|Yes| J[Query workspace with activeId]
+    I -->|No| K[Query first workspace]
+    J --> L{Workspace found?}
+    L -->|Yes| M[Check if activeId matches]
+    L -->|No| K
+    K --> N[Get first workspace or fail]
+    N --> P
+    M --> O{activeId matches?}
+    O -->|No| P[SetActiveWorkspace action]
+    O -->|Yes| Q[Return workspace]
+    P --> R[Set workspaceId in HttpContext]
+    R --> T
+    T[Load user's workspaces] --> V[Share workspaces via Inertia]
+    V --> W[Continue to next middleware]
 ```
-
-## Conclusion
-
-Cette documentation décrit la fonctionnalité de gestion des espaces de travail dans l'application AdonisJS, détaillant comment le middleware et les actions interagissent pour offrir une expérience utilisateur fluide lors de la gestion des espaces de travail.
-
 ---
+
