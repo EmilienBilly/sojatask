@@ -37,23 +37,22 @@ export default function Workspace() {
         <div className="flex flex-col md:flex-row md:space-x-4 gap-8">
           <div className="w-full md:w-1/2 mb-4 md:mb-0">
             <h3 className="text-xl font-semibold mb-4">Tableaux</h3>
-            {activeWorkspace.boards && activeWorkspace.boards.length > 0 ? (
-              activeWorkspace.boards.map((board) => (
-                <Card
-                  key={board.id}
-                  className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg shadow-lg text-white mb-4"
-                >
-                  <CardHeader>
-                    <CardTitle className="text-lg font-semibold">{board.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="mt-2">{board.description || 'Aucune description'}</p>
-                  </CardContent>
-                </Card>
-              ))
-            ) : (
-              <p>Cet espace de travail ne possède pas de tableaux pour le moment.</p>
-            )}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+              {activeWorkspace.boards && activeWorkspace.boards.length > 0 ? (
+                activeWorkspace.boards.map((board) => (
+                  <Card
+                    key={board.id}
+                    className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg shadow-lg text-white mb-4"
+                  >
+                    <CardHeader>
+                      <CardTitle className="text-lg font-semibold">{board.title}</CardTitle>
+                    </CardHeader>
+                  </Card>
+                ))
+              ) : (
+                <p>Cet espace de travail ne possède pas de tableaux pour le moment.</p>
+              )}
+            </div>
           </div>
 
           <div className="w-full md:w-1/2">
