@@ -1,19 +1,15 @@
-import { Head, usePage } from '@inertiajs/react'
-import type WorkspaceDto from '#dtos/workspace'
+import { Head } from '@inertiajs/react'
 import { Separator } from '#shadcn/separator'
 import WorkspaceHeader from '#inertia/WorkspaceHeader'
 import WorkspaceBoards from '#inertia/WorkspaceBoards'
 import WorkspaceMembers from '#inertia/WorkspaceMembers'
+import { InferPageProps } from '@adonisjs/inertia/types'
+import WorkspacesController from '#controllers/workspaces_controller'
+import UserDto from '#dtos/user'
 
-export default function Workspace() {
-  const activeWorkspace = usePage().props.activeWorkspace as WorkspaceDto
-  const fakeMembers = [
-    { id: 1, name: 'Alice Johnson', avatar: 'https://i.pravatar.cc/150?img=1' },
-    { id: 2, name: 'Bob Smith', avatar: 'https://i.pravatar.cc/150?img=2' },
-    { id: 3, name: 'Charlie Brown', avatar: 'https://i.pravatar.cc/150?img=3' },
-    { id: 4, name: 'Diana Prince', avatar: 'https://i.pravatar.cc/150?img=4' },
-    { id: 5, name: 'Ethan Hunt', avatar: 'https://i.pravatar.cc/150?img=5' },
-  ]
+export default function Workspace(props: InferPageProps<WorkspacesController, 'show'>) {
+  const activeWorkspace = props.activeWorkspace
+  const members = props.users as UserDto[]
 
   return (
     <>
@@ -26,7 +22,7 @@ export default function Workspace() {
             <WorkspaceBoards boards={activeWorkspace.boards} />
           </div>
           <div className="w-full md:w-[320px] shrink-0">
-            <WorkspaceMembers members={fakeMembers} />
+            <WorkspaceMembers members={members} />
           </div>
         </div>
       </div>
