@@ -6,10 +6,12 @@ import WorkspaceMembers from '#inertia/WorkspaceMembers'
 import { InferPageProps } from '@adonisjs/inertia/types'
 import WorkspacesController from '#controllers/workspaces_controller'
 import UserDto from '#dtos/user'
+import RoleDto from '#dtos/role'
 
 export default function Workspace(props: InferPageProps<WorkspacesController, 'show'>) {
   const activeWorkspace = props.activeWorkspace
   const members = props.users as UserDto[]
+  const roles = props.roles as RoleDto[]
 
   return (
     <>
@@ -22,7 +24,7 @@ export default function Workspace(props: InferPageProps<WorkspacesController, 's
             <WorkspaceBoards boards={activeWorkspace.boards} />
           </div>
           <div className="w-full md:w-[320px] shrink-0">
-            <WorkspaceMembers members={members} />
+            <WorkspaceMembers members={members} roles={roles} />
           </div>
         </div>
       </div>
