@@ -1,15 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from '#shadcn/avatar'
 import { Button } from '#shadcn/button'
 import { Plus } from 'lucide-react'
-
-interface Member {
-  id: number
-  name: string
-  avatar: string
-}
+import UserDto from '#dtos/user'
 
 interface WorkspaceMembersProps {
-  members: Member[]
+  members: UserDto[]
 }
 
 export default function WorkspaceMembers({ members }: WorkspaceMembersProps) {
@@ -22,8 +17,10 @@ export default function WorkspaceMembers({ members }: WorkspaceMembersProps) {
             key={member.id}
             className="hover:ring-2 hover:ring-primary/50 transition-all duration-200"
           >
-            <AvatarImage src={member.avatar} alt={member.name} />
-            <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+            <AvatarImage src={member.avatar} alt={member.username} />
+            <AvatarFallback className="bg-primary text-white">
+              {member.username.charAt(0).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
         ))}
         <Button
