@@ -4,25 +4,29 @@ import { Input } from '#shadcn/input'
 import { Label } from '#shadcn/label'
 import { Button } from '#shadcn/button'
 import { Plus } from 'lucide-react'
-import { useState } from 'react'
-import { router } from '@inertiajs/react'
 import RoleDto from '#dtos/role'
 import { usePage } from '@inertiajs/react'
 import { SharedProps } from '@adonisjs/inertia/types'
+import { useForm } from '@inertiajs/react'
+import ROLES from '#enums/roles'
+
 interface InviteMemberModalProps {
   roles: RoleDto[]
 }
 
 export default function InviteMemberModal({ roles }: InviteMemberModalProps) {
-  const [email, setEmail] = useState('')
-  const [selectedRole, setSelectedRole] = useState('')
   const { activeWorkspace } = usePage<SharedProps>().props
+
+  const inviteForm = useForm({
+    email: '',
+    roleId: ROLES.MEMBER,
+  })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    router.post('/workspace/members/invite', {
-      email,
-      roleId: selectedRole,
+    inviteForm.post('/workspace/members/invite', {
+      onSuccess: () => inviteForm.reset(),
+      preserveScroll: true,
     })
   }
 
@@ -36,7 +40,7 @@ export default function InviteMemberModal({ roles }: InviteMemberModalProps) {
           <Plus />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="w-[560px]">
         <DialogHeader>
           <DialogTitle>Inviter un membre à rejoindre {activeWorkspace.title}</DialogTitle>
         </DialogHeader>
@@ -47,14 +51,19 @@ export default function InviteMemberModal({ roles }: InviteMemberModalProps) {
               id="email"
               type="email"
               placeholder="email@exemple.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={inviteForm.data.email}
+              onChange={(e) => inviteForm.setData('email', e.target.value)}
               required
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="role">Rôle</Label>
-            <Select value={selectedRole} onValueChange={setSelectedRole} required>
+            <Select
+              defaultValue={inviteForm.data.roleId.toString()}
+              onValueChange={(value: string) => {
+                inviteForm.setData('roleId', Number(value) as ROLES)
+              }}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Sélectionner un rôle" />
               </SelectTrigger>

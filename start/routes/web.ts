@@ -44,6 +44,6 @@ router
 
     // Workspace
     router.get('/workspace', [WorkspacesController, 'show']).as('workspaces.show')
-    router.get('/workspace/invite', [WorkspacesController, 'invite']).as('workspaces.invite')
+    router.post('/workspace/invite', [WorkspacesController, 'invite']).as('workspaces.invite')
   })
   .use([middleware.auth(), middleware.workspace()])
