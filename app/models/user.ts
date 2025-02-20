@@ -1,9 +1,9 @@
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, column, hasOne, manyToMany } from '@adonisjs/lucid/orm'
+import { BaseModel, column, belongsTo, manyToMany } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import Contact from '#models/contact'
-import type { HasOne, ManyToMany } from '@adonisjs/lucid/types/relations'
+import type { BelongsTo, ManyToMany } from '@adonisjs/lucid/types/relations'
 import Profile from '#models/profile'
 import Workspace from '#models/workspace'
 
@@ -24,8 +24,11 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column()
   declare password: string
 
-  @hasOne(() => Contact)
-  declare contact: HasOne<typeof Contact>
+  @column()
+  declare contactId: number
+
+  @belongsTo(() => Contact)
+  declare contact: BelongsTo<typeof Contact>
 
   @manyToMany(() => Profile, {
     pivotTable: 'profiles_users',
