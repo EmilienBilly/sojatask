@@ -1,9 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from '#shadcn/avatar'
-import { Button } from '#shadcn/button'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '#shadcn/hover-card'
-import { Plus } from 'lucide-react'
 import UserDto from '#dtos/user'
 import RoleDto from '#dtos/role'
+import InviteMemberModal from './InviteMemberModal'
+
 interface WorkspaceMembersProps {
   members: UserDto[]
   roles: RoleDto[]
@@ -49,12 +49,7 @@ export default function WorkspaceMembers({ members, roles }: WorkspaceMembersPro
             </HoverCardContent>
           </HoverCard>
         ))}
-        <Button
-          variant="outline"
-          className="h-10 w-10 rounded-full border-2 border-dashed border-gray-300 hover:border-primary transition-colors duration-200"
-        >
-          <Plus />
-        </Button>
+        <InviteMemberModal roles={roles} />
       </div>
     </div>
   )
