@@ -10,6 +10,8 @@ export default class UserDto extends BaseModelDto {
   declare contact: ContactDto | null
   declare profiles: ProfileDto[]
 
+  declare meta: Record<string, any>
+
   constructor(user?: User) {
     super()
 
@@ -19,5 +21,6 @@ export default class UserDto extends BaseModelDto {
     this.password = user.password
     this.contact = user.contact && new ContactDto(user.contact)
     this.profiles = ProfileDto.fromArray(user.profiles)
+    this.meta = user.$extras
   }
 }
