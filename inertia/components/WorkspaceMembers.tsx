@@ -17,27 +17,27 @@ export default function WorkspaceMembers({ members, roles }: WorkspaceMembersPro
   return (
     <div className="w-full">
       <h3 className="text-xl font-semibold mb-6">Membres</h3>
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-4">
         {members.map((member) => (
-          <HoverCard key={member.id} openDelay={200}>
+          <HoverCard key={member.id} openDelay={100}>
             <HoverCardTrigger>
               <Avatar className="hover:ring-2 hover:ring-primary/50 transition-all duration-200">
-                <AvatarImage src={member.avatarUrl} alt={member.username} />
+                <AvatarImage src={member.avatar} alt={member.username} />
                 <AvatarFallback className="bg-primary text-white">
                   {member.username.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
             </HoverCardTrigger>
-            <HoverCardContent side="top" align="start" className="w-80">
+            <HoverCardContent side="top" sideOffset={15} align="start">
               <div className="flex justify-between space-x-4">
-                <Avatar>
-                  <AvatarImage src={member.avatarUrl} />
+                <Avatar className="">
+                  <AvatarImage src={member.avatar} />
                   <AvatarFallback className="bg-primary text-white">
                     {member.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <div className="space-y-1">
-                  <h4 className="text-sm font-semibold">{member.username}</h4>
+                  <h4 className="text-sm font-semibold">{`${member.contact?.firstname} ${member.contact?.lastname}`}</h4>
                   <p className="text-sm text-muted-foreground">{member.contact?.email}</p>
                   <div className="flex items-center pt-2">
                     <span className="rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
