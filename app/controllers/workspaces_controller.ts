@@ -3,13 +3,22 @@ import { createWorkspaceValidator } from '#validators/workspace_validator'
 import SetActiveWorkspace from '#actions/workspaces/set_active_workspace'
 import { inject } from '@adonisjs/core'
 import StoreWorkspace from '#actions/workspaces/store_workspace'
+import GetWorkspaceUsers from '#actions/workspaces/get_workspace_users'
+import UserDto from '#dtos/user'
 
 @inject()
 export default class WorkspacesController {
   constructor(protected setActiveWorkspace: SetActiveWorkspace) {}
 
-  async show({ inertia }: HttpContext) {
-    return inertia.render('workspace')
+  async show({ inertia, workspace }: HttpContext) {
+    return inertia.render('workspace', {
+      users: async () => {
+        const users = await GetWorkspaceUsers.handle({
+          workspace,
+        })
+        return UserDto.fromArray(users)
+      },
+    })
   }
 
   async create({ inertia }: HttpContext) {
