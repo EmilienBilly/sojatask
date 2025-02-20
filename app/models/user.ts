@@ -27,6 +27,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column()
   declare contactId: number
 
+  @column()
+  declare avatar: string
+
   @belongsTo(() => Contact)
   declare contact: BelongsTo<typeof Contact>
 
