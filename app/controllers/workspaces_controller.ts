@@ -5,6 +5,8 @@ import { inject } from '@adonisjs/core'
 import StoreWorkspace from '#actions/workspaces/store_workspace'
 import GetWorkspaceUsers from '#actions/workspaces/get_workspace_users'
 import UserDto from '#dtos/user'
+import GetRoles from '#actions/roles/get_roles'
+import RoleDto from '#dtos/role'
 
 @inject()
 export default class WorkspacesController {
@@ -17,6 +19,10 @@ export default class WorkspacesController {
           workspace,
         })
         return UserDto.fromArray(users)
+      },
+      roles: async () => {
+        const roles = await GetRoles.handle()
+        return RoleDto.fromArray(roles)
       },
     })
   }
