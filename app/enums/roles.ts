@@ -1,7 +1,7 @@
 enum Roles {
-  INVITED = 1,
+  ADMIN = 1,
   MEMBER = 2,
-  ADMIN = 3,
+  GUEST = 3,
 }
 
 export default Roles
