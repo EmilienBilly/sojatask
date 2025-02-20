@@ -18,10 +18,10 @@ router
     router.get('/', [DashboardController, 'view']).use(middleware.workspace())
     router.get('/workspaces/create', [WorkspacesController, 'create']).as('workspaces.create')
     router.post('/workspaces', [WorkspacesController, 'store']).as('workspaces.store')
-    router.get('/workspaces/:id', [WorkspacesController, 'active']).as('workspaces.active')
     router
-      .get('/workspace', [WorkspacesController, 'show'])
-      .as('workspaces.show')
+      .get('/workspaces/:id', [WorkspacesController, 'active'])
+      .as('workspaces.active')
+
       .use(middleware.workspace())
   })
   .use(middleware.auth())
@@ -41,5 +41,9 @@ router
     router.patch('/tasks/:id', [TasksController, 'update']).as('tasks.update')
     router.delete('/tasks/:id', [TasksController, 'destroy']).as('tasks.destroy')
     router.post('/tasks/:id/subtasks', [TasksController, 'createSubtask']).as('tasks.createSubtask')
+
+    // Workspace
+    router.get('/workspace', [WorkspacesController, 'show']).as('workspaces.show')
+    router.get('/workspace/invite', [WorkspacesController, 'invite']).as('workspaces.invite')
   })
   .use([middleware.auth(), middleware.workspace()])
