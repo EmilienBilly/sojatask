@@ -47,4 +47,8 @@ export default class WorkspacesController {
     await this.setActiveWorkspace.handle({ id: params.id })
     return response.redirect().toPath('/')
   }
+
+  async invite({ inertia }: HttpContext) {
+    return inertia.render('invite')
+  }
 }
