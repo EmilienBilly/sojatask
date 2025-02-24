@@ -49,6 +49,18 @@ string title
 string description
 int created_by FK
 }
+TASK_WORKSPACE_INVITES {
+int id PK
+int workspace_id FK
+int invited_by_user_id FK
+int canceled_by_user_id FK
+string email
+int role_id FK
+datetime accepted_at
+datetime canceled_at
+datetime created_at
+datetime updated_at
+}
 TASK_BOARDS {
 int id PK
 string title
@@ -85,6 +97,9 @@ PROFILES ||--o{ PROFILES_USERS : has
 USERS ||--o{ WORKSPACE_USERS : belongs_to
 ROLES ||--o{ WORKSPACE_USERS : defines
 TASK_WORKSPACES ||--o{ WORKSPACE_USERS : has
+TASK_WORKSPACES ||--o{ TASK_WORKSPACE_INVITES : has
+USERS ||--o{ TASK_WORKSPACE_INVITES : invites
+ROLES ||--o{ TASK_WORKSPACE_INVITES : assigns
 TASK_WORKSPACES ||--o{ TASK_BOARDS : contains
 TASK_BOARDS ||--o{ TASK_COLUMNS : contains
 TASK_COLUMNS ||--o{ TASK_TASKS : contains
@@ -105,6 +120,7 @@ TASK_TASKS ||--o{ TASK_TASKS : has_subtasks
 #### Gestion des Espaces de Travail
 
 - **TASK_WORKSPACES**: Représente les espaces de travail où les utilisateurs collaborent.
+- **TASK_WORKSPACE_INVITES**: Représente les invitations aux espaces de travail.
 - **TASK_BOARDS**: Contient plusieurs tableaux associés à un espace de travail.
 - **TASK_COLUMNS**: Contient plusieurs colonnes dans chaque tableau, avec un ordre défini.
 - **TASK_TASKS**: Contient les tâches, qui peuvent avoir des sous-tâches et sont associées à des colonnes.
@@ -222,11 +238,13 @@ flowchart TD
     T[Load user's workspaces] --> V[Share workspaces via Inertia]
     V --> W[Continue to next middleware]
 ```
+
 ---
 
 ## Liste de Contrôle d'Accès (ACL)
 
 ### Rôles
+
 - **Admin** (ID de rôle : 3)
 - **Membre** (ID de rôle : 2)
 - **Invité** (ID de rôle : 1)
@@ -237,12 +255,12 @@ flowchart TD
 
 | Permission                    | Admin | Membre | Invité |
 | ----------------------------- | ----- | ------ | ------ |
-| Modifier l'espace de travail  | ✅     | ✅      | ❌      |
-| Supprimer l'espace de travail | ✅     | ❌      | ❌      |
-| Inviter membres               | ✅     | ✅      | ❌      |
-| Modifier le rôle des membres  | ✅     | ❌      | ❌      |
-| Supprimer membres             | ✅     | ❌      | ❌      |
-| Créer des tableaux            | ✅     | ✅      | ❌      |
+| Modifier l'espace de travail  | ✅    | ✅     | ❌     |
+| Supprimer l'espace de travail | ✅    | ❌     | ❌     |
+| Inviter membres               | ✅    | ✅     | ❌     |
+| Modifier le rôle des membres  | ✅    | ❌     | ❌     |
+| Supprimer membres             | ✅    | ❌     | ❌     |
+| Créer des tableaux            | ✅    | ✅     | ❌     |
 
 ---
 
@@ -250,25 +268,24 @@ flowchart TD
 
 | Permission               | Admin | Membre | Invité |
 | ------------------------ | ----- | ------ | ------ |
-| Modifier le tableau      | ✅     | ❌      | ❌      |
-| Supprimer le tableau     | ✅     | ❌      | ❌      |
-| Créer des colonnes       | ✅     | ✅      | ❌      |
-| Réorganiser les colonnes | ✅     | ✅      | ❌      |
-| Créer des tâches         | ✅     | ✅      | ❌      |
-| Réorganiser les tâches   | ✅     | ✅      | ❌      |
-
+| Modifier le tableau      | ✅    | ❌     | ❌     |
+| Supprimer le tableau     | ✅    | ❌     | ❌     |
+| Créer des colonnes       | ✅    | ✅     | ❌     |
+| Réorganiser les colonnes | ✅    | ✅     | ❌     |
+| Créer des tâches         | ✅    | ✅     | ❌     |
+| Réorganiser les tâches   | ✅    | ✅     | ❌     |
 
 ---
 
 ### Permissions pour les Tâches
 
-| Permission                                                   | Admin | Membre | Invité |
-| ------------------------------------------------------------ | ----- | ------ | ------ |
-| Ajouter/Supprimer des tags                                   | ✅<br> | ✅      | ❌      |
-| Créer des sous-tâches                                        | ✅     | ✅      | ❌      |
-| Marquer la tâche comme terminée (si validation non demandée) | ✅     | ✅      | ❌      |
-| Marquer la tâche comme terminée (si validation demandée)     | ✅     | ❌      | ❌      |
-| Assigner la tâche à un membre                                | ✅     | ❌      | ❌      |
-| Supprimer la tâche                                           | ✅     | ❌      | ❌      |
+| Permission                                                   | Admin  | Membre | Invité |
+| ------------------------------------------------------------ | ------ | ------ | ------ |
+| Ajouter/Supprimer des tags                                   | ✅<br> | ✅     | ❌     |
+| Créer des sous-tâches                                        | ✅     | ✅     | ❌     |
+| Marquer la tâche comme terminée (si validation non demandée) | ✅     | ✅     | ❌     |
+| Marquer la tâche comme terminée (si validation demandée)     | ✅     | ❌     | ❌     |
+| Assigner la tâche à un membre                                | ✅     | ❌     | ❌     |
+| Supprimer la tâche                                           | ✅     | ❌     | ❌     |
 
 ---
